@@ -1,0 +1,5 @@
+spring:
+  datasource:
+    url: ${props.db.url}
+    username: ${props.db.username}
+    password: ${props.db.password}
