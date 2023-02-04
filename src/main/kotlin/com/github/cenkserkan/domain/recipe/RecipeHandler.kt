@@ -1,18 +1,14 @@
 package com.github.cenkserkan.domain.recipe
 
 import com.github.cenkserkan.domain.recipe.model.Recipe
-import com.github.cenkserkan.domain.recipe.model.RecipeCreateCommand
 import com.github.cenkserkan.domain.recipe.port.RecipePort
-import com.github.cenkserkan.domain.recipe.usecase.RecipeCreateUseCase
-import com.github.cenkserkan.domain.recipe.usecase.RecipeGetUseCase
+import com.github.cenkserkan.domain.recipe.usecase.RecipeSearchUseCase
+import java.util.UUID
 
-class RecipeHandler(private val recipePort: RecipePort) : RecipeGetUseCase, RecipeCreateUseCase {
+class RecipeHandler(private val recipePort: RecipePort) :
+    RecipeSearchUseCase {
 
-    override fun getRecipe(id: String): Recipe {
-        TODO("Not yet implemented")
-    }
-
-    override fun createRecipe(recipeCreateCommand: RecipeCreateCommand): Recipe {
-        TODO("Not yet implemented")
+    override fun getByIngredients(ids: List<UUID>): List<Recipe> {
+        return recipePort.findRecipesByIngredients(ids)
     }
 }
