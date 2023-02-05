@@ -6,7 +6,7 @@ CREATE TABLE ingredient
     name       VARCHAR   NOT NULL,
     type       VARCHAR   NOT NULL,
     unit       VARCHAR   NOT NULL,
-    weight     VARCHAR   NOT NULL,
+    weight     INT       NOT NULL,
     PRIMARY KEY (id)
 );
 
@@ -20,11 +20,11 @@ CREATE TABLE recipe
     PRIMARY KEY (id)
 );
 
-CREATE TABLE recipe_ingredients
+CREATE TABLE recipe_ingredient
 (
     recipe_id     UUID      NOT NULL,
     ingredient_id UUID      NOT NULL,
-    count         INT       NOT NULL,
+    amount        INT       NOT NULL,
     created_at    TIMESTAMP NOT NULL DEFAULT NOW(),
     updated_at    TIMESTAMP NOT NULL DEFAULT NOW(),
     PRIMARY KEY (recipe_id, ingredient_id)

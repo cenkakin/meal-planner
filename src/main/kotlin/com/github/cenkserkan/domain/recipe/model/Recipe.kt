@@ -1,3 +1,5 @@
 package com.github.cenkserkan.domain.recipe.model
 
-data class Recipe(val id: String)
+import java.util.UUID
+
+data class Recipe(val id: UUID, val name: String, val cuisine: String)
