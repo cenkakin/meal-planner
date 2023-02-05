@@ -1,10 +1,21 @@
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 import org.jooq.meta.jaxb.Logging
+import org.testcontainers.containers.PostgreSQLContainer
+
+buildscript {
+    repositories {
+        mavenCentral()
+    }
+    dependencies {
+        classpath("org.testcontainers:postgresql:1.17.5")
+    }
+}
 
 plugins {
     id("nu.studer.jooq") version "8.1"
     id("org.springframework.boot") version "3.0.2"
     id("io.spring.dependency-management") version "1.1.0"
+    id("org.flywaydb.flyway") version "9.8.1"
     kotlin("jvm") version "1.7.22"
     kotlin("plugin.spring") version "1.7.22"
 }
@@ -33,15 +44,21 @@ dependencies {
     jooqGenerator("org.postgresql:postgresql:42.5.1")
 }
 
-tasks.withType<KotlinCompile> {
-    kotlinOptions {
-        freeCompilerArgs = listOf("-Xjsr305=strict")
-        jvmTarget = "17"
+var containerInstance: PostgreSQLContainer<Nothing> = run {
+    PostgreSQLContainer<Nothing>(
+        org.testcontainers.utility.DockerImageName.parse(
+            "postgres:14.4-alpine",
+        ),
+    ).apply {
+        withDatabaseName("meal_planner")
+        start()
     }
 }
 
-tasks.withType<Test> {
-    useJUnitPlatform()
+flyway {
+    url = containerInstance.jdbcUrl
+    user = containerInstance.username
+    password = containerInstance.password
 }
 
 jooq {
@@ -51,14 +68,13 @@ jooq {
     configurations {
         create("main") { // name of the jOOQ configuration
             generateSchemaSourceOnCompilation.set(false) // default (can be omitted)
-
             jooqConfiguration.apply {
                 logging = Logging.ERROR
                 jdbc.apply {
                     driver = "org.postgresql.Driver"
-                    url = "jdbc:postgresql://localhost:5432/meal_planner"
-                    user = "admin"
-                    password = "postgres"
+                    url = containerInstance.jdbcUrl
+                    user = containerInstance.username
+                    password = containerInstance.password
                 }
                 generator.apply {
                     name = "org.jooq.codegen.DefaultGenerator"
@@ -77,4 +93,22 @@ jooq {
             }
         }
     }
+}
+
+tasks.named("generateJooq").configure {
+    dependsOn(tasks.named("flywayMigrate"))
+    doLast {
+        containerInstance.stop()
+    }
+}
+
+tasks.withType<KotlinCompile> {
+    kotlinOptions {
+        freeCompilerArgs = listOf("-Xjsr305=strict")
+        jvmTarget = "17"
+    }
+}
+
+tasks.withType<Test> {
+    useJUnitPlatform()
 }
