@@ -44,7 +44,7 @@ dependencies {
     jooqGenerator("org.postgresql:postgresql:42.5.1")
 }
 
-var containerInstance: PostgreSQLContainer<Nothing> = run {
+val containerInstance: PostgreSQLContainer<Nothing>? = if (project.hasProperty("withTestcontainer")) {
     PostgreSQLContainer<Nothing>(
         org.testcontainers.utility.DockerImageName.parse(
             "postgres:14.4-alpine",
@@ -53,12 +53,18 @@ var containerInstance: PostgreSQLContainer<Nothing> = run {
         withDatabaseName("meal_planner")
         start()
     }
+} else {
+    null
 }
 
+val defaultJdbcUrl = "jdbc:postgresql://localhost:5432/meal_planner"
+val user = "admin"
+val password = "postgress"
+
 flyway {
-    url = containerInstance.jdbcUrl
-    user = containerInstance.username
-    password = containerInstance.password
+    url = containerInstance?.jdbcUrl ?: defaultJdbcUrl
+    user = containerInstance?.username ?: user
+    password = containerInstance?.password ?: password
 }
 
 jooq {
@@ -72,9 +78,9 @@ jooq {
                 logging = Logging.ERROR
                 jdbc.apply {
                     driver = "org.postgresql.Driver"
-                    url = containerInstance.jdbcUrl
-                    user = containerInstance.username
-                    password = containerInstance.password
+                    url = containerInstance?.jdbcUrl ?: defaultJdbcUrl
+                    user = containerInstance?.username ?: user
+                    password = containerInstance?.password ?: password
                 }
                 generator.apply {
                     name = "org.jooq.codegen.DefaultGenerator"
@@ -98,7 +104,7 @@ jooq {
 tasks.named("generateJooq").configure {
     dependsOn(tasks.named("flywayMigrate"))
     doLast {
-        containerInstance.stop()
+        containerInstance?.stop()
     }
 }
 
