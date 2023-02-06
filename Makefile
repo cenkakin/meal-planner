@@ -1,2 +1,2 @@
-generate-jooq-with-testcontainer:
-	./gradlew generateJooq -PwithTestcontainer
+generate-jooq:
+	./gradlew generateJooq

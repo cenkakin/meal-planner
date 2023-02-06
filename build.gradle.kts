@@ -44,7 +44,7 @@ dependencies {
     jooqGenerator("org.postgresql:postgresql:42.5.1")
 }
 
-val containerInstance: PostgreSQLContainer<Nothing>? = if (project.hasProperty("withTestcontainer")) {
+val containerInstance: PostgreSQLContainer<Nothing>? = if ("generateJooq" in project.gradle.startParameter.taskNames) {
     PostgreSQLContainer<Nothing>(
         org.testcontainers.utility.DockerImageName.parse(
             "postgres:14.4-alpine",
@@ -57,14 +57,10 @@ val containerInstance: PostgreSQLContainer<Nothing>? = if (project.hasProperty("
     null
 }
 
-val defaultJdbcUrl = "jdbc:postgresql://localhost:5432/meal_planner"
-val user = "admin"
-val password = "postgress"
-
 flyway {
-    url = containerInstance?.jdbcUrl ?: defaultJdbcUrl
-    user = containerInstance?.username ?: user
-    password = containerInstance?.password ?: password
+    url = containerInstance?.jdbcUrl
+    user = containerInstance?.username
+    password = containerInstance?.password
 }
 
 jooq {
@@ -78,9 +74,9 @@ jooq {
                 logging = Logging.ERROR
                 jdbc.apply {
                     driver = "org.postgresql.Driver"
-                    url = containerInstance?.jdbcUrl ?: defaultJdbcUrl
-                    user = containerInstance?.username ?: user
-                    password = containerInstance?.password ?: password
+                    url = containerInstance?.jdbcUrl
+                    user = containerInstance?.username
+                    password = containerInstance?.password
                 }
                 generator.apply {
                     name = "org.jooq.codegen.DefaultGenerator"
@@ -98,6 +94,13 @@ jooq {
                 }
             }
         }
+    }
+}
+
+tasks.flywayMigrate.configure {
+    val taskNames = project.gradle.startParameter.taskNames
+    if ("flyMigrate" in taskNames && "generateJooq" !in taskNames) {
+        throw IllegalArgumentException("Flyway migrate is only available for generateJooq task")
     }
 }
 
