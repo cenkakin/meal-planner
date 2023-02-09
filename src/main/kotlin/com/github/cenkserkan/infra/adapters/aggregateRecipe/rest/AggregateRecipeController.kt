@@ -2,6 +2,7 @@ package com.github.cenkserkan.infra.adapters.aggregateRecipe.rest
 
 import com.github.cenkserkan.domain.aggregateRecipe.model.AggregateRecipe
 import com.github.cenkserkan.domain.aggregateRecipe.usecase.AggregateRecipeSearchUsecase
+import com.github.cenkserkan.infra.adapters.aggregateRecipe.rest.dto.AggregateRecipeResponse
 import org.springframework.http.ResponseEntity
 import org.springframework.validation.annotation.Validated
 import org.springframework.web.bind.annotation.GetMapping
@@ -12,9 +13,11 @@ import java.util.UUID
 @RestController
 @RequestMapping("/aggregateRecipe")
 @Validated
-class AggregateRecipeController (private val aggregateRecipeSearchUsecase: AggregateRecipeSearchUsecase) {
+class AggregateRecipeController () {
 
     @GetMapping
-    fun searchById(id: UUID): ResponseEntity<AggregateRecipeResponse>
+    fun searchById(id: UUID): ResponseEntity<AggregateRecipeResponse> {
+
+    }
 
 }

@@ -4,5 +4,5 @@ import com.github.cenkserkan.domain.aggregateRecipe.model.AggregateRecipe
 import java.util.UUID
 
 interface AggregateRecipeSearchUsecase {
-    fun getByIds(ids: List<UUID>): List<AggregateRecipe>
+    fun getById(ids: List<UUID>): List<AggregateRecipe>
 }
