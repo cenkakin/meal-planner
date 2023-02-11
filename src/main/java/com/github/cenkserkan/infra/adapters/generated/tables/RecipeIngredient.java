@@ -62,9 +62,9 @@ public class RecipeIngredient extends TableImpl<RecipeIngredientRecord> {
     public final TableField<RecipeIngredientRecord, UUID> INGREDIENT_ID = createField(DSL.name("ingredient_id"), SQLDataType.UUID.nullable(false), this, "");
 
     /**
-     * The column <code>public.recipe_ingredient.amount</code>.
+     * The column <code>public.recipe_ingredient.quantity</code>.
      */
-    public final TableField<RecipeIngredientRecord, Integer> AMOUNT = createField(DSL.name("amount"), SQLDataType.INTEGER.nullable(false), this, "");
+    public final TableField<RecipeIngredientRecord, Integer> QUANTITY = createField(DSL.name("quantity"), SQLDataType.INTEGER.nullable(false), this, "");
 
     /**
      * The column <code>public.recipe_ingredient.created_at</code>.

@@ -53,16 +53,16 @@ public class RecipeIngredientRecord extends UpdatableRecordImpl<RecipeIngredient
     }
 
     /**
-     * Setter for <code>public.recipe_ingredient.amount</code>.
+     * Setter for <code>public.recipe_ingredient.quantity</code>.
      */
-    public void setAmount(Integer value) {
+    public void setQuantity(Integer value) {
         set(2, value);
     }
 
     /**
-     * Getter for <code>public.recipe_ingredient.amount</code>.
+     * Getter for <code>public.recipe_ingredient.quantity</code>.
      */
-    public Integer getAmount() {
+    public Integer getQuantity() {
         return (Integer) get(2);
     }
 
@@ -129,7 +129,7 @@ public class RecipeIngredientRecord extends UpdatableRecordImpl<RecipeIngredient
 
     @Override
     public Field<Integer> field3() {
-        return RecipeIngredient.RECIPE_INGREDIENT.AMOUNT;
+        return RecipeIngredient.RECIPE_INGREDIENT.QUANTITY;
     }
 
     @Override
@@ -154,7 +154,7 @@ public class RecipeIngredientRecord extends UpdatableRecordImpl<RecipeIngredient
 
     @Override
     public Integer component3() {
-        return getAmount();
+        return getQuantity();
     }
 
     @Override
@@ -179,7 +179,7 @@ public class RecipeIngredientRecord extends UpdatableRecordImpl<RecipeIngredient
 
     @Override
     public Integer value3() {
-        return getAmount();
+        return getQuantity();
     }
 
     @Override
@@ -206,7 +206,7 @@ public class RecipeIngredientRecord extends UpdatableRecordImpl<RecipeIngredient
 
     @Override
     public RecipeIngredientRecord value3(Integer value) {
-        setAmount(value);
+        setQuantity(value);
         return this;
     }
 
@@ -246,12 +246,12 @@ public class RecipeIngredientRecord extends UpdatableRecordImpl<RecipeIngredient
     /**
      * Create a detached, initialised RecipeIngredientRecord
      */
-    public RecipeIngredientRecord(UUID recipeId, UUID ingredientId, Integer amount, LocalDateTime createdAt, LocalDateTime updatedAt) {
+    public RecipeIngredientRecord(UUID recipeId, UUID ingredientId, Integer quantity, LocalDateTime createdAt, LocalDateTime updatedAt) {
         super(RecipeIngredient.RECIPE_INGREDIENT);
 
         setRecipeId(recipeId);
         setIngredientId(ingredientId);
-        setAmount(amount);
+        setQuantity(quantity);
         setCreatedAt(createdAt);
         setUpdatedAt(updatedAt);
     }

@@ -1,6 +1,7 @@
 package com.github.cenkserkan.infra.adapters.recipe.persistence
 
 import com.github.cenkserkan.domain.recipe.model.Recipe
+import com.github.cenkserkan.domain.recipe.model.RecipeIngredient
 import com.github.cenkserkan.domain.recipe.port.RecipePort
 import com.github.cenkserkan.infra.adapters.recipe.persistence.repository.RecipeIngredientsRepository
 import com.github.cenkserkan.infra.adapters.recipe.persistence.repository.RecipeRepository
@@ -14,5 +15,13 @@ class RecipePersistenceAdapter(
     override fun findRecipesByIngredients(ids: List<UUID>): List<Recipe> {
         val recipeIds = recipeIngredientsRepository.findRecipeIdsByIngredients(ids)
         return recipeRepository.findByIds(recipeIds)
+    }
+
+    override fun getById(id: UUID): Recipe? {
+        return recipeRepository.getById(id)
+    }
+
+    override fun getRecipeIngredients(id: UUID): List<RecipeIngredient> {
+        return recipeIngredientsRepository.getRecipeIngredientsByRecipeId(id)
     }
 }

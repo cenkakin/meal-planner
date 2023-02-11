@@ -1,11 +1,12 @@
 package com.github.cenkserkan.configuration
 
-import com.github.cenkserkan.domain.aggregateRecipe.AggregateRecipeHandler
-import com.github.cenkserkan.domain.aggregateRecipe.port.AggregateRecipePort
+import com.github.cenkserkan.domain.ingredient.IngredientHandler
+import com.github.cenkserkan.domain.ingredient.port.IngredientPort
+import com.github.cenkserkan.domain.ingredient.usecase.IngredientsRetrievalUseCase
 import com.github.cenkserkan.domain.recipe.RecipeHandler
 import com.github.cenkserkan.domain.recipe.port.RecipePort
-import com.github.cenkserkan.infra.adapters.aggregateRecipe.persistence.AggregateRecipePersistenceAdapter
-import com.github.cenkserkan.infra.adapters.aggregateRecipe.persistence.repository.AggregateRecipeRepository
+import com.github.cenkserkan.infra.adapters.ingredient.persistent.IngredientPersistenceAdapter
+import com.github.cenkserkan.infra.adapters.ingredient.persistent.repository.IngredientRepository
 import com.github.cenkserkan.infra.adapters.recipe.persistence.RecipePersistenceAdapter
 import com.github.cenkserkan.infra.adapters.recipe.persistence.repository.RecipeIngredientsRepository
 import com.github.cenkserkan.infra.adapters.recipe.persistence.repository.RecipeRepository
@@ -17,22 +18,22 @@ import org.springframework.context.annotation.Configuration
 class MealPlannerConfiguration {
 
     @Bean
-    fun recipePort(dslContext: DSLContext): RecipePersistenceAdapter {
+    fun recipePersistenceAdapter(dslContext: DSLContext): RecipePersistenceAdapter {
         return RecipePersistenceAdapter(RecipeIngredientsRepository(dslContext), RecipeRepository(dslContext))
     }
 
     @Bean
-    fun recipeHandler(recipePort: RecipePort): RecipeHandler {
-        return RecipeHandler(recipePort)
+    fun ingredientPersistenceAdapter(dslContext: DSLContext): IngredientPersistenceAdapter {
+        return IngredientPersistenceAdapter(IngredientRepository(dslContext))
     }
 
     @Bean
-    fun aggregateRecipePort(dslContext: DSLContext): AggregateRecipePort{
-        return AggregateRecipePersistenceAdapter(AggregateRecipeRepository(dslContext = dslContext))
+    fun recipeHandler(ingredientsRetrievalUseCase: IngredientsRetrievalUseCase, recipePort: RecipePort): RecipeHandler {
+        return RecipeHandler(ingredientsRetrievalUseCase, recipePort)
     }
 
     @Bean
-    fun aggregateRecipeHandler(aggregateRecipePort: AggregateRecipePort): AggregateRecipeHandler{
-        return AggregateRecipeHandler(aggregateRecipePort = aggregateRecipePort)
+    fun ingredientHandler(ingredientPort: IngredientPort): IngredientHandler {
+        return IngredientHandler(ingredientPort)
     }
 }
