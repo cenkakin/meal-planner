@@ -24,7 +24,7 @@ CREATE TABLE recipe_ingredient
 (
     recipe_id     UUID      NOT NULL,
     ingredient_id UUID      NOT NULL,
-    amount        INT       NOT NULL,
+    quantity        INT       NOT NULL,
     created_at    TIMESTAMP NOT NULL DEFAULT NOW(),
     updated_at    TIMESTAMP NOT NULL DEFAULT NOW(),
     PRIMARY KEY (recipe_id, ingredient_id)
@@ -48,7 +48,7 @@ VALUES
     ('aa74a71f-2aa8-4589-8194-a848ed0b7474',	'2023-02-05 20:13:18.871002',	'2023-02-05 20:13:18.871002',	'Steak',	'American'),
     ('ff7bcc42-1d86-46df-8eb3-3d831f95b5ee',	'2023-02-05 20:13:18.871002',	'2023-02-05 20:13:18.871002',	'Omelette',	'French');
 
-INSERT INTO recipe_ingredient ("recipe_id", "ingredient_id", "amount", "created_at", "updated_at")
+INSERT INTO recipe_ingredient ("recipe_id", "ingredient_id", "quantity", "created_at", "updated_at")
 VALUES
     ('a5a14e5b-64fd-4bb8-8c4a-d17db47506de', '5365b5ce-c7f4-4831-acc9-1040ac9e81a4', 2, '2023-02-05 20:13:18.871002', '2023-02-05 20:13:18.871002' ),
     ('a5a14e5b-64fd-4bb8-8c4a-d17db47506de', '05b805d5-e436-4a38-9cd3-fba8ccda6339', 1, '2023-02-05 20:13:18.871002', '2023-02-05 20:13:18.871002' ),

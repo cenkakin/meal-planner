@@ -13,6 +13,13 @@ class RecipeRepository(private val dslContext: DSLContext) {
             .fetch()
             .map { it.toRecipe() }
     }
+
+    fun getById(id: UUID): Recipe? {
+        return dslContext.selectFrom(RECIPE)
+            .where(RECIPE.ID.eq(id))
+            .fetchOne()
+            ?.toRecipe()
+    }
 }
 
 private fun RecipeRecord.toRecipe() = Recipe(id, name, cuisine)

@@ -1,5 +1,6 @@
 package com.github.cenkserkan.infra.adapters.recipe.rest.errorHandler
 
+import com.github.cenkserkan.domain.common.BusinessValidationException
 import jakarta.validation.ConstraintViolationException
 import org.springframework.http.HttpStatus
 import org.springframework.http.ProblemDetail
@@ -14,5 +15,11 @@ class GlobalErrorHandler : ResponseEntityExceptionHandler() {
     fun handleConstraintViolationException(ex: ConstraintViolationException): ProblemDetail {
         return ProblemDetail.forStatusAndDetail(HttpStatus.BAD_REQUEST, ex.message!!)
             .apply { this.title = "Invalid Request" }
+    }
+
+    @ExceptionHandler(BusinessValidationException::class)
+    fun handleBusinessValidationException(ex: BusinessValidationException): ProblemDetail {
+        return ProblemDetail.forStatusAndDetail(HttpStatus.BAD_REQUEST, ex.message!!)
+            .apply { this.title = "Validation error happened" }
     }
 }
