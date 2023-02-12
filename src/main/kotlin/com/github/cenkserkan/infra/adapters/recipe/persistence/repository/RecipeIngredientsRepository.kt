@@ -1,8 +1,9 @@
 package com.github.cenkserkan.infra.adapters.recipe.persistence.repository
 
+import com.github.cenkserkan.domain.recipe.model.Ingredient
 import com.github.cenkserkan.domain.recipe.model.RecipeIngredient
+import com.github.cenkserkan.infra.adapters.generated.Tables.INGREDIENT
 import com.github.cenkserkan.infra.adapters.generated.Tables.RECIPE_INGREDIENT
-import com.github.cenkserkan.infra.adapters.generated.tables.records.RecipeIngredientRecord
 import org.jooq.DSLContext
 import org.jooq.impl.DSL.count
 import java.util.UUID
@@ -20,11 +21,32 @@ class RecipeIngredientsRepository(private val dslContext: DSLContext) {
     }
 
     fun getRecipeIngredientsByRecipeId(id: UUID): List<RecipeIngredient> {
-        return dslContext.selectFrom(RECIPE_INGREDIENT)
+        return dslContext.select(
+            RECIPE_INGREDIENT.RECIPE_ID,
+            INGREDIENT.ID,
+            INGREDIENT.NAME,
+            INGREDIENT.TYPE,
+            INGREDIENT.UNIT,
+            INGREDIENT.WEIGHT,
+            RECIPE_INGREDIENT.QUANTITY,
+        )
+            .from(RECIPE_INGREDIENT)
+            .join(INGREDIENT)
+            .on(RECIPE_INGREDIENT.INGREDIENT_ID.eq(INGREDIENT.ID))
             .where(RECIPE_INGREDIENT.RECIPE_ID.eq(id))
             .fetch()
-            .map { it.toRecipeIngredient() }
+            .map {
+                RecipeIngredient(
+                    recipeId = it.component1(),
+                    Ingredient(
+                        id = it.component2(),
+                        name = it.component3(),
+                        type = it.component4(),
+                        unit = it.component5(),
+                        weight = it.component6(),
+                    ),
+                    quantity = it.component7(),
+                )
+            }
     }
-
-    fun RecipeIngredientRecord.toRecipeIngredient() = RecipeIngredient(recipeId, ingredientId, quantity)
 }

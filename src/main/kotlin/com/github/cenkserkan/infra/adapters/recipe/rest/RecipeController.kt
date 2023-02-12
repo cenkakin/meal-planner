@@ -2,8 +2,8 @@ package com.github.cenkserkan.infra.adapters.recipe.rest
 
 import com.github.cenkserkan.domain.recipe.usecase.RecipeRetrievalUseCase
 import com.github.cenkserkan.domain.recipe.usecase.RecipeSearchUseCase
-import com.github.cenkserkan.infra.adapters.recipe.rest.dto.ExpandedRecipeResponse
-import com.github.cenkserkan.infra.adapters.recipe.rest.dto.RecipeListResponse
+import com.github.cenkserkan.infra.adapters.recipe.rest.dto.BasicRecipeListResponse
+import com.github.cenkserkan.infra.adapters.recipe.rest.dto.BasicRecipeResponse
 import com.github.cenkserkan.infra.adapters.recipe.rest.dto.RecipeResponse
 import jakarta.validation.constraints.NotEmpty
 import org.springframework.http.ResponseEntity
@@ -28,15 +28,15 @@ class RecipeController(
         @NotEmpty
         @RequestParam
         ingredientIds: List<UUID>,
-    ): ResponseEntity<RecipeListResponse> {
+    ): ResponseEntity<BasicRecipeListResponse> {
         val recipes = recipeSearchUseCase.getByIngredients(ingredientIds)
-        val recipeListResponse = RecipeListResponse(recipes.map { RecipeResponse.from(it) })
+        val recipeListResponse = BasicRecipeListResponse(recipes.map { BasicRecipeResponse.from(it) })
         return ResponseEntity.ok(recipeListResponse)
     }
 
     @GetMapping("/{id}")
-    fun getById(@PathVariable id: UUID): ResponseEntity<ExpandedRecipeResponse> {
-        val recipeWithExpandedIngredients = recipeRetrievalUseCase.getRecipeWithIngredientsById(id)
-        return ResponseEntity.ok(ExpandedRecipeResponse.from(recipeWithExpandedIngredients))
+    fun getById(@PathVariable id: UUID): ResponseEntity<RecipeResponse> {
+        val recipe = recipeRetrievalUseCase.getRecipeById(id)
+        return ResponseEntity.ok(RecipeResponse.from(recipe))
     }
 }
