@@ -1,12 +1,7 @@
 package com.github.cenkserkan.configuration
 
-import com.github.cenkserkan.domain.ingredient.IngredientHandler
-import com.github.cenkserkan.domain.ingredient.port.IngredientPort
-import com.github.cenkserkan.domain.ingredient.usecase.IngredientsRetrievalUseCase
 import com.github.cenkserkan.domain.recipe.RecipeHandler
 import com.github.cenkserkan.domain.recipe.port.RecipePort
-import com.github.cenkserkan.infra.adapters.ingredient.persistent.IngredientPersistenceAdapter
-import com.github.cenkserkan.infra.adapters.ingredient.persistent.repository.IngredientRepository
 import com.github.cenkserkan.infra.adapters.recipe.persistence.RecipePersistenceAdapter
 import com.github.cenkserkan.infra.adapters.recipe.persistence.repository.RecipeIngredientsRepository
 import com.github.cenkserkan.infra.adapters.recipe.persistence.repository.RecipeRepository
@@ -23,17 +18,7 @@ class MealPlannerConfiguration {
     }
 
     @Bean
-    fun ingredientPersistenceAdapter(dslContext: DSLContext): IngredientPersistenceAdapter {
-        return IngredientPersistenceAdapter(IngredientRepository(dslContext))
-    }
-
-    @Bean
-    fun recipeHandler(ingredientsRetrievalUseCase: IngredientsRetrievalUseCase, recipePort: RecipePort): RecipeHandler {
-        return RecipeHandler(ingredientsRetrievalUseCase, recipePort)
-    }
-
-    @Bean
-    fun ingredientHandler(ingredientPort: IngredientPort): IngredientHandler {
-        return IngredientHandler(ingredientPort)
+    fun recipeHandler(recipePort: RecipePort): RecipeHandler {
+        return RecipeHandler(recipePort)
     }
 }

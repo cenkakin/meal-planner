@@ -1,6 +1,7 @@
 package com.github.cenkserkan.infra.adapters.recipe.rest.errorHandler
 
 import com.github.cenkserkan.domain.common.BusinessValidationException
+import com.github.cenkserkan.domain.recipe.usecase.RecipeNotFoundException
 import jakarta.validation.ConstraintViolationException
 import org.springframework.http.HttpStatus
 import org.springframework.http.ProblemDetail
@@ -21,5 +22,10 @@ class GlobalErrorHandler : ResponseEntityExceptionHandler() {
     fun handleBusinessValidationException(ex: BusinessValidationException): ProblemDetail {
         return ProblemDetail.forStatusAndDetail(HttpStatus.BAD_REQUEST, ex.message!!)
             .apply { this.title = "Validation error happened" }
+    }
+
+    @ExceptionHandler(RecipeNotFoundException::class)
+    fun handleRecipeNotFoundException(ex: RecipeNotFoundException): ProblemDetail {
+        return ProblemDetail.forStatusAndDetail(HttpStatus.NOT_FOUND, ex.message!!)
     }
 }
