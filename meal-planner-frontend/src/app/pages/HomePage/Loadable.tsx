@@ -1,10 +1,6 @@
-/**
- * Asynchronously loads the component for HomePage
- */
-
 import { lazyLoad } from 'utils/loadable';
 
-export const HomePage = lazyLoad(
+export const SearchRecipesPage = lazyLoad(
   () => import('./index'),
-  module => module.HomePage,
+  module => module.SearchRecipes,
 );

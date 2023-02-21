@@ -21,6 +21,8 @@ import { HelmetProvider } from 'react-helmet-async';
 
 // Initialize languages
 import './locales/i18n';
+import { CssBaseline, ThemeProvider } from '@mui/material';
+import theme from './styles/theme';
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement,
@@ -29,7 +31,10 @@ const root = ReactDOM.createRoot(
 root.render(
   <HelmetProvider>
     <React.StrictMode>
-      <App />
+      <ThemeProvider theme={theme}>
+        <CssBaseline />
+        <App />
+      </ThemeProvider>
     </React.StrictMode>
   </HelmetProvider>,
 );
