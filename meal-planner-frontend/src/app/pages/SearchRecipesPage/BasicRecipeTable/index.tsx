@@ -20,7 +20,7 @@ const columns: readonly Column[] = [
   { id: 'name', label: 'Name', minWidth: 170 },
   { id: 'cuisine', label: 'Cuisine', minWidth: 170 },
 ];
-export default function BasicRecipeTable({ inputData }) {
+export default function RecipeTable({ inputData }) {
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
   const rows = inputData;
