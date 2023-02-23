@@ -10,7 +10,7 @@ import * as React from 'react';
 import { Helmet } from 'react-helmet-async';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 
-import { SearchRecipesPage } from './pages/HomePage/Loadable';
+import { SearchRecipesPage } from './pages/SearchRecipesPage/Loadable';
 import { useTranslation } from 'react-i18next';
 
 export function App() {
