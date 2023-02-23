@@ -3,3 +3,6 @@ spring:
     url: ${props.db.url}
     username: ${props.db.username}
     password: ${props.db.password}
+
+cors:
+  enabled: ${props.cors.enabled}

@@ -3,7 +3,7 @@ import * as React from 'react';
 import { Helmet } from 'react-helmet-async';
 import { Button, TextField } from '@mui/material';
 import { SyntheticEvent, useEffect, useState } from 'react';
-import axios from 'axios';
+import httpClient from '../../common/http-common';
 import BasicRecipeTable from '../../common/components/BasicRecipeTable';
 import Grid2 from '@mui/material/Unstable_Grid2';
 
@@ -39,9 +39,7 @@ export function SearchRecipes() {
     }
 
     (async () => {
-      let { data: response } = await axios.get(
-        'http://localhost:8080/v1/ingredient',
-      );
+      let { data: response } = await httpClient.get('/ingredient');
 
       if (active) {
         setIngredients(
@@ -69,10 +67,9 @@ export function SearchRecipes() {
   }
 
   async function handleSearchRecipe() {
-    await axios
+    await httpClient
       .get(
-        'http://localhost:8080/v1/recipe/search?ingredientIds=' +
-          ingredientsSelection.map(i => i.id),
+        '/recipe/search?ingredientIds=' + ingredientsSelection.map(i => i.id),
       )
       .then(response =>
         setBasicRecipes(
