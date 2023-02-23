@@ -1,18 +1,12 @@
 import * as React from 'react';
-import { Helmet } from 'react-helmet-async';
-import { Button } from '@mui/material';
 import { SyntheticEvent, useState } from 'react';
-import httpClient from '../../common/http-common';
-import BasicRecipeTable from '../../common/components/BasicRecipeTable';
+import { Helmet } from 'react-helmet-async';
 import Grid2 from '@mui/material/Unstable_Grid2';
 import { IngredientAutocompleteItem } from './IngredientsAutoComplete/IngredientAutocompleteItem';
 import IngredientsAutoComplete from './IngredientsAutoComplete';
-
-interface BasicRecipeItem {
-  id: string;
-  name: string;
-  cuisine: string;
-}
+import BasicRecipeTable from './BasicRecipeTable';
+import { BasicRecipeItem } from './BasicRecipeTable/BasicRecipeItem';
+import SearchRecipesButton from './SearchRecipesButton';
 
 export function SearchRecipes() {
   const [ingredientIds, setIngredientIds] = useState<readonly String[]>([]);
@@ -28,24 +22,17 @@ export function SearchRecipes() {
     setIngredientIds(ingredientIds);
   }
 
-  async function handleSearchRecipe() {
-    await httpClient
-      .get('/recipe/search?ingredientIds=' + ingredientIds)
-      .then(response =>
-        setBasicRecipes(
-          response.data.recipes.map(basicRecipe => {
-            let basicRecipeItem: BasicRecipeItem = {
-              name: basicRecipe.name,
-              id: basicRecipe.id,
-              cuisine: basicRecipe.cuisine,
-            };
-            return basicRecipeItem;
-          }),
-        ),
-      )
-      .catch(e => {
-        throw e;
-      });
+  async function onBasicRecipesChange(recipes) {
+    setBasicRecipes(
+      recipes.map(r => {
+        let basicRecipeItem: BasicRecipeItem = {
+          name: r.name,
+          id: r.id,
+          cuisine: r.cuisine,
+        };
+        return basicRecipeItem;
+      }),
+    );
   }
 
   return (
@@ -56,12 +43,15 @@ export function SearchRecipes() {
       </Helmet>
       <Grid2 container direction={'row'}>
         <Grid2>
-          <IngredientsAutoComplete onIngredientSelection={onIngredientSelection}/>
+          <IngredientsAutoComplete
+            onIngredientSelection={onIngredientSelection}
+          />
         </Grid2>
         <Grid2>
-          <Button variant="contained" onClick={handleSearchRecipe}>
-            Search
-          </Button>
+          <SearchRecipesButton
+            ingredientIds={ingredientIds}
+            onBasicRecipesChange={onBasicRecipesChange}
+          />
         </Grid2>
       </Grid2>
       <Grid2>
