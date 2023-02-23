@@ -1,16 +1,12 @@
-import Autocomplete from '@mui/material/Autocomplete';
 import * as React from 'react';
 import { Helmet } from 'react-helmet-async';
-import { Button, TextField } from '@mui/material';
-import { SyntheticEvent, useEffect, useState } from 'react';
+import { Button } from '@mui/material';
+import { SyntheticEvent, useState } from 'react';
 import httpClient from '../../common/http-common';
 import BasicRecipeTable from '../../common/components/BasicRecipeTable';
 import Grid2 from '@mui/material/Unstable_Grid2';
-
-interface IngredientAutocompleteItem {
-  id: string;
-  name: string;
-}
+import { IngredientAutocompleteItem } from './IngredientsAutoComplete/IngredientAutocompleteItem';
+import IngredientsAutoComplete from './IngredientsAutoComplete';
 
 interface BasicRecipeItem {
   id: string;
@@ -19,58 +15,22 @@ interface BasicRecipeItem {
 }
 
 export function SearchRecipes() {
-  const [ingredients, setIngredients] = useState<
-    readonly IngredientAutocompleteItem[]
-  >([]);
+  const [ingredientIds, setIngredientIds] = useState<readonly String[]>([]);
   const [basicRecipes, setBasicRecipes] = useState<readonly BasicRecipeItem[]>(
     [],
   );
-  const [ingredientsSelection, setIngredientsSelection] = useState<
-    IngredientAutocompleteItem[]
-  >([]);
-  const [open, setOpen] = React.useState(false);
-  const loading = open && ingredients.length === 0;
 
-  useEffect(() => {
-    let active = true;
-
-    if (!loading) {
-      return undefined;
-    }
-
-    (async () => {
-      let { data: response } = await httpClient.get('/ingredient');
-
-      if (active) {
-        setIngredients(
-          response.ingredients.map(ingredient => {
-            let ingredientAutocompleteItem: IngredientAutocompleteItem = {
-              name: ingredient.name,
-              id: ingredient.id,
-            };
-            return ingredientAutocompleteItem;
-          }),
-        );
-      }
-    })();
-
-    return () => {
-      active = false;
-    };
-  }, [loading]);
-
-  function handleSelection(
+  function onIngredientSelection(
     e: SyntheticEvent,
     newValue: IngredientAutocompleteItem[],
   ) {
-    setIngredientsSelection(newValue);
+    const ingredientIds = newValue.map(ing => ing.id);
+    setIngredientIds(ingredientIds);
   }
 
   async function handleSearchRecipe() {
     await httpClient
-      .get(
-        '/recipe/search?ingredientIds=' + ingredientsSelection.map(i => i.id),
-      )
+      .get('/recipe/search?ingredientIds=' + ingredientIds)
       .then(response =>
         setBasicRecipes(
           response.data.recipes.map(basicRecipe => {
@@ -96,32 +56,7 @@ export function SearchRecipes() {
       </Helmet>
       <Grid2 container direction={'row'}>
         <Grid2>
-          <Autocomplete
-            multiple
-            limitTags={4}
-            id="tags-outlined"
-            open={open}
-            onOpen={() => {
-              setOpen(true);
-            }}
-            onClose={() => {
-              setOpen(false);
-            }}
-            value={ingredientsSelection}
-            onChange={handleSelection}
-            options={ingredients}
-            getOptionLabel={option => option.name}
-            filterSelectedOptions
-            loading={loading}
-            renderInput={params => (
-              <TextField
-                {...params}
-                label="Select ingredients"
-                placeholder="Ingredients"
-              />
-            )}
-            sx={{ width: '500px' }}
-          />
+          <IngredientsAutoComplete onIngredientSelection={onIngredientSelection}/>
         </Grid2>
         <Grid2>
           <Button variant="contained" onClick={handleSearchRecipe}>
