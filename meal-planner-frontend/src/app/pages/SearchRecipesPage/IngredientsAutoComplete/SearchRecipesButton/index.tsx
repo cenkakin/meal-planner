@@ -1,6 +1,7 @@
 import * as React from 'react';
-import { Button } from '@mui/material';
-import httpClient from '../../../common/http-common';
+import httpClient from '../../../../common/http-common';
+import SearchIcon from '@mui/icons-material/Search';
+import { IconButton } from '@mui/material';
 
 export default function SearchRecipesButton({
   ingredientIds,
@@ -16,8 +17,8 @@ export default function SearchRecipesButton({
   }
 
   return (
-    <Button variant="contained" onClick={handleSearchRecipe}>
-      Search
-    </Button>
+    <IconButton onClick={handleSearchRecipe}>
+      <SearchIcon />
+    </IconButton>
   );
 }
