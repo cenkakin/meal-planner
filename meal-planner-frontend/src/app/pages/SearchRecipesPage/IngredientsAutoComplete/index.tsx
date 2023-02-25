@@ -1,18 +1,29 @@
 import * as React from 'react';
-import { useEffect, useState } from 'react';
+import { SyntheticEvent, useEffect, useState } from 'react';
 import { IngredientAutocompleteItem } from './IngredientAutocompleteItem';
-import { TextField } from '@mui/material';
+import { InputAdornment, TextField } from '@mui/material';
 import Autocomplete from '@mui/material/Autocomplete';
 import httpClient from '../../../common/http-common';
+import SearchRecipesButton from './SearchRecipesButton';
 
-export default function IngredientsAutoComplete({ onIngredientSelection }) {
+export default function IngredientsAutoComplete({ onBasicRecipesChange }) {
   const [ingredients, setIngredients] = useState<
     readonly IngredientAutocompleteItem[]
   >([]);
 
+  const [ingredientIds, setIngredientIds] = useState<readonly String[]>([]);
+
   const [open, setOpen] = React.useState(false);
 
   const loading = open && ingredients.length === 0;
+
+  function onIngredientSelection(
+    e: SyntheticEvent,
+    newValue: IngredientAutocompleteItem[],
+  ) {
+    const ingredientIds = newValue.map(ing => ing.id);
+    setIngredientIds(ingredientIds);
+  }
 
   useEffect(() => {
     let active = true;
@@ -45,7 +56,7 @@ export default function IngredientsAutoComplete({ onIngredientSelection }) {
   return (
     <Autocomplete
       multiple
-      limitTags={4}
+      limitTags={7}
       id="tags-outlined"
       open={open}
       onOpen={() => {
@@ -64,9 +75,20 @@ export default function IngredientsAutoComplete({ onIngredientSelection }) {
           {...params}
           label="Select ingredients"
           placeholder="Ingredients"
+          InputProps={{
+            ...params.InputProps,
+            endAdornment: (
+              <InputAdornment position="end">
+                <SearchRecipesButton
+                  ingredientIds={ingredientIds}
+                  onBasicRecipesChange={onBasicRecipesChange}
+                />
+              </InputAdornment>
+            ),
+            disableUnderline: true,
+          }}
         />
       )}
-      sx={{ width: '500px' }}
     />
   );
 }
