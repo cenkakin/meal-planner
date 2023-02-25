@@ -18,6 +18,8 @@ export function SearchRecipes() {
           name: r.name,
           id: r.id,
           cuisine: r.cuisine,
+          photo: r.photo,
+          summary: r.summary,
         };
         return basicRecipeItem;
       }),

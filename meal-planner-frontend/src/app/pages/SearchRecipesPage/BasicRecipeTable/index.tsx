@@ -9,16 +9,26 @@ import TablePagination from '@mui/material/TablePagination';
 import TableRow from '@mui/material/TableRow';
 
 interface Column {
-  id: 'id' | 'name' | 'cuisine';
+  key: 'id' | 'name' | 'cuisine' | 'photo' | 'summary';
   label: string;
   minWidth?: number;
-  align?: 'right';
-  format?: (value: number) => string;
+
+  align?: 'left' | 'center' | 'right';
+  render?: (value: any) => any;
 }
 
 const columns: readonly Column[] = [
-  { id: 'name', label: 'Name', minWidth: 170 },
-  { id: 'cuisine', label: 'Cuisine', minWidth: 170 },
+  {
+    key: 'photo',
+    label: '',
+    minWidth: 200,
+    align: 'center',
+    render: photoUrl =>
+      photoUrl && <img src={photoUrl} alt="" height="100" width="100" />,
+  },
+  { key: 'name', label: 'Name', minWidth: 50 },
+  { key: 'cuisine', label: 'Cuisine', minWidth: 50 },
+  { key: 'summary', label: '', minWidth: 200 },
 ];
 export default function RecipeTable({ inputData }) {
   const [page, setPage] = React.useState(0);
@@ -44,8 +54,8 @@ export default function RecipeTable({ inputData }) {
             <TableRow>
               {columns.map(column => (
                 <TableCell
-                  key={column.id}
-                  align={column.align}
+                  key={column.key}
+                  align="left"
                   style={{ minWidth: column.minWidth }}
                 >
                   {column.label}
@@ -60,12 +70,10 @@ export default function RecipeTable({ inputData }) {
                 return (
                   <TableRow hover role="checkbox" tabIndex={-1} key={row.id}>
                     {columns.map(column => {
-                      const value = row[column.id];
+                      const value = row[column.key];
                       return (
-                        <TableCell key={column.id} align={column.align}>
-                          {column.format && typeof value === 'number'
-                            ? column.format(value)
-                            : value}
+                        <TableCell key={column.key} align={column.align}>
+                          {column.render ? column.render(value) : value}
                         </TableCell>
                       );
                     })}
