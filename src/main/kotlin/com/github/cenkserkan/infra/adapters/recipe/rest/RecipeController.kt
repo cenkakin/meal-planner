@@ -3,8 +3,8 @@ package com.github.cenkserkan.infra.adapters.recipe.rest
 import com.github.cenkserkan.domain.recipe.usecase.RecipeRetrievalUseCase
 import com.github.cenkserkan.domain.recipe.usecase.RecipeSearchUseCase
 import com.github.cenkserkan.infra.adapters.recipe.rest.dto.BasicRecipeListResponse
-import com.github.cenkserkan.infra.adapters.recipe.rest.dto.BasicRecipeResponse
 import com.github.cenkserkan.infra.adapters.recipe.rest.dto.RecipeResponse
+import com.github.cenkserkan.infra.adapters.recipe.rest.dto.BasicRecipeResponse
 import jakarta.validation.constraints.NotEmpty
 import org.springframework.http.ResponseEntity
 import org.springframework.validation.annotation.Validated
