@@ -4,6 +4,7 @@ import { BrowserRouter, Route, Routes } from 'react-router-dom';
 
 import { SearchRecipesPage } from './pages/SearchRecipesPage/Loadable';
 import { useTranslation } from 'react-i18next';
+import { RecipeDetailsPage } from './pages/RecipeDetailsPage/Loadable';
 
 export function App() {
   const { i18n } = useTranslation();
@@ -18,6 +19,7 @@ export function App() {
       </Helmet>
       <Routes>
         <Route path="/" element={<SearchRecipesPage />} />
+        <Route path="/recipe/:recipeId" element={<RecipeDetailsPage />} />
       </Routes>
     </BrowserRouter>
   );
