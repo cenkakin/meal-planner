@@ -16,6 +16,7 @@ plugins {
     id("org.springframework.boot") version "3.0.2"
     id("io.spring.dependency-management") version "1.1.0"
     id("org.flywaydb.flyway") version "9.8.1"
+    id("org.jlleitschuh.gradle.ktlint") version "11.2.0"
     kotlin("jvm") version "1.7.22"
     kotlin("plugin.spring") version "1.7.22"
 }
@@ -47,8 +48,8 @@ dependencies {
 val containerInstance: PostgreSQLContainer<Nothing>? = if ("generateJooq" in project.gradle.startParameter.taskNames) {
     PostgreSQLContainer<Nothing>(
         org.testcontainers.utility.DockerImageName.parse(
-            "postgres:14.4-alpine",
-        ),
+            "postgres:14.4-alpine"
+        )
     ).apply {
         withDatabaseName("meal_planner")
         start()
