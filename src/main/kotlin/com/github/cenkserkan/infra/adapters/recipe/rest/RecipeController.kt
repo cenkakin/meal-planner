@@ -3,8 +3,8 @@ package com.github.cenkserkan.infra.adapters.recipe.rest
 import com.github.cenkserkan.domain.recipe.usecase.RecipeRetrievalUseCase
 import com.github.cenkserkan.domain.recipe.usecase.RecipeSearchUseCase
 import com.github.cenkserkan.infra.adapters.recipe.rest.dto.BasicRecipeListResponse
-import com.github.cenkserkan.infra.adapters.recipe.rest.dto.RecipeResponse
 import com.github.cenkserkan.infra.adapters.recipe.rest.dto.BasicRecipeResponse
+import com.github.cenkserkan.infra.adapters.recipe.rest.dto.RecipeResponse
 import jakarta.validation.constraints.NotEmpty
 import org.springframework.http.ResponseEntity
 import org.springframework.validation.annotation.Validated
@@ -20,14 +20,14 @@ import java.util.UUID
 @Validated
 class RecipeController(
     private val recipeSearchUseCase: RecipeSearchUseCase,
-    private val recipeRetrievalUseCase: RecipeRetrievalUseCase,
+    private val recipeRetrievalUseCase: RecipeRetrievalUseCase
 ) {
 
     @GetMapping("/search")
     fun searchByIngredients(
         @NotEmpty
         @RequestParam
-        ingredientIds: List<UUID>,
+        ingredientIds: List<UUID>
     ): ResponseEntity<BasicRecipeListResponse> {
         val recipes = recipeSearchUseCase.getByIngredients(ingredientIds)
         val recipeListResponse = BasicRecipeListResponse(recipes.map { BasicRecipeResponse.from(it) })

@@ -21,28 +21,28 @@ class RecipeIngredientsRepository(private val dslContext: DSLContext) {
     }
 
     fun getRecipeIngredientsByRecipeId(id: UUID): List<RecipeIngredient> {
-       return dslContext.select(
-           RECIPE_INGREDIENT.RECIPE_ID,
-           INGREDIENT.ID,
-           INGREDIENT.NAME,
-           RECIPE_INGREDIENT.QUANTITY,
-           RECIPE_INGREDIENT.UNIT
-       )
-           .from(RECIPE_INGREDIENT)
-           .join(INGREDIENT)
-           .on(RECIPE_INGREDIENT.INGREDIENT_ID.eq(INGREDIENT.ID))
-           .where(RECIPE_INGREDIENT.RECIPE_ID.eq(id))
-           .fetch()
-           .map {
-               RecipeIngredient(
-                   recipeId = it.component1(),
-                   Ingredient(
-                       id = it.component2(),
-                       name = it.component3(),
-                   ),
-                   quantity = it.component4(),
-                   unit = it.component5(),
-               )
-           }
+        return dslContext.select(
+            RECIPE_INGREDIENT.RECIPE_ID,
+            INGREDIENT.ID,
+            INGREDIENT.NAME,
+            RECIPE_INGREDIENT.QUANTITY,
+            RECIPE_INGREDIENT.UNIT
+        )
+            .from(RECIPE_INGREDIENT)
+            .join(INGREDIENT)
+            .on(RECIPE_INGREDIENT.INGREDIENT_ID.eq(INGREDIENT.ID))
+            .where(RECIPE_INGREDIENT.RECIPE_ID.eq(id))
+            .fetch()
+            .map {
+                RecipeIngredient(
+                    recipeId = it.component1(),
+                    Ingredient(
+                        id = it.component2(),
+                        name = it.component3()
+                    ),
+                    quantity = it.component4(),
+                    unit = it.component5()
+                )
+            }
     }
 }
