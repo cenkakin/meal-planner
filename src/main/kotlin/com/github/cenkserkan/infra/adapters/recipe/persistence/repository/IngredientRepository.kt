@@ -13,5 +13,5 @@ class IngredientRepository(private val dslContext: DSLContext) {
 }
 
 private fun IngredientRecord.toIngredient(): Ingredient {
-    return Ingredient(id = id, name = name, type = "type", unit = "", weight = 1)
+    return Ingredient(id = id, name = name)
 }

@@ -6,18 +6,14 @@ import java.util.UUID
 data class BasicRecipeResponse(
     val id: UUID,
     val name: String,
-    val cuisine: String,
-    val summary: String?,
-    val photo: String?,
+    val instructions: Array<String>
 ) {
     companion object {
         fun from(recipe: BasicRecipe) = with(recipe) {
             BasicRecipeResponse(
                 id = id,
-                name = name,
-                cuisine = cuisine,
-                summary = summary,
-                photo = photo,
+                name = title,
+                instructions = instructions
             )
         }
     }

@@ -6,7 +6,6 @@ import java.util.UUID
 data class RecipeResponse(
     val id: UUID,
     val name: String,
-    val cuisine: String,
     val recipeIngredients: List<RecipeIngredientResponse>,
 ) {
 
@@ -15,7 +14,7 @@ data class RecipeResponse(
             val recipeIngredients = recipe.recipeIngredients.map {
                 RecipeIngredientResponse.from(it)
             }
-            return RecipeResponse(recipe.id, recipe.name, recipe.cuisine, recipeIngredients)
+            return RecipeResponse(recipe.id, recipe.name, recipeIngredients)
         }
     }
 }
