@@ -7,6 +7,7 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TablePagination from '@mui/material/TablePagination';
 import TableRow from '@mui/material/TableRow';
+import { useNavigate } from 'react-router-dom';
 
 interface Column {
   key: 'id' | 'name' | 'cuisine' | 'photo' | 'summary';
@@ -34,6 +35,7 @@ export default function RecipeTable({ inputData }) {
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
   const rows = inputData;
+  const navigate = useNavigate();
 
   const handleChangePage = (event: unknown, newPage: number) => {
     setPage(newPage);
@@ -68,7 +70,13 @@ export default function RecipeTable({ inputData }) {
               .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
               .map(row => {
                 return (
-                  <TableRow hover role="checkbox" tabIndex={-1} key={row.id}>
+                  <TableRow
+                    hover
+                    role="checkbox"
+                    tabIndex={-1}
+                    key={row.id}
+                    onClick={() => navigate(`recipe/id/${row.id}`)}
+                  >
                     {columns.map(column => {
                       const value = row[column.key];
                       return (
