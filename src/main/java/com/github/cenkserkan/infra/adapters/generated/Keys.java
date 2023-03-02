@@ -7,8 +7,10 @@ package com.github.cenkserkan.infra.adapters.generated;
 import com.github.cenkserkan.infra.adapters.generated.tables.Ingredient;
 import com.github.cenkserkan.infra.adapters.generated.tables.Recipe;
 import com.github.cenkserkan.infra.adapters.generated.tables.RecipeIngredient;
+import com.github.cenkserkan.infra.adapters.generated.tables.RecipePhoto;
 import com.github.cenkserkan.infra.adapters.generated.tables.records.IngredientRecord;
 import com.github.cenkserkan.infra.adapters.generated.tables.records.RecipeIngredientRecord;
+import com.github.cenkserkan.infra.adapters.generated.tables.records.RecipePhotoRecord;
 import com.github.cenkserkan.infra.adapters.generated.tables.records.RecipeRecord;
 
 import org.jooq.TableField;
@@ -31,4 +33,5 @@ public class Keys {
     public static final UniqueKey<IngredientRecord> INGREDIENT_PKEY = Internal.createUniqueKey(Ingredient.INGREDIENT, DSL.name("ingredient_pkey"), new TableField[] { Ingredient.INGREDIENT.ID }, true);
     public static final UniqueKey<RecipeRecord> RECIPE_PKEY = Internal.createUniqueKey(Recipe.RECIPE, DSL.name("recipe_pkey"), new TableField[] { Recipe.RECIPE.ID }, true);
     public static final UniqueKey<RecipeIngredientRecord> RECIPE_INGREDIENT_PKEY = Internal.createUniqueKey(RecipeIngredient.RECIPE_INGREDIENT, DSL.name("recipe_ingredient_pkey"), new TableField[] { RecipeIngredient.RECIPE_INGREDIENT.RECIPE_ID, RecipeIngredient.RECIPE_INGREDIENT.INGREDIENT_ID }, true);
+    public static final UniqueKey<RecipePhotoRecord> RECIPE_PHOTO_PKEY = Internal.createUniqueKey(RecipePhoto.RECIPE_PHOTO, DSL.name("recipe_photo_pkey"), new TableField[] { RecipePhoto.RECIPE_PHOTO.RECIPE_ID, RecipePhoto.RECIPE_PHOTO.URL }, true);
 }

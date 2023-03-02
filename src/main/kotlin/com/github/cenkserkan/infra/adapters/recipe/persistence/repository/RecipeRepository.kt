@@ -22,4 +22,4 @@ class RecipeRepository(private val dslContext: DSLContext) {
     }
 }
 
-private fun RecipeRecord.toRecipe() = BasicRecipe(id, name, cuisine, summary, photo)
+private fun RecipeRecord.toRecipe() = BasicRecipe(id, "", "", "", "")

@@ -14,11 +14,11 @@ import java.util.function.Function;
 
 import org.jooq.Field;
 import org.jooq.ForeignKey;
-import org.jooq.Function7;
+import org.jooq.Function16;
 import org.jooq.Name;
 import org.jooq.Record;
 import org.jooq.Records;
-import org.jooq.Row7;
+import org.jooq.Row16;
 import org.jooq.Schema;
 import org.jooq.SelectField;
 import org.jooq.Table;
@@ -67,24 +67,69 @@ public class Recipe extends TableImpl<RecipeRecord> {
     public final TableField<RecipeRecord, LocalDateTime> UPDATED_AT = createField(DSL.name("updated_at"), SQLDataType.LOCALDATETIME(6).nullable(false).defaultValue(DSL.field("now()", SQLDataType.LOCALDATETIME)), this, "");
 
     /**
-     * The column <code>public.recipe.name</code>.
+     * The column <code>public.recipe.title</code>.
      */
-    public final TableField<RecipeRecord, String> NAME = createField(DSL.name("name"), SQLDataType.VARCHAR.nullable(false), this, "");
+    public final TableField<RecipeRecord, String> TITLE = createField(DSL.name("title"), SQLDataType.VARCHAR, this, "");
 
     /**
-     * The column <code>public.recipe.cuisine</code>.
+     * The column <code>public.recipe.url</code>.
      */
-    public final TableField<RecipeRecord, String> CUISINE = createField(DSL.name("cuisine"), SQLDataType.VARCHAR.nullable(false), this, "");
+    public final TableField<RecipeRecord, String> URL = createField(DSL.name("url"), SQLDataType.VARCHAR, this, "");
 
     /**
-     * The column <code>public.recipe.summary</code>.
+     * The column <code>public.recipe.fsa_fat</code>.
      */
-    public final TableField<RecipeRecord, String> SUMMARY = createField(DSL.name("summary"), SQLDataType.VARCHAR, this, "");
+    public final TableField<RecipeRecord, String> FSA_FAT = createField(DSL.name("fsa_fat"), SQLDataType.VARCHAR, this, "");
 
     /**
-     * The column <code>public.recipe.photo</code>.
+     * The column <code>public.recipe.fsa_salt</code>.
      */
-    public final TableField<RecipeRecord, String> PHOTO = createField(DSL.name("photo"), SQLDataType.VARCHAR, this, "");
+    public final TableField<RecipeRecord, String> FSA_SALT = createField(DSL.name("fsa_salt"), SQLDataType.VARCHAR, this, "");
+
+    /**
+     * The column <code>public.recipe.fsa_saturated</code>.
+     */
+    public final TableField<RecipeRecord, String> FSA_SATURATED = createField(DSL.name("fsa_saturated"), SQLDataType.VARCHAR, this, "");
+
+    /**
+     * The column <code>public.recipe.fsa_sugar</code>.
+     */
+    public final TableField<RecipeRecord, String> FSA_SUGAR = createField(DSL.name("fsa_sugar"), SQLDataType.VARCHAR, this, "");
+
+    /**
+     * The column <code>public.recipe.instructions</code>.
+     */
+    public final TableField<RecipeRecord, String[]> INSTRUCTIONS = createField(DSL.name("instructions"), SQLDataType.CLOB.getArrayDataType(), this, "");
+
+    /**
+     * The column <code>public.recipe.energy</code>.
+     */
+    public final TableField<RecipeRecord, String> ENERGY = createField(DSL.name("energy"), SQLDataType.VARCHAR, this, "");
+
+    /**
+     * The column <code>public.recipe.fat</code>.
+     */
+    public final TableField<RecipeRecord, String> FAT = createField(DSL.name("fat"), SQLDataType.VARCHAR, this, "");
+
+    /**
+     * The column <code>public.recipe.protein</code>.
+     */
+    public final TableField<RecipeRecord, String> PROTEIN = createField(DSL.name("protein"), SQLDataType.VARCHAR, this, "");
+
+    /**
+     * The column <code>public.recipe.salt</code>.
+     */
+    public final TableField<RecipeRecord, String> SALT = createField(DSL.name("salt"), SQLDataType.VARCHAR, this, "");
+
+    /**
+     * The column <code>public.recipe.saturated_fat</code>.
+     */
+    public final TableField<RecipeRecord, String> SATURATED_FAT = createField(DSL.name("saturated_fat"), SQLDataType.VARCHAR, this, "");
+
+    /**
+     * The column <code>public.recipe.sugar</code>.
+     */
+    public final TableField<RecipeRecord, String> SUGAR = createField(DSL.name("sugar"), SQLDataType.VARCHAR, this, "");
 
     private Recipe(Name alias, Table<RecipeRecord> aliased) {
         this(alias, aliased, null);
@@ -169,18 +214,18 @@ public class Recipe extends TableImpl<RecipeRecord> {
     }
 
     // -------------------------------------------------------------------------
-    // Row7 type methods
+    // Row16 type methods
     // -------------------------------------------------------------------------
 
     @Override
-    public Row7<UUID, LocalDateTime, LocalDateTime, String, String, String, String> fieldsRow() {
-        return (Row7) super.fieldsRow();
+    public Row16<UUID, LocalDateTime, LocalDateTime, String, String, String, String, String, String, String[], String, String, String, String, String, String> fieldsRow() {
+        return (Row16) super.fieldsRow();
     }
 
     /**
      * Convenience mapping calling {@link SelectField#convertFrom(Function)}.
      */
-    public <U> SelectField<U> mapping(Function7<? super UUID, ? super LocalDateTime, ? super LocalDateTime, ? super String, ? super String, ? super String, ? super String, ? extends U> from) {
+    public <U> SelectField<U> mapping(Function16<? super UUID, ? super LocalDateTime, ? super LocalDateTime, ? super String, ? super String, ? super String, ? super String, ? super String, ? super String, ? super String[], ? super String, ? super String, ? super String, ? super String, ? super String, ? super String, ? extends U> from) {
         return convertFrom(Records.mapping(from));
     }
 
@@ -188,7 +233,7 @@ public class Recipe extends TableImpl<RecipeRecord> {
      * Convenience mapping calling {@link SelectField#convertFrom(Class,
      * Function)}.
      */
-    public <U> SelectField<U> mapping(Class<U> toType, Function7<? super UUID, ? super LocalDateTime, ? super LocalDateTime, ? super String, ? super String, ? super String, ? super String, ? extends U> from) {
+    public <U> SelectField<U> mapping(Class<U> toType, Function16<? super UUID, ? super LocalDateTime, ? super LocalDateTime, ? super String, ? super String, ? super String, ? super String, ? super String, ? super String, ? super String[], ? super String, ? super String, ? super String, ? super String, ? super String, ? super String, ? extends U> from) {
         return convertFrom(toType, Records.mapping(from));
     }
 }
