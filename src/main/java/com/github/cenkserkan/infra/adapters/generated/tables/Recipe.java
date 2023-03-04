@@ -74,27 +74,27 @@ public class Recipe extends TableImpl<RecipeRecord> {
     /**
      * The column <code>public.recipe.url</code>.
      */
-    public final TableField<RecipeRecord, String> URL = createField(DSL.name("url"), SQLDataType.VARCHAR.nullable(false), this, "");
+    public final TableField<RecipeRecord, String> URL = createField(DSL.name("url"), SQLDataType.VARCHAR, this, "");
 
     /**
      * The column <code>public.recipe.fsa_fat</code>.
      */
-    public final TableField<RecipeRecord, String> FSA_FAT = createField(DSL.name("fsa_fat"), SQLDataType.VARCHAR.nullable(false), this, "");
+    public final TableField<RecipeRecord, String> FSA_FAT = createField(DSL.name("fsa_fat"), SQLDataType.VARCHAR, this, "");
 
     /**
      * The column <code>public.recipe.fsa_salt</code>.
      */
-    public final TableField<RecipeRecord, String> FSA_SALT = createField(DSL.name("fsa_salt"), SQLDataType.VARCHAR.nullable(false), this, "");
+    public final TableField<RecipeRecord, String> FSA_SALT = createField(DSL.name("fsa_salt"), SQLDataType.VARCHAR, this, "");
 
     /**
      * The column <code>public.recipe.fsa_saturated</code>.
      */
-    public final TableField<RecipeRecord, String> FSA_SATURATED = createField(DSL.name("fsa_saturated"), SQLDataType.VARCHAR.nullable(false), this, "");
+    public final TableField<RecipeRecord, String> FSA_SATURATED = createField(DSL.name("fsa_saturated"), SQLDataType.VARCHAR, this, "");
 
     /**
      * The column <code>public.recipe.fsa_sugar</code>.
      */
-    public final TableField<RecipeRecord, String> FSA_SUGAR = createField(DSL.name("fsa_sugar"), SQLDataType.VARCHAR.nullable(false), this, "");
+    public final TableField<RecipeRecord, String> FSA_SUGAR = createField(DSL.name("fsa_sugar"), SQLDataType.VARCHAR, this, "");
 
     /**
      * The column <code>public.recipe.instructions</code>.
@@ -104,32 +104,32 @@ public class Recipe extends TableImpl<RecipeRecord> {
     /**
      * The column <code>public.recipe.energy</code>.
      */
-    public final TableField<RecipeRecord, Double> ENERGY = createField(DSL.name("energy"), SQLDataType.DOUBLE.nullable(false), this, "");
+    public final TableField<RecipeRecord, Double> ENERGY = createField(DSL.name("energy"), SQLDataType.DOUBLE, this, "");
 
     /**
      * The column <code>public.recipe.fat</code>.
      */
-    public final TableField<RecipeRecord, Double> FAT = createField(DSL.name("fat"), SQLDataType.DOUBLE.nullable(false), this, "");
+    public final TableField<RecipeRecord, Double> FAT = createField(DSL.name("fat"), SQLDataType.DOUBLE, this, "");
 
     /**
      * The column <code>public.recipe.protein</code>.
      */
-    public final TableField<RecipeRecord, Double> PROTEIN = createField(DSL.name("protein"), SQLDataType.DOUBLE.nullable(false), this, "");
+    public final TableField<RecipeRecord, Double> PROTEIN = createField(DSL.name("protein"), SQLDataType.DOUBLE, this, "");
 
     /**
      * The column <code>public.recipe.salt</code>.
      */
-    public final TableField<RecipeRecord, Double> SALT = createField(DSL.name("salt"), SQLDataType.DOUBLE.nullable(false), this, "");
+    public final TableField<RecipeRecord, Double> SALT = createField(DSL.name("salt"), SQLDataType.DOUBLE, this, "");
 
     /**
      * The column <code>public.recipe.saturated_fat</code>.
      */
-    public final TableField<RecipeRecord, Double> SATURATED_FAT = createField(DSL.name("saturated_fat"), SQLDataType.DOUBLE.nullable(false), this, "");
+    public final TableField<RecipeRecord, Double> SATURATED_FAT = createField(DSL.name("saturated_fat"), SQLDataType.DOUBLE, this, "");
 
     /**
      * The column <code>public.recipe.sugar</code>.
      */
-    public final TableField<RecipeRecord, Double> SUGAR = createField(DSL.name("sugar"), SQLDataType.DOUBLE.nullable(false), this, "");
+    public final TableField<RecipeRecord, Double> SUGAR = createField(DSL.name("sugar"), SQLDataType.DOUBLE, this, "");
 
     private Recipe(Name alias, Table<RecipeRecord> aliased) {
         this(alias, aliased, null);

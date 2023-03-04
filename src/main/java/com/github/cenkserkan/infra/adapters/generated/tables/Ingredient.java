@@ -81,32 +81,32 @@ public class Ingredient extends TableImpl<IngredientRecord> {
     /**
      * The column <code>public.ingredient.fat</code>.
      */
-    public final TableField<IngredientRecord, Double> FAT = createField(DSL.name("fat"), SQLDataType.DOUBLE.nullable(false), this, "");
+    public final TableField<IngredientRecord, Double> FAT = createField(DSL.name("fat"), SQLDataType.DOUBLE, this, "");
 
     /**
      * The column <code>public.ingredient.energy</code>.
      */
-    public final TableField<IngredientRecord, Double> ENERGY = createField(DSL.name("energy"), SQLDataType.DOUBLE.nullable(false), this, "");
+    public final TableField<IngredientRecord, Double> ENERGY = createField(DSL.name("energy"), SQLDataType.DOUBLE, this, "");
 
     /**
      * The column <code>public.ingredient.protein</code>.
      */
-    public final TableField<IngredientRecord, Double> PROTEIN = createField(DSL.name("protein"), SQLDataType.DOUBLE.nullable(false), this, "");
+    public final TableField<IngredientRecord, Double> PROTEIN = createField(DSL.name("protein"), SQLDataType.DOUBLE, this, "");
 
     /**
      * The column <code>public.ingredient.saturated_fat</code>.
      */
-    public final TableField<IngredientRecord, Double> SATURATED_FAT = createField(DSL.name("saturated_fat"), SQLDataType.DOUBLE.nullable(false), this, "");
+    public final TableField<IngredientRecord, Double> SATURATED_FAT = createField(DSL.name("saturated_fat"), SQLDataType.DOUBLE, this, "");
 
     /**
      * The column <code>public.ingredient.salt</code>.
      */
-    public final TableField<IngredientRecord, Double> SALT = createField(DSL.name("salt"), SQLDataType.DOUBLE.nullable(false), this, "");
+    public final TableField<IngredientRecord, Double> SALT = createField(DSL.name("salt"), SQLDataType.DOUBLE, this, "");
 
     /**
      * The column <code>public.ingredient.sugar</code>.
      */
-    public final TableField<IngredientRecord, Double> SUGAR = createField(DSL.name("sugar"), SQLDataType.DOUBLE.nullable(false), this, "");
+    public final TableField<IngredientRecord, Double> SUGAR = createField(DSL.name("sugar"), SQLDataType.DOUBLE, this, "");
 
     private Ingredient(Name alias, Table<IngredientRecord> aliased) {
         this(alias, aliased, null);
