@@ -64,17 +64,17 @@ public class RecipeIngredient extends TableImpl<RecipeIngredientRecord> {
     /**
      * The column <code>public.recipe_ingredient.quantity</code>.
      */
-    public final TableField<RecipeIngredientRecord, Integer> QUANTITY = createField(DSL.name("quantity"), SQLDataType.INTEGER, this, "");
+    public final TableField<RecipeIngredientRecord, Integer> QUANTITY = createField(DSL.name("quantity"), SQLDataType.INTEGER.nullable(false), this, "");
 
     /**
      * The column <code>public.recipe_ingredient.unit</code>.
      */
-    public final TableField<RecipeIngredientRecord, String> UNIT = createField(DSL.name("unit"), SQLDataType.VARCHAR, this, "");
+    public final TableField<RecipeIngredientRecord, String> UNIT = createField(DSL.name("unit"), SQLDataType.VARCHAR.nullable(false), this, "");
 
     /**
      * The column <code>public.recipe_ingredient.weight_in_gram</code>.
      */
-    public final TableField<RecipeIngredientRecord, Integer> WEIGHT_IN_GRAM = createField(DSL.name("weight_in_gram"), SQLDataType.INTEGER, this, "");
+    public final TableField<RecipeIngredientRecord, Integer> WEIGHT_IN_GRAM = createField(DSL.name("weight_in_gram"), SQLDataType.INTEGER.nullable(false), this, "");
 
     /**
      * The column <code>public.recipe_ingredient.created_at</code>.
