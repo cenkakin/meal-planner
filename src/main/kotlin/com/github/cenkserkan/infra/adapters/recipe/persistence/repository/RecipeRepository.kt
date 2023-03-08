@@ -1,25 +1,69 @@
 package com.github.cenkserkan.infra.adapters.recipe.persistence.repository
 
 import com.github.cenkserkan.domain.recipe.model.BasicRecipe
+import com.github.cenkserkan.domain.recipe.model.FSALights
 import com.github.cenkserkan.infra.adapters.generated.Tables.RECIPE
-import com.github.cenkserkan.infra.adapters.generated.tables.records.RecipeRecord
+import com.github.cenkserkan.infra.adapters.generated.Tables.RECIPE_IMAGE
+import com.github.cenkserkan.infra.adapters.generated.tables.records.RecipeImageRecord
 import org.jooq.DSLContext
+import org.jooq.Record6
 import java.util.UUID
 
 class RecipeRepository(private val dslContext: DSLContext) {
+
     fun findByIds(recipeIds: List<UUID>): List<BasicRecipe> {
-        return dslContext.selectFrom(RECIPE)
+        val imagesByRecipeId = getImagesByRecipeIds(recipeIds)
+        return dslContext.select(
+            RECIPE.ID,
+            RECIPE.TITLE,
+            RECIPE.FSA_FAT,
+            RECIPE.FSA_SUGAR,
+            RECIPE.FSA_SATURATED,
+            RECIPE.FSA_SALT,
+        )
+            .from(RECIPE)
             .where(RECIPE.ID.`in`(recipeIds))
             .fetch()
-            .map { it.toRecipe() }
+            .map { it.toBasicRecipe(imagesByRecipeId[it.component1()]) }
     }
+
+    private fun getImagesByRecipeIds(recipeIds: List<UUID>) = dslContext.selectFrom(RECIPE_IMAGE)
+        .where(RECIPE_IMAGE.RECIPE_ID.`in`(recipeIds))
+        .fetch()
+        .groupBy { it.recipeId }
 
     fun getById(id: UUID): BasicRecipe? {
-        return dslContext.selectFrom(RECIPE)
+        val recipeImages = recipeImagesByRecipeId(id)
+        return dslContext.select(
+            RECIPE.ID,
+            RECIPE.TITLE,
+            RECIPE.FSA_FAT,
+            RECIPE.FSA_SUGAR,
+            RECIPE.FSA_SATURATED,
+            RECIPE.FSA_SALT,
+        )
+            .from(RECIPE)
+            .leftJoin(RECIPE_IMAGE.where())
+            .on(RECIPE.ID.eq(RECIPE_IMAGE.RECIPE_ID))
             .where(RECIPE.ID.eq(id))
             .fetchOne()
-            ?.toRecipe()
+            ?.toBasicRecipe(recipeImages)
     }
-}
 
-private fun RecipeRecord.toRecipe() = BasicRecipe(id, name, cuisine, summary, photo)
+    private fun recipeImagesByRecipeId(id: UUID) = dslContext.selectFrom(RECIPE_IMAGE)
+        .where(RECIPE_IMAGE.RECIPE_ID.eq(id))
+        .fetch()
+
+    private fun Record6<UUID, String, String, String, String, String>.toBasicRecipe(recipeImageRecords: List<RecipeImageRecord>?) =
+        BasicRecipe(
+            id = this.component1(),
+            title = this.component2(),
+            fsaLights = FSALights(
+                fsaFat = this.component3(),
+                fsaSugar = this.component4(),
+                fsaSaturated = this.component5(),
+                fsaSalt = this.component6(),
+            ),
+            recipeImages = recipeImageRecords?.sortedBy { it.priority }?.map { it.url },
+        )
+}

@@ -9,7 +9,7 @@ import java.util.UUID
 
 class RecipePersistenceAdapter(
     private val recipeIngredientsRepository: RecipeIngredientsRepository,
-    private val recipeRepository: RecipeRepository,
+    private val recipeRepository: RecipeRepository
 ) : RecipePort {
 
     override fun findRecipesByIngredients(ids: List<UUID>): List<BasicRecipe> {

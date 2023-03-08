@@ -2,4 +2,9 @@ package com.github.cenkserkan.domain.recipe.model
 
 import java.util.UUID
 
-data class BasicRecipe(val id: UUID, val name: String, val cuisine: String, val summary: String?, val photo: String?)
+data class BasicRecipe(
+    val id: UUID,
+    val title: String,
+    val fsaLights: FSALights,
+    val recipeImages: List<String>?,
+)

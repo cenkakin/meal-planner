@@ -6,6 +6,7 @@ package com.github.cenkserkan.infra.adapters.generated;
 
 import com.github.cenkserkan.infra.adapters.generated.tables.Ingredient;
 import com.github.cenkserkan.infra.adapters.generated.tables.Recipe;
+import com.github.cenkserkan.infra.adapters.generated.tables.RecipeImage;
 import com.github.cenkserkan.infra.adapters.generated.tables.RecipeIngredient;
 
 
@@ -24,6 +25,11 @@ public class Tables {
      * The table <code>public.recipe</code>.
      */
     public static final Recipe RECIPE = Recipe.RECIPE;
+
+    /**
+     * The table <code>public.recipe_image</code>.
+     */
+    public static final RecipeImage RECIPE_IMAGE = RecipeImage.RECIPE_IMAGE;
 
     /**
      * The table <code>public.recipe_ingredient</code>.

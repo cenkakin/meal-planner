@@ -6,6 +6,7 @@ package com.github.cenkserkan.infra.adapters.generated;
 
 import com.github.cenkserkan.infra.adapters.generated.tables.Ingredient;
 import com.github.cenkserkan.infra.adapters.generated.tables.Recipe;
+import com.github.cenkserkan.infra.adapters.generated.tables.RecipeImage;
 import com.github.cenkserkan.infra.adapters.generated.tables.RecipeIngredient;
 
 import java.util.Arrays;
@@ -40,6 +41,11 @@ public class Public extends SchemaImpl {
     public final Recipe RECIPE = Recipe.RECIPE;
 
     /**
+     * The table <code>public.recipe_image</code>.
+     */
+    public final RecipeImage RECIPE_IMAGE = RecipeImage.RECIPE_IMAGE;
+
+    /**
      * The table <code>public.recipe_ingredient</code>.
      */
     public final RecipeIngredient RECIPE_INGREDIENT = RecipeIngredient.RECIPE_INGREDIENT;
@@ -62,6 +68,7 @@ public class Public extends SchemaImpl {
         return Arrays.asList(
             Ingredient.INGREDIENT,
             Recipe.RECIPE,
+            RecipeImage.RECIPE_IMAGE,
             RecipeIngredient.RECIPE_INGREDIENT
         );
     }

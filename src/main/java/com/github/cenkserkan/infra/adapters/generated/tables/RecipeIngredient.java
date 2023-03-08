@@ -4,7 +4,6 @@
 package com.github.cenkserkan.infra.adapters.generated.tables;
 
 
-import com.github.cenkserkan.infra.adapters.generated.Keys;
 import com.github.cenkserkan.infra.adapters.generated.Public;
 import com.github.cenkserkan.infra.adapters.generated.tables.records.RecipeIngredientRecord;
 
@@ -14,17 +13,16 @@ import java.util.function.Function;
 
 import org.jooq.Field;
 import org.jooq.ForeignKey;
-import org.jooq.Function5;
+import org.jooq.Function7;
 import org.jooq.Name;
 import org.jooq.Record;
 import org.jooq.Records;
-import org.jooq.Row5;
+import org.jooq.Row7;
 import org.jooq.Schema;
 import org.jooq.SelectField;
 import org.jooq.Table;
 import org.jooq.TableField;
 import org.jooq.TableOptions;
-import org.jooq.UniqueKey;
 import org.jooq.impl.DSL;
 import org.jooq.impl.SQLDataType;
 import org.jooq.impl.TableImpl;
@@ -54,17 +52,27 @@ public class RecipeIngredient extends TableImpl<RecipeIngredientRecord> {
     /**
      * The column <code>public.recipe_ingredient.recipe_id</code>.
      */
-    public final TableField<RecipeIngredientRecord, UUID> RECIPE_ID = createField(DSL.name("recipe_id"), SQLDataType.UUID.nullable(false), this, "");
+    public final TableField<RecipeIngredientRecord, UUID> RECIPE_ID = createField(DSL.name("recipe_id"), SQLDataType.UUID, this, "");
 
     /**
      * The column <code>public.recipe_ingredient.ingredient_id</code>.
      */
-    public final TableField<RecipeIngredientRecord, UUID> INGREDIENT_ID = createField(DSL.name("ingredient_id"), SQLDataType.UUID.nullable(false), this, "");
+    public final TableField<RecipeIngredientRecord, UUID> INGREDIENT_ID = createField(DSL.name("ingredient_id"), SQLDataType.UUID, this, "");
 
     /**
      * The column <code>public.recipe_ingredient.quantity</code>.
      */
-    public final TableField<RecipeIngredientRecord, Integer> QUANTITY = createField(DSL.name("quantity"), SQLDataType.INTEGER.nullable(false), this, "");
+    public final TableField<RecipeIngredientRecord, String> QUANTITY = createField(DSL.name("quantity"), SQLDataType.VARCHAR.nullable(false), this, "");
+
+    /**
+     * The column <code>public.recipe_ingredient.unit</code>.
+     */
+    public final TableField<RecipeIngredientRecord, String> UNIT = createField(DSL.name("unit"), SQLDataType.VARCHAR.nullable(false), this, "");
+
+    /**
+     * The column <code>public.recipe_ingredient.weight_in_gram</code>.
+     */
+    public final TableField<RecipeIngredientRecord, Double> WEIGHT_IN_GRAM = createField(DSL.name("weight_in_gram"), SQLDataType.DOUBLE.nullable(false), this, "");
 
     /**
      * The column <code>public.recipe_ingredient.created_at</code>.
@@ -115,11 +123,6 @@ public class RecipeIngredient extends TableImpl<RecipeIngredientRecord> {
     }
 
     @Override
-    public UniqueKey<RecipeIngredientRecord> getPrimaryKey() {
-        return Keys.RECIPE_INGREDIENT_PKEY;
-    }
-
-    @Override
     public RecipeIngredient as(String alias) {
         return new RecipeIngredient(DSL.name(alias), this);
     }
@@ -159,18 +162,18 @@ public class RecipeIngredient extends TableImpl<RecipeIngredientRecord> {
     }
 
     // -------------------------------------------------------------------------
-    // Row5 type methods
+    // Row7 type methods
     // -------------------------------------------------------------------------
 
     @Override
-    public Row5<UUID, UUID, Integer, LocalDateTime, LocalDateTime> fieldsRow() {
-        return (Row5) super.fieldsRow();
+    public Row7<UUID, UUID, String, String, Double, LocalDateTime, LocalDateTime> fieldsRow() {
+        return (Row7) super.fieldsRow();
     }
 
     /**
      * Convenience mapping calling {@link SelectField#convertFrom(Function)}.
      */
-    public <U> SelectField<U> mapping(Function5<? super UUID, ? super UUID, ? super Integer, ? super LocalDateTime, ? super LocalDateTime, ? extends U> from) {
+    public <U> SelectField<U> mapping(Function7<? super UUID, ? super UUID, ? super String, ? super String, ? super Double, ? super LocalDateTime, ? super LocalDateTime, ? extends U> from) {
         return convertFrom(Records.mapping(from));
     }
 
@@ -178,7 +181,7 @@ public class RecipeIngredient extends TableImpl<RecipeIngredientRecord> {
      * Convenience mapping calling {@link SelectField#convertFrom(Class,
      * Function)}.
      */
-    public <U> SelectField<U> mapping(Class<U> toType, Function5<? super UUID, ? super UUID, ? super Integer, ? super LocalDateTime, ? super LocalDateTime, ? extends U> from) {
+    public <U> SelectField<U> mapping(Class<U> toType, Function7<? super UUID, ? super UUID, ? super String, ? super String, ? super Double, ? super LocalDateTime, ? super LocalDateTime, ? extends U> from) {
         return convertFrom(toType, Records.mapping(from));
     }
 }
