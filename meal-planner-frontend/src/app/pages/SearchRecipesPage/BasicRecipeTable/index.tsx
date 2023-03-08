@@ -19,7 +19,7 @@ export default function RecipeTable({ recipes }: Props) {
     setItems(recipes.slice(0, ITEMS_PER_PAGE));
   }, [recipes]);
 
-  let hasMore = items.length + ITEMS_PER_PAGE < recipes.length;
+  let hasMore = items.length + ITEMS_PER_PAGE <= recipes.length;
 
   function recipeCards() {
     return items.map(recipe => (
