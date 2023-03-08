@@ -14,7 +14,7 @@ data class RecipeResponse(
             val recipeIngredients = recipe.recipeIngredients.map {
                 RecipeIngredientResponse.from(it)
             }
-            return RecipeResponse(recipe.id, recipe.name, recipeIngredients)
+            return RecipeResponse(recipe.id, recipe.title, recipeIngredients)
         }
     }
 }

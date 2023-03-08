@@ -1,8 +1,8 @@
+import { FSALights } from './FSALights';
+
 export interface BasicRecipeItem {
   id: string;
-  photo: string;
-  name: string;
-  cuisine: string;
-
-  summary: string;
+  recipeImages: string[];
+  title: string;
+  fsaLights: FSALights;
 }

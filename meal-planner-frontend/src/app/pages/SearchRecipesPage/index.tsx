@@ -7,21 +7,17 @@ import BasicRecipeTable from './BasicRecipeTable';
 import { BasicRecipeItem } from './BasicRecipeTable/BasicRecipeItem';
 
 export function SearchRecipes() {
-  const [basicRecipes, setBasicRecipes] = useState<readonly BasicRecipeItem[]>(
-    [],
-  );
+  const [basicRecipes, setBasicRecipes] = useState<Array<BasicRecipeItem>>([]);
 
   async function onBasicRecipesChange(recipes) {
     setBasicRecipes(
       recipes.map(r => {
-        let basicRecipeItem: BasicRecipeItem = {
-          name: r.name,
+        return {
+          title: r.title,
           id: r.id,
-          cuisine: r.cuisine,
-          photo: r.photo,
-          summary: r.summary,
+          recipeImages: r.recipeImages,
+          fsaLights: r.fsaLights,
         };
-        return basicRecipeItem;
       }),
     );
   }
@@ -43,9 +39,7 @@ export function SearchRecipes() {
         <IngredientsAutoComplete onBasicRecipesChange={onBasicRecipesChange} />
       </Grid2>
       <Grid2 xs={8}>
-        {basicRecipes.length > 0 && (
-          <BasicRecipeTable inputData={basicRecipes} />
-        )}
+        {basicRecipes.length > 0 && <BasicRecipeTable recipes={basicRecipes} />}
       </Grid2>
     </Grid2>
   );
