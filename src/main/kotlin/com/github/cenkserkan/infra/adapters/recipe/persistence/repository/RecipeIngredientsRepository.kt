@@ -5,7 +5,7 @@ import com.github.cenkserkan.domain.recipe.model.RecipeIngredient
 import com.github.cenkserkan.infra.adapters.generated.Tables.INGREDIENT
 import com.github.cenkserkan.infra.adapters.generated.Tables.RECIPE_INGREDIENT
 import org.jooq.DSLContext
-import org.jooq.impl.DSL.count
+import org.jooq.impl.DSL.arrayAgg
 import java.util.UUID
 
 class RecipeIngredientsRepository(private val dslContext: DSLContext) {
@@ -15,7 +15,7 @@ class RecipeIngredientsRepository(private val dslContext: DSLContext) {
             .from(RECIPE_INGREDIENT)
             .where(RECIPE_INGREDIENT.INGREDIENT_ID.`in`(ids))
             .groupBy(RECIPE_INGREDIENT.RECIPE_ID)
-            .having(count().eq(ids.size))
+            .having(arrayAgg(RECIPE_INGREDIENT.INGREDIENT_ID).contains(ids.toTypedArray()))
             .fetch()
             .map { it.component1() }
     }
