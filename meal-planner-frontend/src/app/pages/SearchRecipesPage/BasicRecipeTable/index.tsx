@@ -27,10 +27,10 @@ export default function RecipeTable({ recipes }: Props) {
         <RecipeCard
           id={recipe.id}
           title={recipe.title}
-          imageUrl={
+          imageUrls={
             recipe.recipeImages &&
             recipe.recipeImages.length &&
-            recipe.recipeImages[0]
+            recipe.recipeImages
           }
         />
       </Grid2>
