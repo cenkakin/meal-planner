@@ -4,24 +4,37 @@ import CardContent from '@mui/material/CardContent';
 import CardMedia from '@mui/material/CardMedia';
 import Typography from '@mui/material/Typography';
 import { CardActionArea } from '@mui/material';
+import Carousel from 'nuka-carousel';
 import { useNavigate } from 'react-router-dom';
 
-export default function RecipeCard({ id, title, imageUrl }) {
+export default function RecipeCard({ id, title, imageUrls }) {
   const navigate = useNavigate();
 
   return (
     <Card sx={{ height: '100%', width: '100%' }} key={id}>
       <CardActionArea
-        sx={{ height: '100%' }}
         onClick={() => navigate(`recipe/id/${id}`)}
       >
-        <CardMedia component="img" height="140" image={imageUrl} />
         <CardContent>
-          <Typography gutterBottom variant="body1" component="div">
+          <Typography  variant="body1" component="div" noWrap={true}>
             {title}
           </Typography>
         </CardContent>
       </CardActionArea>
+          <CardContent>
+              <Carousel
+                  renderCenterLeftControls={null}
+                  renderCenterRightControls={null}
+              >
+                  {imageUrls.map(url => {
+                      return <CardMedia
+                          component="img"
+                          height="140"
+                          image={url}
+                      />
+                  })}
+              </Carousel>
+          </CardContent>
     </Card>
   );
 }
