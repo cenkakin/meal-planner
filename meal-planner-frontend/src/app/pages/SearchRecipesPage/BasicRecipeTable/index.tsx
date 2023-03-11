@@ -9,11 +9,11 @@ interface Props {
   recipes: Array<BasicRecipeItem>;
 }
 
-const ITEMS_PER_PAGE = 30;
+const ITEMS_PER_PAGE = 28;
 
 export default function RecipeTable({ recipes }: Props) {
   const [page, setPage] = useState(0);
-  const [items, setItems] = useState<BasicRecipeItem[]>([]);
+  const [items, setItems] = useState<Array<BasicRecipeItem>>([]);
 
   useEffect(() => {
     setItems(recipes.slice(0, ITEMS_PER_PAGE));
@@ -23,15 +23,12 @@ export default function RecipeTable({ recipes }: Props) {
 
   function recipeCards() {
     return items.map(recipe => (
-      <Grid2 key={recipe.id} xs={4}>
+      <Grid2 key={recipe.id} xs={3}>
         <RecipeCard
           id={recipe.id}
           title={recipe.title}
-          imageUrls={
-            recipe.recipeImages &&
-            recipe.recipeImages.length &&
-            recipe.recipeImages
-          }
+          imageUrls={recipe.recipeImages}
+          fsaLights={recipe.fsaLights}
         />
       </Grid2>
     ));

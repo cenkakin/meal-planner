@@ -35,10 +35,10 @@ export function SearchRecipes() {
         <title>Search Recipes</title>
         <meta name="description" content="Find your recipes" />
       </Helmet>
-      <Grid2 xs={8}>
+      <Grid2 xs={4}>
         <IngredientsAutoComplete onBasicRecipesChange={onBasicRecipesChange} />
       </Grid2>
-      <Grid2 xs={8}>
+      <Grid2 xs={10}>
         {basicRecipes.length > 0 && <BasicRecipeTable recipes={basicRecipes} />}
       </Grid2>
     </Grid2>
