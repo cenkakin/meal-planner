@@ -53,10 +53,13 @@ CREATE INDEX ingredient_id_index ON recipe_ingredient ("ingredient_id");
 
 CREATE TABLE recipe_image
 (
+    id         UUID      NOT NULL DEFAULT gen_random_uuid(),
     recipe_id  UUID,
     url        VARCHAR   NOT NULL,
     priority   INT       NOT NULL,
     created_at TIMESTAMP NOT NULL DEFAULT NOW(),
     updated_at TIMESTAMP NOT NULL DEFAULT NOW(),
-    PRIMARY KEY (recipe_id, url)
+    PRIMARY KEY (id)
 );
+
+CREATE INDEX recipe_image_index on recipe_image("recipe_id")
