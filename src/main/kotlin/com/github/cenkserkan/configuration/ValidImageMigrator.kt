@@ -13,16 +13,16 @@ import org.jooq.Record2
 import org.jooq.impl.DSL.arrayAgg
 import org.springframework.boot.web.client.RestTemplateBuilder
 import org.springframework.stereotype.Component
-import org.springframework.web.client.RestTemplate
 import org.springframework.web.client.getForEntity
 import java.time.Duration
 import java.util.UUID
 import java.util.concurrent.atomic.AtomicInteger
 
-// @Component
+@Component
 class ValidImageMigrator(private val dslContext: DSLContext) {
 
-    private val restTemplateBuilder = RestTemplateBuilder()
+    private val restTemplate = RestTemplateBuilder().setConnectTimeout(Duration.ofMillis(300))
+        .setReadTimeout(Duration.ofMillis(300)).build()
 
     private val processedImageCount = AtomicInteger()
     private val numberOfCallsMade = AtomicInteger()
@@ -32,7 +32,7 @@ class ValidImageMigrator(private val dslContext: DSLContext) {
         val recipeImages = dslContext
             .select(
                 RECIPE_IMAGE.RECIPE_ID,
-                arrayAgg(RECIPE_IMAGE.URL).`as`("urls")
+                arrayAgg(RECIPE_IMAGE.URL).`as`("urls"),
             )
             .from(RECIPE_IMAGE)
             .groupBy(RECIPE_IMAGE.RECIPE_ID)
@@ -45,10 +45,14 @@ class ValidImageMigrator(private val dslContext: DSLContext) {
                         .map { url ->
                             async(Dispatchers.IO) {
                                 try {
-                                    restTemplateBuilder.setConnectTimeout(Duration.ofMillis(100)).setReadTimeout(Duration.ofMillis(100)).build().getForEntity<String>(url).statusCode.is2xxSuccessful.also {
+                                    val responseCode = restTemplate.getForEntity<String>(url).statusCode
+                                    if (responseCode.is2xxSuccessful) {
                                         println("Call# ${numberOfCallsMade.incrementAndGet()}: URL checked successfully!")
+                                        url
+                                    } else {
+                                        println("Call# ${numberOfCallsMade.incrementAndGet()}: URL broken")
+                                        null
                                     }
-                                    url
                                 } catch (ex: Exception) {
                                     println("Call# ${numberOfCallsMade.incrementAndGet()}: URL broken")
                                     null
@@ -79,6 +83,6 @@ class ValidImageMigrator(private val dslContext: DSLContext) {
     }
 
     private fun Record2<UUID, Array<String>>.toRecipeImageMap() = mapOf<UUID, List<String>>(
-        this.component1() to this.component2().toList()
+        this.component1() to this.component2().toList(),
     )
 }
