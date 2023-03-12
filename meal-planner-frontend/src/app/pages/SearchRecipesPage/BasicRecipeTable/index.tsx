@@ -4,6 +4,7 @@ import RecipeCard from './RecipeCard';
 import Grid2 from '@mui/material/Unstable_Grid2';
 import InfiniteScroll from 'react-infinite-scroller';
 import { BasicRecipeItem } from './BasicRecipeItem';
+import { LinearProgress } from '@mui/material';
 
 interface Props {
   recipes: Array<BasicRecipeItem>;
@@ -49,11 +50,7 @@ export default function RecipeTable({ recipes }: Props) {
         pageStart={0}
         loadMore={loadFunction()}
         hasMore={hasMore}
-        loader={
-          <div className="loader" key={0}>
-            Loading ...
-          </div>
-        }
+        loader={<LinearProgress sx={{ marginTop: '10px' }} />}
       >
         <Grid2 container spacing={2}>
           {recipeCards()}
