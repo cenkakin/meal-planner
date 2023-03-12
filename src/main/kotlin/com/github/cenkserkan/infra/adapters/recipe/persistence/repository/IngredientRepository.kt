@@ -8,6 +8,7 @@ import org.jooq.DSLContext
 class IngredientRepository(private val dslContext: DSLContext) {
     fun getIngredients(): List<Ingredient> {
         return dslContext.selectFrom(Tables.INGREDIENT)
+            .orderBy(Tables.INGREDIENT.NAME)
             .map { it.toIngredient() }
     }
 }
