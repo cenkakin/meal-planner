@@ -24,4 +24,8 @@ class RecipePersistenceAdapter(
     override fun getRecipeIngredients(id: UUID): List<RecipeIngredient> {
         return recipeIngredientsRepository.getRecipeIngredientsByRecipeId(id)
     }
+
+    override fun getRecipeInstructions(id: UUID): List<String> {
+        return recipeRepository.getInstructionsByRecipeId(id)
+    }
 }

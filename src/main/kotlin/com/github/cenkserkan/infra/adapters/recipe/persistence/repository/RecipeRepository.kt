@@ -50,6 +50,20 @@ class RecipeRepository(private val dslContext: DSLContext) {
             ?.toBasicRecipe(recipeImages)
     }
 
+    fun getInstructionsByRecipeId(id: UUID): List<String> {
+        return dslContext
+            .select(
+                RECIPE.INSTRUCTIONS
+            )
+            .from(RECIPE)
+            .where(RECIPE.ID.eq(id))
+            .fetch()
+            .flatMap {
+                it.component1().toList()
+            }
+
+    }
+
     private fun recipeImagesByRecipeId(id: UUID) = dslContext.selectFrom(RECIPE_IMAGE)
         .where(RECIPE_IMAGE.RECIPE_ID.eq(id))
         .fetch()

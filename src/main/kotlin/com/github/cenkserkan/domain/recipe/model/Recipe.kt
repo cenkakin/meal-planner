@@ -11,8 +11,8 @@ data class Recipe(
 ) {
 
     companion object {
-        fun from(basicRecipe: BasicRecipe, recipeIngredients: List<RecipeIngredient>): Recipe {
-            return Recipe(basicRecipe.id, basicRecipe.title, emptyList(), recipeIngredients, basicRecipe.recipeImages)
+        fun from(basicRecipe: BasicRecipe, instructions: List<String>, recipeIngredients: List<RecipeIngredient>): Recipe {
+            return Recipe(basicRecipe.id, basicRecipe.title, instructions, recipeIngredients, basicRecipe.recipeImages)
         }
     }
 }
