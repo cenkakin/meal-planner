@@ -32,7 +32,7 @@ class RecipeRepository(private val dslContext: DSLContext) {
         .fetch()
         .groupBy { it.recipeId }
 
-    fun getById(id: UUID): BasicRecipe? {
+    fun getBasicRecipeById(id: UUID): BasicRecipe? {
         val recipeImages = recipeImagesByRecipeId(id)
         return dslContext.select(
             RECIPE.ID,
@@ -43,8 +43,6 @@ class RecipeRepository(private val dslContext: DSLContext) {
             RECIPE.FSA_SALT,
         )
             .from(RECIPE)
-            .leftJoin(RECIPE_IMAGE.where())
-            .on(RECIPE.ID.eq(RECIPE_IMAGE.RECIPE_ID))
             .where(RECIPE.ID.eq(id))
             .fetchOne()
             ?.toBasicRecipe(recipeImages)
