@@ -6,5 +6,5 @@ data class BasicRecipe(
     val id: UUID,
     val title: String,
     val fsaLights: FSALights,
-    val recipeImages: List<String>?,
+    val recipeImages: List<String>?
 )

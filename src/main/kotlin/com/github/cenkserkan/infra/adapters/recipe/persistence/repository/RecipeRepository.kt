@@ -19,7 +19,7 @@ class RecipeRepository(private val dslContext: DSLContext) {
             RECIPE.FSA_FAT,
             RECIPE.FSA_SUGAR,
             RECIPE.FSA_SATURATED,
-            RECIPE.FSA_SALT,
+            RECIPE.FSA_SALT
         )
             .from(RECIPE)
             .where(RECIPE.ID.`in`(recipeIds))
@@ -40,7 +40,7 @@ class RecipeRepository(private val dslContext: DSLContext) {
             RECIPE.FSA_FAT,
             RECIPE.FSA_SUGAR,
             RECIPE.FSA_SATURATED,
-            RECIPE.FSA_SALT,
+            RECIPE.FSA_SALT
         )
             .from(RECIPE)
             .where(RECIPE.ID.eq(id))
@@ -59,7 +59,6 @@ class RecipeRepository(private val dslContext: DSLContext) {
             .flatMap {
                 it.component1().toList()
             }
-
     }
 
     private fun recipeImagesByRecipeId(id: UUID) = dslContext.selectFrom(RECIPE_IMAGE)
@@ -74,8 +73,8 @@ class RecipeRepository(private val dslContext: DSLContext) {
                 fsaFat = this.component3(),
                 fsaSugar = this.component4(),
                 fsaSaturated = this.component5(),
-                fsaSalt = this.component6(),
+                fsaSalt = this.component6()
             ),
-            recipeImages = recipeImageRecords?.sortedBy { it.priority }?.map { it.url },
+            recipeImages = recipeImageRecords?.sortedBy { it.priority }?.map { it.url }
         )
 }

@@ -8,7 +8,7 @@ data class RecipeResponse(
     val name: String,
     val recipeIngredients: List<RecipeIngredientResponse>,
     val instructions: List<String>,
-    val recipeImages: List<String>?,
+    val recipeImages: List<String>?
 ) {
 
     companion object {

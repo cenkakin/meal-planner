@@ -8,7 +8,7 @@ data class BasicRecipeResponse(
     val id: UUID,
     val title: String,
     val fsaLights: FSALights,
-    val recipeImages: List<String>?,
+    val recipeImages: List<String>?
 ) {
     companion object {
         fun from(recipe: BasicRecipe) = with(recipe) {
@@ -16,7 +16,7 @@ data class BasicRecipeResponse(
                 id = id,
                 title = title,
                 fsaLights = fsaLights,
-                recipeImages = recipeImages,
+                recipeImages = recipeImages
             )
         }
     }

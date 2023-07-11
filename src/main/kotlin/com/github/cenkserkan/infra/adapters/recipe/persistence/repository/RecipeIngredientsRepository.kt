@@ -45,7 +45,7 @@ class RecipeIngredientsRepository(private val dslContext: DSLContext) {
                     ),
                     quantity = it.component5(),
                     unit = it.component6(),
-                    weightInGram = it.component7(),
+                    weightInGram = it.component7()
                 )
             }
     }
