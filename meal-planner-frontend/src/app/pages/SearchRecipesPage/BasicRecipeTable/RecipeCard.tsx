@@ -102,7 +102,7 @@ export default function RecipeCard({ id, title, imageUrls, fsaLights }: Props) {
         </Grid2>
       </CardContent>
       <CardActions>
-        <Button onClick={() => navigate(`recipe/id/${id}`)} size="small">
+        <Button onClick={() => navigate(`recipe/${id}`)} size="small">
           See More
         </Button>
       </CardActions>

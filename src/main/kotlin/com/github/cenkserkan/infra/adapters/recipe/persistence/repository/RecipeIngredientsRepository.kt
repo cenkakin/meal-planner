@@ -25,8 +25,10 @@ class RecipeIngredientsRepository(private val dslContext: DSLContext) {
             RECIPE_INGREDIENT.RECIPE_ID,
             INGREDIENT.ID,
             INGREDIENT.NAME,
+            INGREDIENT.ENERGY,
             RECIPE_INGREDIENT.QUANTITY,
             RECIPE_INGREDIENT.UNIT,
+            RECIPE_INGREDIENT.WEIGHT_IN_GRAM
         )
             .from(RECIPE_INGREDIENT)
             .join(INGREDIENT)
@@ -39,9 +41,11 @@ class RecipeIngredientsRepository(private val dslContext: DSLContext) {
                     Ingredient(
                         id = it.component2(),
                         name = it.component3(),
+                        energy = it.component4()
                     ),
-                    quantity = it.component4(),
-                    unit = it.component5(),
+                    quantity = it.component5(),
+                    unit = it.component6(),
+                    weightInGram = it.component7()
                 )
             }
     }

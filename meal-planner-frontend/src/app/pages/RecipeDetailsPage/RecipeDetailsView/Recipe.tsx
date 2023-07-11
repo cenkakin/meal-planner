@@ -5,4 +5,6 @@ export interface Recipe {
   name: string;
   cuisine: string;
   recipeIngredients: RecipeIngredient[];
+  instructions: string[];
+  recipeImages: string[];
 }

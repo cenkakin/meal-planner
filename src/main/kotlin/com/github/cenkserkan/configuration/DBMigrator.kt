@@ -79,7 +79,7 @@ class DBMigrator(private val dslContext: DSLContext) {
         ingredientId: UUID?,
         weightPerIngr: Double,
         quantity: JSText,
-        unit: String,
+        unit: String
     ): RecipeIngredientRecord {
         return RecipeIngredientRecord().apply {
             this.recipeId = recipeId
@@ -136,7 +136,7 @@ class DBMigrator(private val dslContext: DSLContext) {
         val unit: List<JSText>,
         val url: String,
         @JsonProperty("weight_per_ingr")
-        val weightPerIngr: List<Double>,
+        val weightPerIngr: List<Double>
     )
 
     data class JSText(val text: String)
@@ -149,7 +149,7 @@ class DBMigrator(private val dslContext: DSLContext) {
         val pro: Double,
         val sat: Double,
         val sod: Double,
-        val sug: Double,
+        val sug: Double
     )
 
     data class NutritionPer100(
@@ -158,7 +158,7 @@ class DBMigrator(private val dslContext: DSLContext) {
         val protein: Double,
         val salt: Double,
         val saturates: Double,
-        val sugars: Double,
+        val sugars: Double
     )
 
     data class JSImage(val id: String, val images: List<Image>)
@@ -167,7 +167,7 @@ class DBMigrator(private val dslContext: DSLContext) {
 
     private fun String.createOrGetIngredient(
         nutritionPerIngredient: NutritionPerIngredient,
-        weightPerIngr: Double,
+        weightPerIngr: Double
     ): UUID? {
         val ingredientWithTags = this.split(", ")
         val name = if (ingredientWithTags.contains("pepper") && ingredientWithTags.size > 2) {

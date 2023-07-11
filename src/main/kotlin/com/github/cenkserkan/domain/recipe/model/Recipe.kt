@@ -7,12 +7,12 @@ data class Recipe(
     val title: String,
     val instructions: List<String>,
     val recipeIngredients: List<RecipeIngredient>,
-    val recipeImages: List<String>?,
+    val recipeImages: List<String>?
 ) {
 
     companion object {
-        fun from(basicRecipe: BasicRecipe, recipeIngredients: List<RecipeIngredient>): Recipe {
-            return Recipe(basicRecipe.id, basicRecipe.title, emptyList(), recipeIngredients, basicRecipe.recipeImages)
+        fun from(basicRecipe: BasicRecipe, instructions: List<String>, recipeIngredients: List<RecipeIngredient>): Recipe {
+            return Recipe(basicRecipe.id, basicRecipe.title, instructions, recipeIngredients, basicRecipe.recipeImages)
         }
     }
 }

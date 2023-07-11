@@ -11,4 +11,6 @@ interface RecipePort {
     fun getById(id: UUID): BasicRecipe?
 
     fun getRecipeIngredients(id: UUID): List<RecipeIngredient>
+
+    fun getRecipeInstructions(id: UUID): List<String>
 }

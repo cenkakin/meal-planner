@@ -18,8 +18,9 @@ class RecipeHandler(private val recipePort: RecipePort) : RecipeSearchUseCase, R
 
     override fun getRecipeById(id: UUID): Recipe {
         val basicRecipe = recipePort.getById(id) ?: throw RecipeNotFoundException(id)
+        val recipeInstructions = recipePort.getRecipeInstructions(id)
         val recipeIngredients = getRecipeIngredients(id)
-        return Recipe.from(basicRecipe, recipeIngredients)
+        return Recipe.from(basicRecipe, recipeInstructions, recipeIngredients)
     }
 
     private fun getRecipeIngredients(id: UUID): List<RecipeIngredient> {

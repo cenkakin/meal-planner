@@ -19,7 +19,7 @@ class RecipeRepository(private val dslContext: DSLContext) {
             RECIPE.FSA_FAT,
             RECIPE.FSA_SUGAR,
             RECIPE.FSA_SATURATED,
-            RECIPE.FSA_SALT,
+            RECIPE.FSA_SALT
         )
             .from(RECIPE)
             .where(RECIPE.ID.`in`(recipeIds))
@@ -32,7 +32,7 @@ class RecipeRepository(private val dslContext: DSLContext) {
         .fetch()
         .groupBy { it.recipeId }
 
-    fun getById(id: UUID): BasicRecipe? {
+    fun getBasicRecipeById(id: UUID): BasicRecipe? {
         val recipeImages = recipeImagesByRecipeId(id)
         return dslContext.select(
             RECIPE.ID,
@@ -40,14 +40,25 @@ class RecipeRepository(private val dslContext: DSLContext) {
             RECIPE.FSA_FAT,
             RECIPE.FSA_SUGAR,
             RECIPE.FSA_SATURATED,
-            RECIPE.FSA_SALT,
+            RECIPE.FSA_SALT
         )
             .from(RECIPE)
-            .leftJoin(RECIPE_IMAGE.where())
-            .on(RECIPE.ID.eq(RECIPE_IMAGE.RECIPE_ID))
             .where(RECIPE.ID.eq(id))
             .fetchOne()
             ?.toBasicRecipe(recipeImages)
+    }
+
+    fun getInstructionsByRecipeId(id: UUID): List<String> {
+        return dslContext
+            .select(
+                RECIPE.INSTRUCTIONS
+            )
+            .from(RECIPE)
+            .where(RECIPE.ID.eq(id))
+            .fetch()
+            .flatMap {
+                it.component1().toList()
+            }
     }
 
     private fun recipeImagesByRecipeId(id: UUID) = dslContext.selectFrom(RECIPE_IMAGE)
@@ -62,8 +73,8 @@ class RecipeRepository(private val dslContext: DSLContext) {
                 fsaFat = this.component3(),
                 fsaSugar = this.component4(),
                 fsaSaturated = this.component5(),
-                fsaSalt = this.component6(),
+                fsaSalt = this.component6()
             ),
-            recipeImages = recipeImageRecords?.sortedBy { it.priority }?.map { it.url },
+            recipeImages = recipeImageRecords?.sortedBy { it.priority }?.map { it.url }
         )
 }

@@ -20,14 +20,14 @@ import java.util.UUID
 @Validated
 class RecipeController(
     private val recipeSearchUseCase: RecipeSearchUseCase,
-    private val recipeRetrievalUseCase: RecipeRetrievalUseCase,
+    private val recipeRetrievalUseCase: RecipeRetrievalUseCase
 ) {
 
     @GetMapping("/search")
     fun searchByIngredients(
         @NotEmpty
         @RequestParam
-        ingredientIds: List<UUID>,
+        ingredientIds: List<UUID>
     ): ResponseEntity<BasicRecipeListResponse> {
         val recipes = recipeSearchUseCase.getByIngredients(ingredientIds)
         val recipeListResponse = BasicRecipeListResponse(recipes.map { BasicRecipeResponse.from(it) })

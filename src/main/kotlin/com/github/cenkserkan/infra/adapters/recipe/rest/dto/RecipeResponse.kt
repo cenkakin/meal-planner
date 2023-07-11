@@ -6,7 +6,9 @@ import java.util.UUID
 data class RecipeResponse(
     val id: UUID,
     val name: String,
-    val recipeIngredients: List<RecipeIngredientResponse>
+    val recipeIngredients: List<RecipeIngredientResponse>,
+    val instructions: List<String>,
+    val recipeImages: List<String>?
 ) {
 
     companion object {
@@ -14,7 +16,7 @@ data class RecipeResponse(
             val recipeIngredients = recipe.recipeIngredients.map {
                 RecipeIngredientResponse.from(it)
             }
-            return RecipeResponse(recipe.id, recipe.title, recipeIngredients)
+            return RecipeResponse(recipe.id, recipe.title, recipeIngredients, recipe.instructions, recipe.recipeImages)
         }
     }
 }
