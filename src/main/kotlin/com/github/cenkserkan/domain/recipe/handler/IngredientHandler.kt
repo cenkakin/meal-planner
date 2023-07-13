@@ -1,4 +1,4 @@
-package com.github.cenkserkan.domain.recipe
+package com.github.cenkserkan.domain.recipe.handler
 
 import com.github.cenkserkan.domain.recipe.model.Ingredient
 import com.github.cenkserkan.domain.recipe.port.IngredientPort
