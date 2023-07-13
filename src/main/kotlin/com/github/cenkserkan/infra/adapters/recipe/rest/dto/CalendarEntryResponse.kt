@@ -1,7 +1,6 @@
 package com.github.cenkserkan.infra.adapters.recipe.rest.dto
 
 import com.github.cenkserkan.domain.calendar.model.CalendarEntry
-import com.github.cenkserkan.domain.recipe.model.Recipe
 import java.time.LocalDate
 import java.util.UUID
 
@@ -17,5 +16,4 @@ data class CalendarEntryResponse(
             )
         }
     }
-
 }

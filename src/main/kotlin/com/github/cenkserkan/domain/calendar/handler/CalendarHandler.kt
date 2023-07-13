@@ -6,7 +6,7 @@ import com.github.cenkserkan.domain.calendar.usecase.AddCalendarEntryUseCase
 import com.github.cenkserkan.domain.calendar.usecase.GetCalendarEntriesUseCase
 import java.util.UUID
 
-class CalendarHandler(private val calendarPort: CalendarPort): AddCalendarEntryUseCase, GetCalendarEntriesUseCase {
+class CalendarHandler(private val calendarPort: CalendarPort) : AddCalendarEntryUseCase, GetCalendarEntriesUseCase {
     override fun addToCalendar(calendarId: UUID, entry: CalendarEntry) {
         calendarPort.addEntry(calendarId = calendarId, entry = entry)
     }

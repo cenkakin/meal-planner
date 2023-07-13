@@ -14,14 +14,13 @@ class CalendarRepository {
                 LocalDate.of(2023, 7, 13),
                 listOf(
                     UUID.fromString("900bd2c8-6502-400e-9135-049fbc9b0892"),
-                    UUID.fromString("d124d6bb-8cc9-4843-8f48-ee0948042803"),
-                    )
+                    UUID.fromString("d124d6bb-8cc9-4843-8f48-ee0948042803")
+                )
             )
         )
     )
 
     fun addEntry(calendarId: UUID = this.calendarId, entry: CalendarEntry) {
-
         if (inMemoryCalendarRepository[calendarId] == null) {
             inMemoryCalendarRepository[calendarId] = listOf(entry)
             return
