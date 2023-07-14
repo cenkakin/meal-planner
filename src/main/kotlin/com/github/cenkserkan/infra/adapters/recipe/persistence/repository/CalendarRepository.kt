@@ -8,8 +8,8 @@ import java.util.UUID
 
 class CalendarRepository {
     private val calendarId = UUID.fromString("73f6af82-ab5f-40da-9873-f9dc88129607")
-    private val inMemoryCalendarRepository = mutableMapOf<UUID, List<CalendarEntry>>(
-        calendarId to listOf(
+    private val inMemoryCalendarRepository = mutableMapOf<UUID, MutableList<CalendarEntry>>(
+        calendarId to mutableListOf(
             CalendarEntry(
                 LocalDate.of(2023, 7, 13),
                 listOf(
@@ -22,7 +22,7 @@ class CalendarRepository {
 
     fun addEntry(calendarId: UUID = this.calendarId, entry: CalendarEntry) {
         if (inMemoryCalendarRepository[calendarId] == null) {
-            inMemoryCalendarRepository[calendarId] = listOf(entry)
+            inMemoryCalendarRepository[calendarId] = mutableListOf(entry)
             return
         }
 
@@ -32,14 +32,14 @@ class CalendarRepository {
         if (existingEntry?.savedRecipes != null) {
             check(existingEntry.savedRecipes.size < 3) { throw RecipeLimitExceededException() }
             check(!existingEntry.savedRecipes.containsAll(entry.savedRecipes)) { throw BusinessValidationException("Recipe already exists!") }
-            inMemoryCalendarRepository[calendarId] = listOf(
+            inMemoryCalendarRepository[calendarId]!!.add(
                 CalendarEntry(
                     date = existingEntry.date,
                     savedRecipes = existingEntry.savedRecipes.union(entry.savedRecipes).toList()
                 )
             )
         } else {
-            inMemoryCalendarRepository[calendarId] = listOf(entry)
+            inMemoryCalendarRepository[calendarId]!!.add(entry)
         }
     }
 
