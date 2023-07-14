@@ -5,22 +5,33 @@ import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import { SearchRecipesPage } from './pages/SearchRecipesPage/Loadable';
 import { useTranslation } from 'react-i18next';
 import { RecipeDetailsPage } from './pages/RecipeDetailsPage/Loadable';
+import PermanentDrawerLeft from './common/component/PermanentLeftDrawer';
 
 export function App() {
   const { i18n } = useTranslation();
   return (
     <BrowserRouter>
       <Helmet
-        titleTemplate="%s - React Boilerplate"
-        defaultTitle="React Boilerplate"
+        titleTemplate="%s - Meal Planner"
+        defaultTitle="Meal Planner"
         htmlAttributes={{ lang: i18n.language }}
       >
         <meta name="description" content="A React Boilerplate application" />
       </Helmet>
-      <Routes>
-        <Route path="/" element={<SearchRecipesPage />} />
-        <Route path="/recipe/:recipeId" element={<RecipeDetailsPage />} />
-      </Routes>
+      <PermanentDrawerLeft
+        routes={
+          <Routes>
+            <Route
+              path="/"
+              element={<SearchRecipesPage title="Search Recipes" />}
+            />
+            <Route
+              path="/recipe/:recipeId"
+              element={<RecipeDetailsPage title="Recipe Details" />}
+            />
+          </Routes>
+        }
+      />
     </BrowserRouter>
   );
 }

@@ -8,7 +8,7 @@ import httpClient from '../../common/http-common';
 import { useParams } from 'react-router-dom';
 import { Recipe } from './RecipeDetailsView/Recipe';
 
-export function RecipeDetails() {
+export function RecipeDetails(props) {
   const [recipe, setRecipe] = useState<Recipe>();
   const { recipeId } = useParams();
 
@@ -39,7 +39,7 @@ export function RecipeDetails() {
       xs={10}
     >
       <Helmet>
-        <title>Recipe Details </title>
+        <title>{props.title}</title>
         <meta name="description" content="Discover recipes" />
       </Helmet>
       <Grid2 xs={8}>
@@ -50,15 +50,15 @@ export function RecipeDetails() {
               ingredient =>
                 (ingredient.weightInGram * ingredient.ingredient.energy) / 100,
             )
-            .reduce((prelim, a) => prelim + a, 0).toFixed(0)} Calories
+            .reduce((prelim, a) => prelim + a, 0)
+            .toFixed(0)}{' '}
+          Calories
         </h2>
         <ImageList variant={'quilted'} cols={5} gap={8}>
-          {recipe != null}  {recipe?.recipeImages.map(url => (
+          {recipe != null}{' '}
+          {recipe?.recipeImages.map(url => (
             <ImageListItem>
-              <img
-                src={url}
-                alt={""}
-              />
+              <img src={url} alt={''} />
             </ImageListItem>
           ))}
         </ImageList>
@@ -74,7 +74,8 @@ export function RecipeDetails() {
           <h3>Ingredients:</h3>
           {recipe?.recipeIngredients.map(ingredient => (
             <li key={ingredient.ingredient.id}>
-              {ingredient.ingredient.name} ({ingredient.quantity} {ingredient.unit})
+              {ingredient.ingredient.name} ({ingredient.quantity}{' '}
+              {ingredient.unit})
             </li>
           ))}
         </Grid2>

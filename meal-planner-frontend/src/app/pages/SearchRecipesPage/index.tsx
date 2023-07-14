@@ -6,7 +6,7 @@ import IngredientsAutoComplete from './IngredientsAutoComplete';
 import BasicRecipeTable from './BasicRecipeTable';
 import { BasicRecipeItem } from './BasicRecipeTable/BasicRecipeItem';
 
-export function SearchRecipes() {
+export function SearchRecipes(props) {
   const [basicRecipes, setBasicRecipes] = useState<Array<BasicRecipeItem>>([]);
 
   async function onBasicRecipesChange(recipes) {
@@ -32,7 +32,7 @@ export function SearchRecipes() {
       spacing={5}
     >
       <Helmet>
-        <title>Search Recipes</title>
+        <title>{props.title}</title>
         <meta name="description" content="Find your recipes" />
       </Helmet>
       <Grid2 xs={4}>
