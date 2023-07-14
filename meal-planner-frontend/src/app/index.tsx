@@ -5,6 +5,7 @@ import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import { SearchRecipesPage } from './pages/SearchRecipesPage/Loadable';
 import { useTranslation } from 'react-i18next';
 import { RecipeDetailsPage } from './pages/RecipeDetailsPage/Loadable';
+import { CalendarPage } from './pages/CalendarPage/Loadable';
 import PermanentDrawerLeft from './common/component/PermanentLeftDrawer';
 
 export function App() {
@@ -28,6 +29,10 @@ export function App() {
             <Route
               path="/recipe/:recipeId"
               element={<RecipeDetailsPage title="Recipe Details" />}
+            />
+            <Route
+              path="/calendar/:calendarId"
+              element={<CalendarPage title="Calendar" />}
             />
           </Routes>
         }
