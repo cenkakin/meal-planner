@@ -11,8 +11,10 @@ import ListItemButton from '@mui/material/ListItemButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
 import RestaurantIcon from '@mui/icons-material/Restaurant';
+import CalendarIcon from '@mui/icons-material/CalendarToday';
 import { useNavigate } from 'react-router-dom';
 import { Avatar, IconButton, Tooltip } from '@mui/material';
+import { CalendarToday } from '@mui/icons-material';
 
 const drawerWidth = 240;
 
@@ -53,16 +55,23 @@ export default function PermanentDrawerLeft(props) {
         anchor="left"
       >
         <List>
-          {props.routes.props.children.map(child => (
-            <ListItem key={child.props.path} disablePadding>
-              <ListItemButton onClick={() => navigate(child.props.path)}>
-                <ListItemIcon>
-                  <RestaurantIcon />
-                </ListItemIcon>
-                <ListItemText primary={child.props.element.props.title} />
-              </ListItemButton>
-            </ListItem>
-          ))}
+          {props.routes.props.children.map(
+            child =>
+              child.props.element.props.title != 'Recipe Details' && (
+                <ListItem key={child.props.path} disablePadding>
+                  <ListItemButton onClick={() => navigate(child.props.path)}>
+                    <ListItemIcon>
+                      {child.props.element.props.title != 'Calendar' ? (
+                        <RestaurantIcon />
+                      ) : (
+                        <CalendarIcon />
+                      )}
+                    </ListItemIcon>
+                    <ListItemText primary={child.props.element.props.title} />
+                  </ListItemButton>
+                </ListItem>
+              ),
+          )}
         </List>
       </Drawer>
       <Box
