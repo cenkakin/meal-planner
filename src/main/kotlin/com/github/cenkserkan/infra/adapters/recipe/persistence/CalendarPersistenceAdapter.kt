@@ -6,11 +6,11 @@ import com.github.cenkserkan.infra.adapters.recipe.persistence.repository.Calend
 import java.util.UUID
 
 class CalendarPersistenceAdapter(private val calendarRepository: CalendarRepository) : CalendarPort {
-    override fun getEntries(calendarId: UUID): List<CalendarEntry> {
+    override fun getEntries(userId: UUID): List<CalendarEntry> {
         return calendarRepository.getEntries()
     }
 
-    override fun addEntry(calendarId: UUID, entry: CalendarEntry) {
-        calendarRepository.addEntry(entry = entry)
+    override fun addEntries(entries: List<CalendarEntry>) {
+        calendarRepository.addEntries(entries = entries)
     }
 }

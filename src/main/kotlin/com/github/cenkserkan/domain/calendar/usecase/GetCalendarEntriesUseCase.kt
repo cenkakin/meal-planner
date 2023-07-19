@@ -4,5 +4,5 @@ import com.github.cenkserkan.domain.calendar.model.CalendarEntry
 import java.util.UUID
 
 interface GetCalendarEntriesUseCase {
-    fun getCalendarEntries(calendarId: UUID): List<CalendarEntry>
+    fun getCalendarEntries(userId: UUID): List<CalendarEntry>
 }

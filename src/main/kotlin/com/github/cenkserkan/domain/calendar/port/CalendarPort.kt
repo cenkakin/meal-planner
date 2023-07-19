@@ -5,7 +5,7 @@ import java.util.UUID
 
 interface CalendarPort {
 
-    fun getEntries(calendarId: UUID): List<CalendarEntry>
+    fun getEntries(userId: UUID): List<CalendarEntry>
 
-    fun addEntry(calendarId: UUID, entry: CalendarEntry)
+    fun addEntries(entries: List<CalendarEntry>)
 }

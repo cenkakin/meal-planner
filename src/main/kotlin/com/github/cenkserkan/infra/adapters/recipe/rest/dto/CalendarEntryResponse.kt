@@ -6,13 +6,13 @@ import java.util.UUID
 
 data class CalendarEntryResponse(
     val date: LocalDate,
-    val entries: List<UUID>
+    val recipeId: UUID
 ) {
     companion object {
         fun from(entry: CalendarEntry): CalendarEntryResponse {
             return CalendarEntryResponse(
                 date = entry.date,
-                entries = entry.savedRecipes
+                recipeId = entry.recipeId
             )
         }
     }
