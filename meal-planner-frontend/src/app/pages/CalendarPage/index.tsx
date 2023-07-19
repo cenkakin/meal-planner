@@ -27,33 +27,25 @@ export function Calendar(props) {
       const { data: response } = await httpClient.get(
         '/calendar/' + calendarId,
       );
-      const calendarPlain = response.calendar.map(entry => {
-        return {
-          date: entry.date,
-          entries: entry.entries,
-        };
-      });
+      const calendarPlain = response.calendar;
 
       await Promise.all(
         calendarPlain.map(async entry => {
-          const recipes = await Promise.all(
-            entry.entries.map(async recipeId => {
-              const { data: response } = await httpClient.get(
-                '/recipe/' + recipeId,
-              );
-              return {
-                id: response.id,
-                name: response.name,
-                cuisine: response.cuisine,
-                recipeIngredients: response.recipeIngredients,
-                instructions: response.instructions,
-                recipeImages: response.recipeImages,
-              };
-            }),
+          const { data: response } = await httpClient.get(
+            '/recipe/' + entry.recipeId,
           );
+          const recipe = {
+            id: response.id,
+            name: response.name,
+            cuisine: response.cuisine,
+            recipeIngredients: response.recipeIngredients,
+            instructions: response.instructions,
+            recipeImages: response.recipeImages,
+          };
+
           return {
             date: entry.date,
-            entries: recipes,
+            recipe: recipe,
           };
         }),
       ).then(response => setCalendar(response as [CalendarEntry]));
@@ -80,10 +72,10 @@ export function Calendar(props) {
     );
   }
 
-  function createMealList(entries) {
+  function createMealList(recipes) {
     return (
       <List>
-        {entries.map(recipe => (
+        {recipes.map(recipe => (
           <ListItem>
             <ListItemText
               primary={recipe.name}
@@ -117,19 +109,29 @@ export function Calendar(props) {
             </TableRow>
           </TableHead>
           <TableBody>
-            {calendar?.map(entry => (
-              <TableRow>
-                <TableCell width="25%" align="left">
-                  {entry.date}
-                </TableCell>
-                <TableCell width="50%" align="left">
-                  {createMealList(entry.entries)}
-                </TableCell>
-                <TableCell width="25%" align="left">
-                  {calculateTotalCalories(entry.entries)}
-                </TableCell>
-              </TableRow>
-            ))}
+            {Array.from(new Set<string>(calendar?.map(x => x.date))).map(
+              date => (
+                <TableRow>
+                  <TableCell width="25%" align="left">
+                    {date}
+                  </TableCell>
+                  <TableCell width="50%" align="left">
+                    {createMealList(
+                      calendar
+                        ?.filter(entry => entry.date == date)
+                        .flatMap(entry => entry.recipe),
+                    )}
+                  </TableCell>
+                  <TableCell width="25%" align="left">
+                    {calculateTotalCalories(
+                      calendar
+                        ?.filter(entry => entry.date == date)
+                        .flatMap(entry => entry.recipe),
+                    )}
+                  </TableCell>
+                </TableRow>
+              ),
+            )}
           </TableBody>
         </Table>
       </TableContainer>
