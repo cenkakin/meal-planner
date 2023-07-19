@@ -5,9 +5,14 @@ import Grid2 from '@mui/material/Unstable_Grid2';
 import IngredientsAutoComplete from './IngredientsAutoComplete';
 import BasicRecipeTable from './BasicRecipeTable';
 import { BasicRecipeItem } from './BasicRecipeTable/BasicRecipeItem';
+import { DatePicker } from '@mui/x-date-pickers';
+import dayjs, { Dayjs } from 'dayjs';
+
+// import DatePicker from "./DatePicker";
 
 export function SearchRecipes(props) {
   const [basicRecipes, setBasicRecipes] = useState<Array<BasicRecipeItem>>([]);
+  const [selectedDate, setSelectedDate] = useState<Dayjs>(dayjs());
 
   async function onBasicRecipesChange(recipes) {
     setBasicRecipes(
@@ -35,8 +40,18 @@ export function SearchRecipes(props) {
         <title>{props.title}</title>
         <meta name="description" content="Find your recipes" />
       </Helmet>
-      <Grid2 xs={4}>
-        <IngredientsAutoComplete onBasicRecipesChange={onBasicRecipesChange} />
+      <Grid2 xs={10} container>
+        <Grid2 xs={6}>
+          <IngredientsAutoComplete
+            onBasicRecipesChange={onBasicRecipesChange}
+          />
+        </Grid2>
+        <Grid2 xs={4}>
+          <DatePicker
+            value={selectedDate}
+            onChange={newValue => setSelectedDate(dayjs(newValue))}
+          />
+        </Grid2>
       </Grid2>
       <Grid2 xs={10}>
         {basicRecipes.length > 0 && <BasicRecipeTable recipes={basicRecipes} />}
