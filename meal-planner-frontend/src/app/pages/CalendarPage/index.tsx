@@ -17,10 +17,12 @@ import {
   TableRow,
 } from '@mui/material';
 import Paper from '@mui/material/Paper';
+import { useNavigate } from 'react-router-dom';
 
 export function Calendar(props) {
-  const [calendar, setCalendar] = useState<[CalendarEntry]>();
+  const [calendar, setCalendar] = useState<CalendarEntry[]>();
   const calendarId = '73f6af82-ab5f-40da-9873-f9dc88129607';
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchCalendar = async () => {
@@ -48,7 +50,7 @@ export function Calendar(props) {
             recipe: recipe,
           };
         }),
-      ).then(response => setCalendar(response as [CalendarEntry]));
+      ).then(response => setCalendar(response as CalendarEntry[]));
     };
     fetchCalendar();
   }, [calendarId]);
@@ -76,7 +78,7 @@ export function Calendar(props) {
     return (
       <List>
         {recipes.map(recipe => (
-          <ListItem>
+          <ListItem onClick={() => navigate(`../recipe/${recipe.id}`)}>
             <ListItemText
               primary={recipe.name}
               secondary={calculateTotalCalories([recipe])}
