@@ -18,12 +18,16 @@ import Grid2 from '@mui/material/Unstable_Grid2';
 import PlaceholderImage from '../../../assets/recipe-placeholder.jpg';
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
+import CheckBoxIcon from '@mui/icons-material/CheckBox';
+import CheckBoxOutlineBlankIcon from '@mui/icons-material/CheckBoxOutlineBlank';
+import { useState } from 'react';
 
 interface Props {
   id: string;
   title: string;
   imageUrls: Array<string>;
   fsaLights: FSALights;
+  handleClick: Function;
 }
 
 function getColor(light: string): 'fsaGreen' | 'fsaRed' | 'fsaOrange' {
@@ -31,8 +35,20 @@ function getColor(light: string): 'fsaGreen' | 'fsaRed' | 'fsaOrange' {
   return `fsa${light[0].toUpperCase()}${light.slice(1)}`;
 }
 
-export default function RecipeCard({ id, title, imageUrls, fsaLights }: Props) {
+export default function RecipeCard({
+  id,
+  title,
+  imageUrls,
+  fsaLights,
+  handleClick,
+}: Props) {
   const navigate = useNavigate();
+  const [selected, setSelected] = useState<boolean>(false);
+
+  function handleCardClicked() {
+    setSelected(!selected);
+    handleClick(id);
+  }
 
   function renderImages() {
     if (imageUrls && imageUrls.length > 1) {
@@ -101,10 +117,13 @@ export default function RecipeCard({ id, title, imageUrls, fsaLights }: Props) {
           </Stack>
         </Grid2>
       </CardContent>
-      <CardActions>
+      <CardActions sx={{ justifyContent: 'space-between' }}>
         <Button onClick={() => navigate(`recipe/${id}`)} size="small">
           See More
         </Button>
+        <IconButton aria-label="add to favorites" onClick={handleCardClicked}>
+          {selected ? <CheckBoxIcon /> : <CheckBoxOutlineBlankIcon />}
+        </IconButton>
       </CardActions>
     </Card>
   );
