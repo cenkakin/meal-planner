@@ -4,13 +4,18 @@
 package com.github.cenkserkan.infra.adapters.generated;
 
 
+import com.github.cenkserkan.infra.adapters.generated.tables.Calendar;
 import com.github.cenkserkan.infra.adapters.generated.tables.Ingredient;
 import com.github.cenkserkan.infra.adapters.generated.tables.Recipe;
 import com.github.cenkserkan.infra.adapters.generated.tables.RecipeImage;
+import com.github.cenkserkan.infra.adapters.generated.tables.User;
+import com.github.cenkserkan.infra.adapters.generated.tables.records.CalendarRecord;
 import com.github.cenkserkan.infra.adapters.generated.tables.records.IngredientRecord;
 import com.github.cenkserkan.infra.adapters.generated.tables.records.RecipeImageRecord;
 import com.github.cenkserkan.infra.adapters.generated.tables.records.RecipeRecord;
+import com.github.cenkserkan.infra.adapters.generated.tables.records.UserRecord;
 
+import org.jooq.ForeignKey;
 import org.jooq.TableField;
 import org.jooq.UniqueKey;
 import org.jooq.impl.DSL;
@@ -28,8 +33,19 @@ public class Keys {
     // UNIQUE and PRIMARY KEY definitions
     // -------------------------------------------------------------------------
 
+    public static final UniqueKey<CalendarRecord> CALENDAR_PKEY = Internal.createUniqueKey(Calendar.CALENDAR, DSL.name("calendar_pkey"), new TableField[] { Calendar.CALENDAR.ID }, true);
     public static final UniqueKey<IngredientRecord> INGREDIENT_NAME_KEY = Internal.createUniqueKey(Ingredient.INGREDIENT, DSL.name("ingredient_name_key"), new TableField[] { Ingredient.INGREDIENT.NAME }, true);
     public static final UniqueKey<IngredientRecord> INGREDIENT_PKEY = Internal.createUniqueKey(Ingredient.INGREDIENT, DSL.name("ingredient_pkey"), new TableField[] { Ingredient.INGREDIENT.ID }, true);
     public static final UniqueKey<RecipeRecord> RECIPE_PKEY = Internal.createUniqueKey(Recipe.RECIPE, DSL.name("recipe_pkey"), new TableField[] { Recipe.RECIPE.ID }, true);
-    public static final UniqueKey<RecipeImageRecord> RECIPE_IMAGE_PKEY = Internal.createUniqueKey(RecipeImage.RECIPE_IMAGE, DSL.name("recipe_image_pkey"), new TableField[] { RecipeImage.RECIPE_IMAGE.RECIPE_ID, RecipeImage.RECIPE_IMAGE.URL }, true);
+    public static final UniqueKey<RecipeImageRecord> RECIPE_IMAGE_PKEY = Internal.createUniqueKey(RecipeImage.RECIPE_IMAGE, DSL.name("recipe_image_pkey"), new TableField[] { RecipeImage.RECIPE_IMAGE.ID }, true);
+    public static final UniqueKey<RecipeImageRecord> RECIPE_IMAGE_RECIPE_ID_URL_KEY = Internal.createUniqueKey(RecipeImage.RECIPE_IMAGE, DSL.name("recipe_image_recipe_id_url_key"), new TableField[] { RecipeImage.RECIPE_IMAGE.RECIPE_ID, RecipeImage.RECIPE_IMAGE.URL }, true);
+    public static final UniqueKey<UserRecord> USER_EMAIL_KEY = Internal.createUniqueKey(User.USER, DSL.name("user_email_key"), new TableField[] { User.USER.EMAIL }, true);
+    public static final UniqueKey<UserRecord> USER_PKEY = Internal.createUniqueKey(User.USER, DSL.name("user_pkey"), new TableField[] { User.USER.ID }, true);
+    public static final UniqueKey<UserRecord> USER_USER_NAME_KEY = Internal.createUniqueKey(User.USER, DSL.name("user_user_name_key"), new TableField[] { User.USER.USER_NAME }, true);
+
+    // -------------------------------------------------------------------------
+    // FOREIGN KEY definitions
+    // -------------------------------------------------------------------------
+
+    public static final ForeignKey<CalendarRecord, UserRecord> CALENDAR__FK_USER_ID = Internal.createForeignKey(Calendar.CALENDAR, DSL.name("fk_user_id"), new TableField[] { Calendar.CALENDAR.USER_ID }, Keys.USER_PKEY, new TableField[] { User.USER.ID }, true);
 }

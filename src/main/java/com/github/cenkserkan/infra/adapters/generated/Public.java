@@ -4,10 +4,12 @@
 package com.github.cenkserkan.infra.adapters.generated;
 
 
+import com.github.cenkserkan.infra.adapters.generated.tables.Calendar;
 import com.github.cenkserkan.infra.adapters.generated.tables.Ingredient;
 import com.github.cenkserkan.infra.adapters.generated.tables.Recipe;
 import com.github.cenkserkan.infra.adapters.generated.tables.RecipeImage;
 import com.github.cenkserkan.infra.adapters.generated.tables.RecipeIngredient;
+import com.github.cenkserkan.infra.adapters.generated.tables.User;
 
 import java.util.Arrays;
 import java.util.List;
@@ -31,6 +33,11 @@ public class Public extends SchemaImpl {
     public static final Public PUBLIC = new Public();
 
     /**
+     * The table <code>public.calendar</code>.
+     */
+    public final Calendar CALENDAR = Calendar.CALENDAR;
+
+    /**
      * The table <code>public.ingredient</code>.
      */
     public final Ingredient INGREDIENT = Ingredient.INGREDIENT;
@@ -51,6 +58,11 @@ public class Public extends SchemaImpl {
     public final RecipeIngredient RECIPE_INGREDIENT = RecipeIngredient.RECIPE_INGREDIENT;
 
     /**
+     * The table <code>public.user</code>.
+     */
+    public final User USER = User.USER;
+
+    /**
      * No further instances allowed
      */
     private Public() {
@@ -66,10 +78,12 @@ public class Public extends SchemaImpl {
     @Override
     public final List<Table<?>> getTables() {
         return Arrays.asList(
+            Calendar.CALENDAR,
             Ingredient.INGREDIENT,
             Recipe.RECIPE,
             RecipeImage.RECIPE_IMAGE,
-            RecipeIngredient.RECIPE_INGREDIENT
+            RecipeIngredient.RECIPE_INGREDIENT,
+            User.USER
         );
     }
 }
