@@ -6,13 +6,15 @@ import com.github.cenkserkan.domain.recipe.handler.IngredientHandler
 import com.github.cenkserkan.domain.recipe.handler.RecipeHandler
 import com.github.cenkserkan.domain.recipe.port.IngredientPort
 import com.github.cenkserkan.domain.recipe.port.RecipePort
-import com.github.cenkserkan.infra.adapters.recipe.persistence.CalendarPersistenceAdapter
-import com.github.cenkserkan.infra.adapters.recipe.persistence.IngredientPersistenceAdapter
-import com.github.cenkserkan.infra.adapters.recipe.persistence.RecipePersistenceAdapter
+import com.github.cenkserkan.infra.adapters.recipe.persistence.adapter.CalendarPersistenceAdapter
+import com.github.cenkserkan.infra.adapters.recipe.persistence.adapter.IngredientPersistenceAdapter
+import com.github.cenkserkan.infra.adapters.recipe.persistence.adapter.RecipePersistenceAdapter
+import com.github.cenkserkan.infra.adapters.recipe.persistence.adapter.UserPersistenceAdapter
 import com.github.cenkserkan.infra.adapters.recipe.persistence.repository.CalendarRepository
 import com.github.cenkserkan.infra.adapters.recipe.persistence.repository.IngredientRepository
 import com.github.cenkserkan.infra.adapters.recipe.persistence.repository.RecipeIngredientsRepository
 import com.github.cenkserkan.infra.adapters.recipe.persistence.repository.RecipeRepository
+import com.github.cenkserkan.infra.adapters.recipe.persistence.repository.UserRepository
 import org.jooq.DSLContext
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
@@ -49,5 +51,10 @@ class MealPlannerConfiguration {
     @Bean
     fun calendarHandler(calendarPort: CalendarPort): CalendarHandler {
         return CalendarHandler(calendarPort)
+    }
+
+    @Bean
+    fun userPersistenceAdapter(dslContext: DSLContext): UserPersistenceAdapter {
+        return UserPersistenceAdapter(UserRepository(dslContext))
     }
 }
