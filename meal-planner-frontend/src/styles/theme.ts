@@ -48,4 +48,10 @@ declare module '@mui/material/Chip' {
     fsaOrange: true;
   }
 }
+
+declare module '@mui/material/Button' {
+  interface ButtonPropsColorOverrides {
+    fsaGreen: true;
+  }
+}
 export default theme;

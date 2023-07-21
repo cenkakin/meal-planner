@@ -8,11 +8,12 @@ import { LinearProgress } from '@mui/material';
 
 interface Props {
   recipes: Array<BasicRecipeItem>;
+  handleClick: Function;
 }
 
 const ITEMS_PER_PAGE = 28;
 
-export default function RecipeTable({ recipes }: Props) {
+export default function RecipeTable({ recipes, handleClick }: Props) {
   const [page, setPage] = useState(0);
   const [items, setItems] = useState<Array<BasicRecipeItem>>([]);
 
@@ -30,6 +31,7 @@ export default function RecipeTable({ recipes }: Props) {
           title={recipe.title}
           imageUrls={recipe.recipeImages}
           fsaLights={recipe.fsaLights}
+          handleClick={handleClick}
         />
       </Grid2>
     ));
@@ -50,7 +52,7 @@ export default function RecipeTable({ recipes }: Props) {
         pageStart={0}
         loadMore={loadFunction()}
         hasMore={hasMore}
-        loader={<LinearProgress sx={{ marginTop: '10px' }} />}
+        loader={<LinearProgress key={'key'} sx={{ marginTop: '10px' }} />}
       >
         <Grid2 container spacing={2}>
           {recipeCards()}

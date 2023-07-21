@@ -1,4 +1,4 @@
-package com.github.cenkserkan.domain.recipe
+package com.github.cenkserkan.domain.recipe.handler
 
 import com.github.cenkserkan.domain.recipe.model.BasicRecipe
 import com.github.cenkserkan.domain.recipe.model.Recipe
