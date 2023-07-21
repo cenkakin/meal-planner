@@ -1,4 +1,4 @@
-package com.github.cenkserkan.infra.adapters.recipe.persistence
+package com.github.cenkserkan.infra.adapters.recipe.persistence.adapter
 
 import com.github.cenkserkan.domain.recipe.model.Ingredient
 import com.github.cenkserkan.domain.recipe.port.IngredientPort
