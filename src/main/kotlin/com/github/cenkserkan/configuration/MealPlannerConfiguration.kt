@@ -6,6 +6,9 @@ import com.github.cenkserkan.domain.recipe.handler.IngredientHandler
 import com.github.cenkserkan.domain.recipe.handler.RecipeHandler
 import com.github.cenkserkan.domain.recipe.port.IngredientPort
 import com.github.cenkserkan.domain.recipe.port.RecipePort
+import com.github.cenkserkan.domain.userAuth.handler.UserAuthHandler
+import com.github.cenkserkan.domain.userAuth.port.UserAuthPort
+import com.github.cenkserkan.domain.userAuth.service.UserDetailsService
 import com.github.cenkserkan.infra.adapters.recipe.persistence.adapter.CalendarPersistenceAdapter
 import com.github.cenkserkan.infra.adapters.recipe.persistence.adapter.IngredientPersistenceAdapter
 import com.github.cenkserkan.infra.adapters.recipe.persistence.adapter.RecipePersistenceAdapter
@@ -15,9 +18,14 @@ import com.github.cenkserkan.infra.adapters.recipe.persistence.repository.Ingred
 import com.github.cenkserkan.infra.adapters.recipe.persistence.repository.RecipeIngredientsRepository
 import com.github.cenkserkan.infra.adapters.recipe.persistence.repository.RecipeRepository
 import com.github.cenkserkan.infra.adapters.recipe.persistence.repository.UserRepository
+import com.github.cenkserkan.util.JwtUtils
 import org.jooq.DSLContext
+import org.springframework.beans.factory.annotation.Value
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
+import org.springframework.security.authentication.AuthenticationManager
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
+import org.springframework.security.crypto.password.PasswordEncoder
 
 @Configuration
 class MealPlannerConfiguration {
@@ -56,5 +64,49 @@ class MealPlannerConfiguration {
     @Bean
     fun userPersistenceAdapter(dslContext: DSLContext): UserPersistenceAdapter {
         return UserPersistenceAdapter(UserRepository(dslContext))
+    }
+
+    @Bean
+    fun userAuthHandler(
+        userAuthPort: UserAuthPort,
+        authenticationManager: AuthenticationManager,
+        jwtUtils: JwtUtils,
+        encoder: PasswordEncoder
+    ): UserAuthHandler {
+        return UserAuthHandler(
+            userAuthPort = userAuthPort,
+            authenticationManager = authenticationManager,
+            jwtUtils = jwtUtils,
+            encoder = encoder
+        )
+    }
+
+    @Bean
+    fun userDetailsService(userAuthPort: UserAuthPort): UserDetailsService {
+        return UserDetailsService(userAuthPort = userAuthPort)
+    }
+
+    @Bean
+    fun jwtUtils(
+        @Value("\${mealplanner.app.jwtSecret}")
+        jwtSecret: String,
+
+        @Value("\${mealplanner.app.jwtExpirationMs}")
+        jwtExpirationMs: Long,
+
+        @Value("\${mealplanner.app.jwtCookieName}")
+        jwtCookie: String
+    ): JwtUtils {
+        return JwtUtils(jwtSecret = jwtSecret, jwtExpirationMs = jwtExpirationMs, jwtCookie = jwtCookie)
+    }
+
+    @Bean
+    fun authTokenFilter(): AuthEntryPointJwt {
+        return AuthEntryPointJwt()
+    }
+
+    @Bean
+    fun passwordEncoder(): PasswordEncoder? {
+        return BCryptPasswordEncoder()
     }
 }
