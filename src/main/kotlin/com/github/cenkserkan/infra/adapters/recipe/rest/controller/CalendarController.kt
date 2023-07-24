@@ -1,6 +1,7 @@
 package com.github.cenkserkan.infra.adapters.recipe.rest.controller
 
 import com.github.cenkserkan.domain.calendar.usecase.GetCalendarEntriesUseCase
+import com.github.cenkserkan.domain.calendar.usecase.RecipeLimitExceededException
 import com.github.cenkserkan.domain.calendar.usecase.SaveCalendarEntriesUseCase
 import com.github.cenkserkan.infra.adapters.recipe.rest.dto.CalendarEntryListResponse
 import com.github.cenkserkan.infra.adapters.recipe.rest.dto.CalendarEntryRequest
@@ -15,7 +16,6 @@ import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
 import java.util.UUID
-import javax.naming.LimitExceededException
 
 @RestController
 @RequestMapping("/v1/calendar")
@@ -40,7 +40,7 @@ class CalendarController(
     fun addCalendarEntries(@RequestBody request: CalendarEntryRequest): ResponseEntity<String> {
         try {
             addCalendarEntryUseCase.saveCalendarEntries(entries = request.entries)
-        } catch (exception: LimitExceededException) {
+        } catch (exception: RecipeLimitExceededException) {
             return ResponseEntity.internalServerError().body(exception.message)
         }
         return ResponseEntity.ok("Entry added to calendar")
