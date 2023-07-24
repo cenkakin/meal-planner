@@ -18,7 +18,7 @@ import { CalendarToday } from '@mui/icons-material';
 
 const drawerWidth = 240;
 
-export default function PermanentDrawerLeft(props) {
+export default function LeftMenuWithNavigation(props) {
   const navigate = useNavigate();
 
   return (
@@ -55,31 +55,19 @@ export default function PermanentDrawerLeft(props) {
         anchor="left"
       >
         <List>
-          {props.routes.props.children.map(
-            child =>
-              child.props.element.props.title != 'Recipe Details' && (
-                <ListItem key={child.props.path} disablePadding>
-                  <ListItemButton onClick={() => navigate(child.props.path)}>
-                    <ListItemIcon>
-                      {child.props.element.props.title != 'Calendar' ? (
-                        <RestaurantIcon />
-                      ) : (
-                        <CalendarIcon />
-                      )}
-                    </ListItemIcon>
-                    <ListItemText primary={child.props.element.props.title} />
+          {props.routes.map(
+            route =>
+              route.render && (
+                <ListItem key={route.key} disablePadding>
+                  <ListItemButton onClick={() => navigate(route.path)}>
+                    <ListItemIcon>{route.icon}</ListItemIcon>
+                    <ListItemText primary={route.title} />
                   </ListItemButton>
                 </ListItem>
               ),
           )}
         </List>
       </Drawer>
-      <Box
-        component="main"
-        sx={{ flexGrow: 1, bgcolor: 'background.default', p: 3 }}
-      >
-        {props.routes}
-      </Box>
     </Box>
   );
 }
