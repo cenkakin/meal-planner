@@ -1,34 +1,26 @@
 package com.github.cenkserkan.infra.adapters.recipe.persistence.repository
 
 import com.github.cenkserkan.domain.calendar.model.CalendarEntry
-import java.time.LocalDate
+import com.github.cenkserkan.infra.adapters.generated.Tables.CALENDAR
+import org.jooq.DSLContext
 import java.util.UUID
 
-class CalendarRepository {
-    private val userId = UUID.fromString("73f6af82-ab5f-40da-9873-f9dc88129607")
-    private val inMemoryCalendarRepository = mutableListOf<CalendarEntry>(
-
-        CalendarEntry(
-            UUID.randomUUID(),
-            UUID.fromString("73f6af82-ab5f-40da-9873-f9dc88129607"),
-            LocalDate.of(2023, 7, 13),
-            UUID.fromString("d124d6bb-8cc9-4843-8f48-ee0948042803")
-        ),
-        CalendarEntry(
-            UUID.randomUUID(),
-            UUID.fromString("73f6af82-ab5f-40da-9873-f9dc88129607"),
-            LocalDate.of(2023, 7, 13),
-            UUID.fromString("21ef68f2-7ab5-486a-a1ad-2d7ab05757d4")
-
-        )
-
-    )
+class CalendarRepository(private val dslContext: DSLContext) {
 
     fun addEntries(entries: List<CalendarEntry>) {
-        entries.forEach { entry -> inMemoryCalendarRepository.add(entry) }
+        val insertStep = dslContext.insertInto(CALENDAR)
+            .columns(CALENDAR.USER_ID, CALENDAR.DATE, CALENDAR.RECIPE_ID)
+        entries.map {
+            insertStep.values(it.userId, it.date, it.recipeId)
+        }
+        insertStep
+            .returning()
+            .fetch()
     }
 
-    fun getEntries(userId: UUID = this.userId): List<CalendarEntry> {
-        return inMemoryCalendarRepository.filter { it.userId == userId }
+    fun getEntries(userId: UUID): List<CalendarEntry> {
+        return dslContext.selectFrom(CALENDAR)
+            .where(CALENDAR.USER_ID.eq(userId))
+            .fetchInto(CalendarEntry::class.java)
     }
 }
