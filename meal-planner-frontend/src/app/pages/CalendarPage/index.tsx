@@ -19,14 +19,12 @@ import PageWithMenu from '../../common/component/PageWithMenu';
 
 export function Calendar(props) {
   const [calendar, setCalendar] = useState<CalendarEntry[]>();
-  const calendarId = '73f6af82-ab5f-40da-9873-f9dc88129607';
+  const userId = 'd0aaf316-21dd-433c-912e-d8fa32cbb7f9';
   const navigate = useNavigate();
 
   useEffect(() => {
     const fetchCalendar = async () => {
-      const { data: response } = await httpClient.get(
-        '/calendar/' + calendarId,
-      );
+      const { data: response } = await httpClient.get('/calendar/' + userId);
       const calendarPlain = response.calendar;
 
       await Promise.all(
@@ -51,7 +49,7 @@ export function Calendar(props) {
       ).then(response => setCalendar(response as CalendarEntry[]));
     };
     fetchCalendar();
-  }, [calendarId]);
+  }, [userId]);
 
   function calculateTotalCalories(recipes) {
     return (
