@@ -18,6 +18,7 @@ import {
 } from '@mui/material';
 import Paper from '@mui/material/Paper';
 import { useNavigate } from 'react-router-dom';
+import PageWithMenu from '../../common/component/PageWithMenu';
 
 export function Calendar(props) {
   const [calendar, setCalendar] = useState<CalendarEntry[]>();
@@ -78,7 +79,10 @@ export function Calendar(props) {
     return (
       <List>
         {recipes.map(recipe => (
-          <ListItem onClick={() => navigate(`../recipe/${recipe.id}`)}>
+          <ListItem
+            key={recipe.id}
+            onClick={() => navigate(`../recipe/${recipe.id}`)}
+          >
             <ListItemText
               primary={recipe.name}
               secondary={calculateTotalCalories([recipe])}
@@ -90,11 +94,11 @@ export function Calendar(props) {
   }
 
   return (
-    <Grid2 direction={'column'} marginTop={10} spacing={5}>
-      <Helmet>
-        <title>{props.title}</title>
-        <meta name="description" content="Discover recipes" />
-      </Helmet>
+    <PageWithMenu
+      helmetTitle={props.title}
+      helmetName={props.name}
+      helmetContent={props.content}
+    >
       <TableContainer component={Paper}>
         <Table aria-label="simple table">
           <TableHead>
@@ -137,6 +141,6 @@ export function Calendar(props) {
           </TableBody>
         </Table>
       </TableContainer>
-    </Grid2>
+    </PageWithMenu>
   );
 }

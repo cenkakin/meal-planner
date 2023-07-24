@@ -10,6 +10,7 @@ import dayjs, { Dayjs } from 'dayjs';
 import { Alert, AlertColor, Button, Snackbar } from '@mui/material';
 import httpClient from '../../common/http-common';
 import axios from 'axios';
+import PageWithMenu from '../../common/component/PageWithMenu';
 
 interface SaveCalenderEntryRequest {
   date: string;
@@ -20,7 +21,7 @@ export function SearchRecipes(props) {
   const [basicRecipes, setBasicRecipes] = useState<Array<BasicRecipeItem>>([]);
   const [selectedDate, setSelectedDate] = useState<Dayjs>(dayjs());
   const [selectedRecipes, setSelectedRecipes] = useState<string[]>([]);
-  const [open, setOpen] = useState(false);
+  const [snackBarOpen, setSnackBarOpen] = useState(false);
   const [severity, setSeverity] = useState<AlertColor>('success');
   const [message, setMessage] = useState<String>('');
 
@@ -32,11 +33,14 @@ export function SearchRecipes(props) {
     }
   }
 
-  function handleClose(event?: React.SyntheticEvent | Event, reason?: string) {
+  function handleSnackBarClose(
+    event?: React.SyntheticEvent | Event,
+    reason?: string,
+  ) {
     if (reason === 'clickaway') {
       return;
     }
-    setOpen(false);
+    setSnackBarOpen(false);
   }
 
   async function saveRecipesToCalendar() {
@@ -49,7 +53,7 @@ export function SearchRecipes(props) {
       },
     );
     try {
-      setOpen(true);
+      setSnackBarOpen(true);
       const { status } = await httpClient.post('/calendar', {
         entries: entries,
       });
@@ -79,60 +83,62 @@ export function SearchRecipes(props) {
   }
 
   return (
-    <Grid2
-      container
-      direction={'column'}
-      justifyContent="center"
-      alignItems="center"
-      marginTop={10}
-      spacing={5}
+    <PageWithMenu
+      helmetTitle={props.title}
+      helmetName={props.name}
+      helmetContent={props.content}
     >
-      <Helmet>
-        <title>{props.title}</title>
-        <meta name="description" content="Find your recipes" />
-      </Helmet>
-      <Grid2 xs={10} container>
-        <Grid2 xs={6}>
-          <IngredientsAutoComplete
-            onBasicRecipesChange={onBasicRecipesChange}
-          />
-        </Grid2>
-        <Grid2 xs={4} container justifyContent="flex-start">
+      <Grid2 xs={12}>
+        <Grid2 xs={12} container>
           <Grid2 xs={6}>
-            <DatePicker
-              value={selectedDate}
-              onChange={newValue => setSelectedDate(dayjs(newValue))}
+            <IngredientsAutoComplete
+              onBasicRecipesChange={onBasicRecipesChange}
             />
           </Grid2>
-          <Grid2 xs={5}>
-            {selectedRecipes.length > 0 && (
-              <Button
-                size="large"
-                variant="contained"
-                color="fsaGreen"
-                sx={{ height: '100%' }}
-                onClick={saveRecipesToCalendar}
-              >
-                Save Recipes
-              </Button>
-            )}
+          <Grid2 xs={5} container justifyContent="flex-start">
+            <Grid2 xs={6}>
+              <DatePicker
+                value={selectedDate}
+                onChange={newValue => setSelectedDate(dayjs(newValue))}
+              />
+            </Grid2>
+            <Grid2 xs={5}>
+              {selectedRecipes.length > 0 && (
+                <Button
+                  size="large"
+                  variant="contained"
+                  color="fsaGreen"
+                  sx={{ height: '100%' }}
+                  onClick={saveRecipesToCalendar}
+                >
+                  Save Recipes
+                </Button>
+              )}
+            </Grid2>
           </Grid2>
         </Grid2>
-      </Grid2>
-      <Grid2 xs={10}>
-        {basicRecipes.length > 0 && (
-          <BasicRecipeTable recipes={basicRecipes} handleClick={handleSelect} />
-        )}
-        <Snackbar open={open} autoHideDuration={6000} onClose={handleClose}>
-          <Alert
-            onClose={handleClose}
-            severity={severity}
-            sx={{ width: '100%' }}
+        <Grid2 xs={10}>
+          {basicRecipes.length > 0 && (
+            <BasicRecipeTable
+              recipes={basicRecipes}
+              handleClick={handleSelect}
+            />
+          )}
+          <Snackbar
+            open={snackBarOpen}
+            autoHideDuration={6000}
+            onClose={handleSnackBarClose}
           >
-            {message}
-          </Alert>
-        </Snackbar>
+            <Alert
+              onClose={handleSnackBarClose}
+              severity={severity}
+              sx={{ width: '100%' }}
+            >
+              {message}
+            </Alert>
+          </Snackbar>
+        </Grid2>
       </Grid2>
-    </Grid2>
+    </PageWithMenu>
   );
 }
