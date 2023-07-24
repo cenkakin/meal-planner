@@ -1,6 +1,5 @@
 import * as React from 'react';
 import { useState } from 'react';
-import { Helmet } from 'react-helmet-async';
 import Grid2 from '@mui/material/Unstable_Grid2';
 import IngredientsAutoComplete from './IngredientsAutoComplete';
 import BasicRecipeTable from './BasicRecipeTable';

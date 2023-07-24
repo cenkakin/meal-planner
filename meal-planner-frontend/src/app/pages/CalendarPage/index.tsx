@@ -1,11 +1,8 @@
 import * as React from 'react';
-import { Helmet } from 'react-helmet-async';
-import Grid2 from '@mui/material/Unstable_Grid2';
 import { useEffect, useState } from 'react';
 import httpClient from '../../common/http-common';
 import { CalendarEntry } from './CalendarView/CalendarEntry';
 import {
-  Divider,
   List,
   ListItem,
   ListItemText,
