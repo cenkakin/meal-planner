@@ -1,14 +1,13 @@
 package com.github.cenkserkan.infra.adapters.recipe.persistence.adapter
 
-import com.github.cenkserkan.domain.userAuth.model.User
-import com.github.cenkserkan.domain.userAuth.port.UserAuthPort
+import com.github.cenkserkan.auth.User
+import com.github.cenkserkan.auth.UserAdapter
+import com.github.cenkserkan.auth.UserPort
 import com.github.cenkserkan.infra.adapters.recipe.persistence.repository.UserRepository
-import java.util.UUID
+import org.springframework.security.core.userdetails.UserDetails
+import org.springframework.security.core.userdetails.UserDetailsService
 
-class UserPersistenceAdapter(private val userRepository: UserRepository) : UserAuthPort {
-    override fun findById(id: UUID): User? {
-        return userRepository.findUserById(id = id)
-    }
+class UserPersistenceAdapter(private val userRepository: UserRepository) : UserPort, UserDetailsService {
 
     override fun findByEmail(email: String): User? {
         return userRepository.findUserByEmail(email = email)
@@ -18,7 +17,13 @@ class UserPersistenceAdapter(private val userRepository: UserRepository) : UserA
         return userRepository.findUserByUserName(userName = userName)
     }
 
-    override fun save(userName: String, password: String, email: String, role: String): User {
-        return userRepository.saveUser(userName = userName, password = password, email = email, role = role)
+    override fun save(user: User): User {
+        return userRepository.saveUser(user)
+    }
+
+    override fun loadUserByUsername(email: String): UserDetails {
+        val user = checkNotNull(userRepository.findUserByEmail(email = email)) { "User doesn't exist" }
+
+        return UserAdapter(user = user)
     }
 }

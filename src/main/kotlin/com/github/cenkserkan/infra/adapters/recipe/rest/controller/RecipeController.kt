@@ -7,7 +7,6 @@ import com.github.cenkserkan.infra.adapters.recipe.rest.dto.BasicRecipeResponse
 import com.github.cenkserkan.infra.adapters.recipe.rest.dto.RecipeResponse
 import jakarta.validation.constraints.NotEmpty
 import org.springframework.http.ResponseEntity
-import org.springframework.security.access.prepost.PreAuthorize
 import org.springframework.validation.annotation.Validated
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
@@ -24,7 +23,6 @@ class RecipeController(
     private val recipeRetrievalUseCase: RecipeRetrievalUseCase
 ) {
 
-    @PreAuthorize("hasRole('USER')")
     @GetMapping("/search")
     fun searchByIngredients(
         @NotEmpty
@@ -36,7 +34,6 @@ class RecipeController(
         return ResponseEntity.ok(recipeListResponse)
     }
 
-    @PreAuthorize("hasRole('USER')")
     @GetMapping("/{id}")
     fun getById(@PathVariable id: UUID): ResponseEntity<RecipeResponse> {
         val recipe = recipeRetrievalUseCase.getRecipeById(id)

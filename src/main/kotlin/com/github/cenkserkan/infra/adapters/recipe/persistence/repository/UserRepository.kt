@@ -1,6 +1,7 @@
 package com.github.cenkserkan.infra.adapters.recipe.persistence.repository
 
-import com.github.cenkserkan.domain.userAuth.model.User
+import com.github.cenkserkan.auth.User
+import com.github.cenkserkan.domain.userAuth.model.Role
 import com.github.cenkserkan.infra.adapters.generated.Tables.USER
 import com.github.cenkserkan.infra.adapters.generated.tables.records.UserRecord
 import org.jooq.DSLContext
@@ -9,7 +10,7 @@ import java.util.UUID
 class UserRepository(private val dslContext: DSLContext) {
 
     fun findUserById(id: UUID): User? {
-        return dslContext.select(USER.ID, USER.USER_NAME, USER.PASSWORD, USER.EMAIL, USER.ROLE)
+        return dslContext.select(USER.ID, USER.USER_NAME, USER.PASSWORD, USER.EMAIL, USER.ROLES)
             .from(USER)
             .where(USER.ID.eq(id))
             .fetchOne()
@@ -17,17 +18,17 @@ class UserRepository(private val dslContext: DSLContext) {
     }
 
     fun findUserByEmail(email: String): User? {
-        return dslContext.select(USER.ID, USER.USER_NAME, USER.PASSWORD, USER.EMAIL, USER.ROLE)
+        return dslContext.select(USER.ID, USER.USER_NAME, USER.PASSWORD, USER.EMAIL, USER.ROLES)
             .from(USER)
             .where(USER.EMAIL.eq(email))
             .fetchOne()
             ?.into(User::class.java)
     }
 
-    fun saveUser(userName: String, password: String, email: String, role: String): User {
+    fun saveUser(user: User): User {
         return dslContext.insertInto(USER)
-            .columns(USER.USER_NAME, USER.PASSWORD, USER.EMAIL, USER.ROLE)
-            .values(userName, password, email, role)
+            .columns(USER.USER_NAME, USER.PASSWORD, USER.EMAIL, USER.ROLES)
+            .values(user.userName, user.password, user.email, user.authorities.map { it.name }.toTypedArray())
             .returning()
             .fetch()
             .single()
@@ -35,7 +36,7 @@ class UserRepository(private val dslContext: DSLContext) {
     }
 
     fun findUserByUserName(userName: String): User? {
-        return dslContext.select(USER.ID, USER.USER_NAME, USER.PASSWORD, USER.EMAIL, USER.ROLE)
+        return dslContext.select(USER.ID, USER.USER_NAME, USER.PASSWORD, USER.EMAIL, USER.ROLES)
             .from(USER)
             .where(USER.USER_NAME.eq(userName))
             .fetchOne()
@@ -44,5 +45,10 @@ class UserRepository(private val dslContext: DSLContext) {
 }
 
 private fun UserRecord.toUser(): User {
-    return User(id = this.id, userName = this.userName, password = this.password, email = this.email, role = this.role)
+    return User(
+        userName = this.userName,
+        password = this.password,
+        email = this.email,
+        authorities = this.roles.map { Role.valueOf(it) }
+    )
 }

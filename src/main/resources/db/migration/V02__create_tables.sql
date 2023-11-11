@@ -4,7 +4,7 @@ CREATE TABLE "user"
     created_at TIMESTAMP NOT NULL DEFAULT NOW(),
     updated_at TIMESTAMP NOT NULL DEFAULT NOW(),
     user_name  VARCHAR   NOT NULL UNIQUE,
-    role       VARCHAR   NOT NULL,
+    roles       TEXT[]   NOT NULL,
     password   VARCHAR   NOT NULL,
     email      VARCHAR   NOT NULL UNIQUE,
     PRIMARY KEY (id)

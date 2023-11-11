@@ -74,9 +74,9 @@ public class User extends TableImpl<UserRecord> {
     public final TableField<UserRecord, String> USER_NAME = createField(DSL.name("user_name"), SQLDataType.VARCHAR.nullable(false), this, "");
 
     /**
-     * The column <code>public.user.role</code>.
+     * The column <code>public.user.roles</code>.
      */
-    public final TableField<UserRecord, String> ROLE = createField(DSL.name("role"), SQLDataType.VARCHAR.nullable(false), this, "");
+    public final TableField<UserRecord, String[]> ROLES = createField(DSL.name("roles"), SQLDataType.CLOB.getArrayDataType(), this, "");
 
     /**
      * The column <code>public.user.password</code>.
@@ -180,14 +180,14 @@ public class User extends TableImpl<UserRecord> {
     // -------------------------------------------------------------------------
 
     @Override
-    public Row7<UUID, LocalDateTime, LocalDateTime, String, String, String, String> fieldsRow() {
+    public Row7<UUID, LocalDateTime, LocalDateTime, String, String[], String, String> fieldsRow() {
         return (Row7) super.fieldsRow();
     }
 
     /**
      * Convenience mapping calling {@link SelectField#convertFrom(Function)}.
      */
-    public <U> SelectField<U> mapping(Function7<? super UUID, ? super LocalDateTime, ? super LocalDateTime, ? super String, ? super String, ? super String, ? super String, ? extends U> from) {
+    public <U> SelectField<U> mapping(Function7<? super UUID, ? super LocalDateTime, ? super LocalDateTime, ? super String, ? super String[], ? super String, ? super String, ? extends U> from) {
         return convertFrom(Records.mapping(from));
     }
 
@@ -195,7 +195,7 @@ public class User extends TableImpl<UserRecord> {
      * Convenience mapping calling {@link SelectField#convertFrom(Class,
      * Function)}.
      */
-    public <U> SelectField<U> mapping(Class<U> toType, Function7<? super UUID, ? super LocalDateTime, ? super LocalDateTime, ? super String, ? super String, ? super String, ? super String, ? extends U> from) {
+    public <U> SelectField<U> mapping(Class<U> toType, Function7<? super UUID, ? super LocalDateTime, ? super LocalDateTime, ? super String, ? super String[], ? super String, ? super String, ? extends U> from) {
         return convertFrom(toType, Records.mapping(from));
     }
 }
