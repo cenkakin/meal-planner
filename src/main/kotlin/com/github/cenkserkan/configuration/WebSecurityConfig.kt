@@ -1,5 +1,6 @@
 package com.github.cenkserkan.configuration
 
+import com.github.cenkserkan.auth.jwt.JwtAuthFilter
 import com.github.cenkserkan.auth.UserDetailsHandler
 import com.github.cenkserkan.auth.UserPort
 import com.github.cenkserkan.auth.jwt.JwtService
@@ -12,6 +13,7 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
 import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.security.web.SecurityFilterChain
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter
 
 @Configuration
 @EnableWebSecurity
@@ -23,7 +25,10 @@ class WebSecurityConfig(
 ) {
 
     @Bean
-    fun filterChain(http: HttpSecurity): SecurityFilterChain {
+    fun filterChain(
+        http: HttpSecurity,
+        jwtAuthFilter: JwtAuthFilter,
+    ): SecurityFilterChain {
         http.csrf { csrf -> csrf.disable() }
             .httpBasic(Customizer.withDefaults())
             .authorizeHttpRequests { auth ->
@@ -31,6 +36,7 @@ class WebSecurityConfig(
                     .requestMatchers("/v1/**").hasAuthority("ROLE_USER")
                     .anyRequest().authenticated()
             }
+            .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter::class.java)
             .headers().frameOptions().disable()
 
         http.cors()
@@ -42,6 +48,13 @@ class WebSecurityConfig(
     fun passwordEncoder(): PasswordEncoder {
         return BCryptPasswordEncoder()
     }
+
+    @Bean
+    fun createJwtAuthFilter(
+        jwtService: JwtService,
+        userDetailsHandler: UserDetailsHandler
+    ): JwtAuthFilter = JwtAuthFilter(jwtService, userDetailsHandler)
+
     @Bean
     fun createJwtService() = JwtService(secretKey, expirationMs)
 
