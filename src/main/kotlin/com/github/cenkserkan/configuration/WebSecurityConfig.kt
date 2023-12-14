@@ -7,9 +7,13 @@ import com.github.cenkserkan.auth.jwt.JwtService
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
+import org.springframework.security.authentication.AuthenticationManager
+import org.springframework.security.authentication.ProviderManager
+import org.springframework.security.authentication.dao.DaoAuthenticationProvider
 import org.springframework.security.config.Customizer
 import org.springframework.security.config.annotation.web.builders.HttpSecurity
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity
+import org.springframework.security.config.http.SessionCreationPolicy
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
 import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.security.web.SecurityFilterChain
@@ -28,6 +32,7 @@ class WebSecurityConfig(
     fun filterChain(
         http: HttpSecurity,
         jwtAuthFilter: JwtAuthFilter,
+        authenticationManager: AuthenticationManager
     ): SecurityFilterChain {
         http.csrf { csrf -> csrf.disable() }
             .httpBasic(Customizer.withDefaults())
@@ -36,6 +41,10 @@ class WebSecurityConfig(
                     .requestMatchers("/v1/**").hasAuthority("ROLE_USER")
                     .anyRequest().authenticated()
             }
+            .sessionManagement { customizer ->
+                customizer.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+            }
+            .authenticationManager(authenticationManager)
             .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter::class.java)
             .headers().frameOptions().disable()
 
@@ -47,6 +56,18 @@ class WebSecurityConfig(
     @Bean
     fun passwordEncoder(): PasswordEncoder {
         return BCryptPasswordEncoder()
+    }
+
+    @Bean
+    fun authenticationManager(
+        userDetailsHandler: UserDetailsHandler,
+        passwordEncoder: PasswordEncoder
+    ): AuthenticationManager {
+        val authenticationProvider = DaoAuthenticationProvider()
+        authenticationProvider.setUserDetailsService(userDetailsHandler)
+        authenticationProvider.setPasswordEncoder(passwordEncoder)
+
+        return ProviderManager(authenticationProvider)
     }
 
     @Bean
