@@ -1,5 +1,7 @@
 package com.github.cenkserkan.auth
 
+import com.github.cenkserkan.auth.model.User
+
 interface UserPort {
     fun findByEmail(email: String): User?
 

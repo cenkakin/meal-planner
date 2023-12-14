@@ -1,5 +1,6 @@
 package com.github.cenkserkan.configuration
 
+import app.domain.handler.AuthHandler
 import com.github.cenkserkan.auth.jwt.JwtAuthFilter
 import com.github.cenkserkan.auth.UserDetailsHandler
 import com.github.cenkserkan.auth.UserPort
@@ -78,6 +79,14 @@ class WebSecurityConfig(
 
     @Bean
     fun createJwtService() = JwtService(secretKey, expirationMs)
+
+    @Bean
+    fun createAuthHandler(
+        port: UserPort,
+        encoder: PasswordEncoder,
+        jwtService: JwtService,
+        authenticationManager: AuthenticationManager
+    ): AuthHandler = AuthHandler(port, encoder, jwtService, authenticationManager)
 
     @Bean
     fun createUserDetailsHandler(

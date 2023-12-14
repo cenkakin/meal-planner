@@ -1,7 +1,5 @@
 package com.github.cenkserkan.configuration
 
-import app.domain.handler.AuthHandler
-import com.github.cenkserkan.auth.UserPort
 import com.github.cenkserkan.domain.calendar.handler.CalendarHandler
 import com.github.cenkserkan.domain.calendar.port.CalendarPort
 import com.github.cenkserkan.domain.recipe.handler.IngredientHandler
@@ -20,7 +18,6 @@ import com.github.cenkserkan.infra.adapters.recipe.persistence.repository.UserRe
 import org.jooq.DSLContext
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
-import org.springframework.security.crypto.password.PasswordEncoder
 
 @Configuration
 class MealPlannerConfiguration {
@@ -59,16 +56,5 @@ class MealPlannerConfiguration {
     @Bean
     fun userPersistenceAdapter(dslContext: DSLContext): UserPersistenceAdapter {
         return UserPersistenceAdapter(UserRepository(dslContext))
-    }
-
-    @Bean
-    fun authHandler(
-        userPort: UserPort,
-        passwordEncoder: PasswordEncoder
-    ): AuthHandler {
-        return AuthHandler(
-            userPort = userPort,
-            encoder = passwordEncoder
-        )
     }
 }
