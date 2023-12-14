@@ -69,9 +69,9 @@ public class User extends TableImpl<UserRecord> {
     public final TableField<UserRecord, LocalDateTime> UPDATED_AT = createField(DSL.name("updated_at"), SQLDataType.LOCALDATETIME(6).nullable(false).defaultValue(DSL.field("now()", SQLDataType.LOCALDATETIME)), this, "");
 
     /**
-     * The column <code>public.user.user_name</code>.
+     * The column <code>public.user.username</code>.
      */
-    public final TableField<UserRecord, String> USER_NAME = createField(DSL.name("user_name"), SQLDataType.VARCHAR.nullable(false), this, "");
+    public final TableField<UserRecord, String> USERNAME = createField(DSL.name("username"), SQLDataType.VARCHAR.nullable(false), this, "");
 
     /**
      * The column <code>public.user.roles</code>.
@@ -133,7 +133,7 @@ public class User extends TableImpl<UserRecord> {
 
     @Override
     public List<UniqueKey<UserRecord>> getUniqueKeys() {
-        return Arrays.asList(Keys.USER_USER_NAME_KEY, Keys.USER_EMAIL_KEY);
+        return Arrays.asList(Keys.USER_USERNAME_KEY, Keys.USER_EMAIL_KEY);
     }
 
     @Override

@@ -41,7 +41,7 @@ public class Keys {
     public static final UniqueKey<RecipeImageRecord> RECIPE_IMAGE_RECIPE_ID_URL_KEY = Internal.createUniqueKey(RecipeImage.RECIPE_IMAGE, DSL.name("recipe_image_recipe_id_url_key"), new TableField[] { RecipeImage.RECIPE_IMAGE.RECIPE_ID, RecipeImage.RECIPE_IMAGE.URL }, true);
     public static final UniqueKey<UserRecord> USER_EMAIL_KEY = Internal.createUniqueKey(User.USER, DSL.name("user_email_key"), new TableField[] { User.USER.EMAIL }, true);
     public static final UniqueKey<UserRecord> USER_PKEY = Internal.createUniqueKey(User.USER, DSL.name("user_pkey"), new TableField[] { User.USER.ID }, true);
-    public static final UniqueKey<UserRecord> USER_USER_NAME_KEY = Internal.createUniqueKey(User.USER, DSL.name("user_user_name_key"), new TableField[] { User.USER.USER_NAME }, true);
+    public static final UniqueKey<UserRecord> USER_USERNAME_KEY = Internal.createUniqueKey(User.USER, DSL.name("user_username_key"), new TableField[] { User.USER.USERNAME }, true);
 
     // -------------------------------------------------------------------------
     // FOREIGN KEY definitions

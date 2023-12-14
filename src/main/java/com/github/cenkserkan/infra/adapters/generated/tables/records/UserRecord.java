@@ -67,16 +67,16 @@ public class UserRecord extends UpdatableRecordImpl<UserRecord> implements Recor
     }
 
     /**
-     * Setter for <code>public.user.user_name</code>.
+     * Setter for <code>public.user.username</code>.
      */
-    public void setUserName(String value) {
+    public void setUsername(String value) {
         set(3, value);
     }
 
     /**
-     * Getter for <code>public.user.user_name</code>.
+     * Getter for <code>public.user.username</code>.
      */
-    public String getUserName() {
+    public String getUsername() {
         return (String) get(3);
     }
 
@@ -162,7 +162,7 @@ public class UserRecord extends UpdatableRecordImpl<UserRecord> implements Recor
 
     @Override
     public Field<String> field4() {
-        return User.USER.USER_NAME;
+        return User.USER.USERNAME;
     }
 
     @Override
@@ -197,7 +197,7 @@ public class UserRecord extends UpdatableRecordImpl<UserRecord> implements Recor
 
     @Override
     public String component4() {
-        return getUserName();
+        return getUsername();
     }
 
     @Override
@@ -232,7 +232,7 @@ public class UserRecord extends UpdatableRecordImpl<UserRecord> implements Recor
 
     @Override
     public String value4() {
-        return getUserName();
+        return getUsername();
     }
 
     @Override
@@ -270,7 +270,7 @@ public class UserRecord extends UpdatableRecordImpl<UserRecord> implements Recor
 
     @Override
     public UserRecord value4(String value) {
-        setUserName(value);
+        setUsername(value);
         return this;
     }
 
@@ -318,13 +318,13 @@ public class UserRecord extends UpdatableRecordImpl<UserRecord> implements Recor
     /**
      * Create a detached, initialised UserRecord
      */
-    public UserRecord(UUID id, LocalDateTime createdAt, LocalDateTime updatedAt, String userName, String[] roles, String password, String email) {
+    public UserRecord(UUID id, LocalDateTime createdAt, LocalDateTime updatedAt, String username, String[] roles, String password, String email) {
         super(User.USER);
 
         setId(id);
         setCreatedAt(createdAt);
         setUpdatedAt(updatedAt);
-        setUserName(userName);
+        setUsername(username);
         setRoles(roles);
         setPassword(password);
         setEmail(email);

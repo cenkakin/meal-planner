@@ -3,7 +3,7 @@ CREATE TABLE "user"
     id         UUID      NOT NULL DEFAULT gen_random_uuid(),
     created_at TIMESTAMP NOT NULL DEFAULT NOW(),
     updated_at TIMESTAMP NOT NULL DEFAULT NOW(),
-    user_name  VARCHAR   NOT NULL UNIQUE,
+    username VARCHAR NOT NULL UNIQUE,
     roles       TEXT[]   NOT NULL,
     password   VARCHAR   NOT NULL,
     email      VARCHAR   NOT NULL UNIQUE,
