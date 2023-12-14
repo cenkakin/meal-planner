@@ -1,5 +1,7 @@
 package com.github.cenkserkan.configuration
 
+import com.github.cenkserkan.auth.UserDetailsHandler
+import com.github.cenkserkan.auth.UserPort
 import com.github.cenkserkan.auth.jwt.JwtService
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.context.annotation.Bean
@@ -37,9 +39,14 @@ class WebSecurityConfig(
     }
 
     @Bean
-    fun passwordEncoder(): PasswordEncoder? {
+    fun passwordEncoder(): PasswordEncoder {
         return BCryptPasswordEncoder()
     }
     @Bean
     fun createJwtService() = JwtService(secretKey, expirationMs)
+
+    @Bean
+    fun createUserDetailsHandler(
+        userPort: UserPort
+    ): UserDetailsHandler = UserDetailsHandler(userPort)
 }
