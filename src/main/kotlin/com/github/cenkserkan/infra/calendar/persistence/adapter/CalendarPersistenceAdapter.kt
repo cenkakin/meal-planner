@@ -7,7 +7,7 @@ import java.util.UUID
 
 class CalendarPersistenceAdapter(private val calendarRepository: CalendarRepository) : CalendarPort {
     override fun getEntries(userId: UUID): List<CalendarEntry> {
-        return calendarRepository.getEntries()
+        return calendarRepository.getEntries(userId = userId)
     }
 
     override fun addEntries(entries: List<CalendarEntry>) {
