@@ -2,9 +2,7 @@ package com.github.cenkserkan.infra.calendar.rest.controller
 
 import com.github.cenkserkan.domain.calendar.usecase.GetCalendarEntriesUseCase
 import com.github.cenkserkan.domain.calendar.usecase.SaveCalendarEntriesUseCase
-import com.github.cenkserkan.infra.calendar.rest.dto.CalendarEntryListResponse
-import com.github.cenkserkan.infra.calendar.rest.dto.CalendarEntryRequest
-import com.github.cenkserkan.infra.calendar.rest.dto.CalendarEntryResponse
+import com.github.cenkserkan.infra.calendar.rest.dto.CalendarEntriesWrapper
 import jakarta.validation.constraints.NotEmpty
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.GetMapping
@@ -27,16 +25,16 @@ class CalendarController(
     fun getCalendarEntries(
         @PathVariable @NotEmpty
         userId: UUID
-    ): ResponseEntity<CalendarEntryListResponse> {
+    ): ResponseEntity<CalendarEntriesWrapper> {
         val calendarEntries = getCalendarEntriesUseCase.getCalendarEntries(userId = userId)
-            .map { CalendarEntryResponse.from(it) }
-        return ResponseEntity.ok(CalendarEntryListResponse(calendarEntries))
+            .map { it.toDto() }
+        return ResponseEntity.ok(CalendarEntriesWrapper(calendarEntries))
     }
 
     @PostMapping
-    fun addCalendarEntries(@RequestBody request: CalendarEntryRequest): ResponseEntity<String> {
+    fun addCalendarEntries(@RequestBody request: CalendarEntriesWrapper): ResponseEntity<String> {
         try {
-            addCalendarEntryUseCase.saveCalendarEntries(entries = request.entries)
+            addCalendarEntryUseCase.saveCalendarEntries(request.entries.map { it.toModel() })
         } catch (exception: LimitExceededException) {
             return ResponseEntity.internalServerError().body(exception.message)
         }
