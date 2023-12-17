@@ -24,4 +24,4 @@ CREATE TABLE calendar
         FOREIGN KEY (user_id)
             REFERENCES "user" (id)
 );
-CREATE INDEX date_index ON calendar("date")
+CREATE INDEX user_index ON "calendar" ("user_id");
