@@ -4,10 +4,12 @@
 package com.github.cenkserkan.infra.adapters.generated;
 
 
+import com.github.cenkserkan.infra.adapters.generated.tables.Calendar;
 import com.github.cenkserkan.infra.adapters.generated.tables.Ingredient;
 import com.github.cenkserkan.infra.adapters.generated.tables.Recipe;
 import com.github.cenkserkan.infra.adapters.generated.tables.RecipeImage;
 import com.github.cenkserkan.infra.adapters.generated.tables.RecipeIngredient;
+import com.github.cenkserkan.infra.adapters.generated.tables.User;
 
 
 /**
@@ -15,6 +17,11 @@ import com.github.cenkserkan.infra.adapters.generated.tables.RecipeIngredient;
  */
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Tables {
+
+    /**
+     * The table <code>public.calendar</code>.
+     */
+    public static final Calendar CALENDAR = Calendar.CALENDAR;
 
     /**
      * The table <code>public.ingredient</code>.
@@ -35,4 +42,9 @@ public class Tables {
      * The table <code>public.recipe_ingredient</code>.
      */
     public static final RecipeIngredient RECIPE_INGREDIENT = RecipeIngredient.RECIPE_INGREDIENT;
+
+    /**
+     * The table <code>public.user</code>.
+     */
+    public static final User USER = User.USER;
 }

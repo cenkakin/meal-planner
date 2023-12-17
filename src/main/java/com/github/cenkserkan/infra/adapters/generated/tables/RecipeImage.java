@@ -9,16 +9,18 @@ import com.github.cenkserkan.infra.adapters.generated.Public;
 import com.github.cenkserkan.infra.adapters.generated.tables.records.RecipeImageRecord;
 
 import java.time.LocalDateTime;
+import java.util.Arrays;
+import java.util.List;
 import java.util.UUID;
 import java.util.function.Function;
 
 import org.jooq.Field;
 import org.jooq.ForeignKey;
-import org.jooq.Function5;
+import org.jooq.Function6;
 import org.jooq.Name;
 import org.jooq.Record;
 import org.jooq.Records;
-import org.jooq.Row5;
+import org.jooq.Row6;
 import org.jooq.Schema;
 import org.jooq.SelectField;
 import org.jooq.Table;
@@ -52,9 +54,14 @@ public class RecipeImage extends TableImpl<RecipeImageRecord> {
     }
 
     /**
+     * The column <code>public.recipe_image.id</code>.
+     */
+    public final TableField<RecipeImageRecord, UUID> ID = createField(DSL.name("id"), SQLDataType.UUID.nullable(false).defaultValue(DSL.field("gen_random_uuid()", SQLDataType.UUID)), this, "");
+
+    /**
      * The column <code>public.recipe_image.recipe_id</code>.
      */
-    public final TableField<RecipeImageRecord, UUID> RECIPE_ID = createField(DSL.name("recipe_id"), SQLDataType.UUID.nullable(false), this, "");
+    public final TableField<RecipeImageRecord, UUID> RECIPE_ID = createField(DSL.name("recipe_id"), SQLDataType.UUID, this, "");
 
     /**
      * The column <code>public.recipe_image.url</code>.
@@ -120,6 +127,11 @@ public class RecipeImage extends TableImpl<RecipeImageRecord> {
     }
 
     @Override
+    public List<UniqueKey<RecipeImageRecord>> getUniqueKeys() {
+        return Arrays.asList(Keys.RECIPE_IMAGE_RECIPE_ID_URL_KEY);
+    }
+
+    @Override
     public RecipeImage as(String alias) {
         return new RecipeImage(DSL.name(alias), this);
     }
@@ -159,18 +171,18 @@ public class RecipeImage extends TableImpl<RecipeImageRecord> {
     }
 
     // -------------------------------------------------------------------------
-    // Row5 type methods
+    // Row6 type methods
     // -------------------------------------------------------------------------
 
     @Override
-    public Row5<UUID, String, Integer, LocalDateTime, LocalDateTime> fieldsRow() {
-        return (Row5) super.fieldsRow();
+    public Row6<UUID, UUID, String, Integer, LocalDateTime, LocalDateTime> fieldsRow() {
+        return (Row6) super.fieldsRow();
     }
 
     /**
      * Convenience mapping calling {@link SelectField#convertFrom(Function)}.
      */
-    public <U> SelectField<U> mapping(Function5<? super UUID, ? super String, ? super Integer, ? super LocalDateTime, ? super LocalDateTime, ? extends U> from) {
+    public <U> SelectField<U> mapping(Function6<? super UUID, ? super UUID, ? super String, ? super Integer, ? super LocalDateTime, ? super LocalDateTime, ? extends U> from) {
         return convertFrom(Records.mapping(from));
     }
 
@@ -178,7 +190,7 @@ public class RecipeImage extends TableImpl<RecipeImageRecord> {
      * Convenience mapping calling {@link SelectField#convertFrom(Class,
      * Function)}.
      */
-    public <U> SelectField<U> mapping(Class<U> toType, Function5<? super UUID, ? super String, ? super Integer, ? super LocalDateTime, ? super LocalDateTime, ? extends U> from) {
+    public <U> SelectField<U> mapping(Class<U> toType, Function6<? super UUID, ? super UUID, ? super String, ? super Integer, ? super LocalDateTime, ? super LocalDateTime, ? extends U> from) {
         return convertFrom(toType, Records.mapping(from));
     }
 }

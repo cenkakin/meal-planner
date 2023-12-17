@@ -1,4 +1,4 @@
-package com.github.cenkserkan.infra.adapters.recipe.rest
+package com.github.cenkserkan.infra.adapters.recipe.rest.controller
 
 import com.github.cenkserkan.domain.recipe.usecase.IngredientsRetrievalUseCase
 import com.github.cenkserkan.infra.adapters.recipe.rest.dto.IngredientListResponse

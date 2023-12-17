@@ -6,3 +6,8 @@ spring:
 
 cors:
   enabled: ${props.cors.enabled}
+
+mealplanner:
+  app:
+    jwtSecret: ${props.app.jwtSecret}
+    jwtExpirationMs: ${props.app.jwtExpirationMs}

@@ -1,4 +1,4 @@
-package com.github.cenkserkan.infra.adapters.recipe.rest
+package com.github.cenkserkan.infra.adapters.recipe.rest.controller
 
 import com.github.cenkserkan.domain.calendar.usecase.GetCalendarEntriesUseCase
 import com.github.cenkserkan.domain.calendar.usecase.SaveCalendarEntriesUseCase
@@ -22,6 +22,7 @@ class CalendarController(
     private val addCalendarEntryUseCase: SaveCalendarEntriesUseCase,
     private val getCalendarEntriesUseCase: GetCalendarEntriesUseCase
 ) {
+
     @GetMapping("/{userId}")
     fun getCalendarEntries(
         @PathVariable @NotEmpty
