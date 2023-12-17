@@ -1,12 +1,20 @@
 package com.github.cenkserkan.domain.calendar.model
 
-import org.hibernate.validator.constraints.UUID
 import java.time.LocalDate
-import java.util.UUID as UUIDType
+import java.util.UUID
+import com.github.cenkserkan.infra.calendar.rest.dto.CalendarEntryDto
 
 data class CalendarEntry(
-    @UUID val id: UUIDType = UUIDType.randomUUID(),
-    @UUID val userId: UUIDType = UUIDType.fromString("73f6af82-ab5f-40da-9873-f9dc88129607"),
+    var id: UUID?,
+    val userId: UUID,
     val date: LocalDate,
-    @UUID val recipeId: UUIDType
-)
+    val recipeId: UUID
+) {
+    fun toDto(): CalendarEntryDto {
+        return CalendarEntryDto(
+            userId = userId,
+            recipeId = recipeId,
+            date = date
+        )
+    }
+}
