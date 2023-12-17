@@ -45,8 +45,8 @@ class MealPlannerConfiguration {
     }
 
     @Bean
-    fun calendarPersistenceAdapter(): CalendarPersistenceAdapter {
-        return CalendarPersistenceAdapter(CalendarRepository())
+    fun calendarPersistenceAdapter(dslContext: DSLContext): CalendarPersistenceAdapter {
+        return CalendarPersistenceAdapter(CalendarRepository(dslContext))
     }
 
     @Bean

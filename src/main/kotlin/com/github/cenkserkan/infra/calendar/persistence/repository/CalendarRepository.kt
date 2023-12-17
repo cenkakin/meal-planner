@@ -1,34 +1,49 @@
 package com.github.cenkserkan.infra.calendar.persistence.repository
 
 import com.github.cenkserkan.domain.calendar.model.CalendarEntry
-import java.time.LocalDate
+import com.github.cenkserkan.infra.adapters.generated.Tables
+import com.github.cenkserkan.infra.adapters.generated.tables.records.CalendarRecord
+import org.jooq.DSLContext
+import org.jooq.exception.DataAccessException
 import java.util.UUID
 
-class CalendarRepository {
-    private val userId = UUID.fromString("73f6af82-ab5f-40da-9873-f9dc88129607")
-    private val inMemoryCalendarRepository = mutableListOf<CalendarEntry>(
+class CalendarRepository(private val dslContext: DSLContext) {
+    private val calendarTable = Tables.CALENDAR
 
-        CalendarEntry(
-            UUID.randomUUID(),
-            UUID.fromString("73f6af82-ab5f-40da-9873-f9dc88129607"),
-            LocalDate.of(2023, 7, 13),
-            UUID.fromString("d124d6bb-8cc9-4843-8f48-ee0948042803")
-        ),
-        CalendarEntry(
-            UUID.randomUUID(),
-            UUID.fromString("73f6af82-ab5f-40da-9873-f9dc88129607"),
-            LocalDate.of(2023, 7, 13),
-            UUID.fromString("21ef68f2-7ab5-486a-a1ad-2d7ab05757d4")
+    fun addEntries(entries: List<CalendarEntry>): List<CalendarEntry> {
+        return try {
+            dslContext.transactionResult { config ->
+                val context = config.dsl()
 
-        )
-
-    )
-
-    fun addEntries(entries: List<CalendarEntry>) {
-        entries.forEach { entry -> inMemoryCalendarRepository.add(entry) }
+                entries.map { entry ->
+                    context
+                        .insertInto(calendarTable)
+                        .columns(calendarTable.USER_ID, calendarTable.RECIPE_ID, calendarTable.DATE)
+                        .values(entry.userId, entry.recipeId, entry.date)
+                        .returning(calendarTable.ID, calendarTable.USER_ID, calendarTable.RECIPE_ID, calendarTable.DATE)
+                        .fetchSingle()
+                        .toCalendarEntry()
+                }
+            }
+        } catch (exception: RuntimeException) {
+            when (exception) {
+                is DataAccessException -> TODO()
+                else -> TODO()
+            }
+        }
     }
 
-    fun getEntries(userId: UUID = this.userId): List<CalendarEntry> {
-        return inMemoryCalendarRepository.filter { it.userId == userId }
+    fun getEntries(userId: UUID): List<CalendarEntry> {
+        return dslContext
+            .selectFrom(calendarTable)
+            .where(calendarTable.USER_ID.eq(userId))
+            .fetch()
+            .map {
+                it.toCalendarEntry()
+            }
     }
+}
+
+private fun CalendarRecord.toCalendarEntry(): CalendarEntry {
+    return CalendarEntry(id = this.id, userId = this.userId, date = this.date, recipeId = this.recipeId)
 }
