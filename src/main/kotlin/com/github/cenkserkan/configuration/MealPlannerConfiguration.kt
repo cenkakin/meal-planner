@@ -6,15 +6,12 @@ import com.github.cenkserkan.domain.recipe.handler.IngredientHandler
 import com.github.cenkserkan.domain.recipe.handler.RecipeHandler
 import com.github.cenkserkan.domain.recipe.port.IngredientPort
 import com.github.cenkserkan.domain.recipe.port.RecipePort
-import com.github.cenkserkan.infra.adapters.recipe.persistence.adapter.CalendarPersistenceAdapter
-import com.github.cenkserkan.infra.adapters.recipe.persistence.adapter.IngredientPersistenceAdapter
-import com.github.cenkserkan.infra.adapters.recipe.persistence.adapter.RecipePersistenceAdapter
-import com.github.cenkserkan.infra.adapters.recipe.persistence.adapter.UserPersistenceAdapter
-import com.github.cenkserkan.infra.adapters.recipe.persistence.repository.CalendarRepository
-import com.github.cenkserkan.infra.adapters.recipe.persistence.repository.IngredientRepository
-import com.github.cenkserkan.infra.adapters.recipe.persistence.repository.RecipeIngredientsRepository
-import com.github.cenkserkan.infra.adapters.recipe.persistence.repository.RecipeRepository
-import com.github.cenkserkan.infra.adapters.recipe.persistence.repository.UserRepository
+import com.github.cenkserkan.infra.calendar.persistence.adapter.CalendarPersistenceAdapter
+import com.github.cenkserkan.infra.calendar.persistence.repository.CalendarRepository
+import com.github.cenkserkan.infra.recipe.persistence.repository.RecipeIngredientsRepository
+import com.github.cenkserkan.infra.recipe.persistence.repository.RecipeRepository
+import com.github.cenkserkan.infra.userAuth.persistence.UserPersistenceAdapter
+import com.github.cenkserkan.infra.userAuth.persistence.UserRepository
 import org.jooq.DSLContext
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
@@ -23,8 +20,11 @@ import org.springframework.context.annotation.Configuration
 class MealPlannerConfiguration {
 
     @Bean
-    fun recipePersistenceAdapter(dslContext: DSLContext): RecipePersistenceAdapter {
-        return RecipePersistenceAdapter(RecipeIngredientsRepository(dslContext), RecipeRepository(dslContext))
+    fun recipePersistenceAdapter(dslContext: DSLContext): com.github.cenkserkan.infra.recipe.persistence.adapter.RecipePersistenceAdapter {
+        return com.github.cenkserkan.infra.recipe.persistence.adapter.RecipePersistenceAdapter(
+            RecipeIngredientsRepository(dslContext),
+            RecipeRepository(dslContext)
+        )
     }
 
     @Bean
@@ -33,9 +33,10 @@ class MealPlannerConfiguration {
     }
 
     @Bean
-    fun ingredientPersistenceAdapter(dslContext: DSLContext): IngredientPersistenceAdapter {
-        val ingredientsRepository = IngredientRepository(dslContext)
-        return IngredientPersistenceAdapter(ingredientsRepository)
+    fun ingredientPersistenceAdapter(dslContext: DSLContext): com.github.cenkserkan.infra.recipe.persistence.adapter.IngredientPersistenceAdapter {
+        val ingredientsRepository =
+            com.github.cenkserkan.infra.recipe.persistence.repository.IngredientRepository(dslContext)
+        return com.github.cenkserkan.infra.recipe.persistence.adapter.IngredientPersistenceAdapter(ingredientsRepository)
     }
 
     @Bean
