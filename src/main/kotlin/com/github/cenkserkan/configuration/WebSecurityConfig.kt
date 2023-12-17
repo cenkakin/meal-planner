@@ -1,9 +1,9 @@
 package com.github.cenkserkan.configuration
 
 import app.domain.handler.AuthHandler
-import com.github.cenkserkan.auth.jwt.JwtAuthFilter
 import com.github.cenkserkan.auth.UserDetailsHandler
 import com.github.cenkserkan.auth.UserPort
+import com.github.cenkserkan.auth.jwt.JwtAuthFilter
 import com.github.cenkserkan.auth.jwt.JwtService
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.context.annotation.Bean
