@@ -1,11 +1,8 @@
 import * as React from 'react';
-import { Helmet } from 'react-helmet-async';
-import Grid2 from '@mui/material/Unstable_Grid2';
 import { useEffect, useState } from 'react';
 import httpClient from '../../common/http-common';
 import { CalendarEntry } from './CalendarView/CalendarEntry';
 import {
-  Divider,
   List,
   ListItem,
   ListItemText,
@@ -18,17 +15,16 @@ import {
 } from '@mui/material';
 import Paper from '@mui/material/Paper';
 import { useNavigate } from 'react-router-dom';
+import PageWithMenu from '../../common/component/PageWithMenu';
 
 export function Calendar(props) {
   const [calendar, setCalendar] = useState<CalendarEntry[]>();
-  const calendarId = '73f6af82-ab5f-40da-9873-f9dc88129607';
+  const userId = 'd0aaf316-21dd-433c-912e-d8fa32cbb7f9';
   const navigate = useNavigate();
 
   useEffect(() => {
     const fetchCalendar = async () => {
-      const { data: response } = await httpClient.get(
-        '/calendar/' + calendarId,
-      );
+      const { data: response } = await httpClient.get('/calendar/' + userId);
       const calendarPlain = response.calendar;
 
       await Promise.all(
@@ -53,7 +49,7 @@ export function Calendar(props) {
       ).then(response => setCalendar(response as CalendarEntry[]));
     };
     fetchCalendar();
-  }, [calendarId]);
+  }, [userId]);
 
   function calculateTotalCalories(recipes) {
     return (
@@ -78,7 +74,10 @@ export function Calendar(props) {
     return (
       <List>
         {recipes.map(recipe => (
-          <ListItem onClick={() => navigate(`../recipe/${recipe.id}`)}>
+          <ListItem
+            key={recipe.id}
+            onClick={() => navigate(`../recipe/${recipe.id}`)}
+          >
             <ListItemText
               primary={recipe.name}
               secondary={calculateTotalCalories([recipe])}
@@ -90,11 +89,11 @@ export function Calendar(props) {
   }
 
   return (
-    <Grid2 direction={'column'} marginTop={10} spacing={5}>
-      <Helmet>
-        <title>{props.title}</title>
-        <meta name="description" content="Discover recipes" />
-      </Helmet>
+    <PageWithMenu
+      helmetTitle={props.title}
+      helmetName={props.name}
+      helmetContent={props.content}
+    >
       <TableContainer component={Paper}>
         <Table aria-label="simple table">
           <TableHead>
@@ -137,6 +136,6 @@ export function Calendar(props) {
           </TableBody>
         </Table>
       </TableContainer>
-    </Grid2>
+    </PageWithMenu>
   );
 }

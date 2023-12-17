@@ -6,13 +6,15 @@ import { SearchRecipesPage } from './pages/SearchRecipesPage/Loadable';
 import { useTranslation } from 'react-i18next';
 import { RecipeDetailsPage } from './pages/RecipeDetailsPage/Loadable';
 import { CalendarPage } from './pages/CalendarPage/Loadable';
-import PermanentDrawerLeft from './common/component/PermanentLeftDrawer';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers';
 import 'dayjs/locale/de';
+import { LoginPage } from './pages/LoginPage/Loadable';
+import { appRoutes } from './common/app-routes';
 
 export function App() {
   const { i18n } = useTranslation();
+
   return (
     <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale="de">
       <BrowserRouter>
@@ -23,24 +25,11 @@ export function App() {
         >
           <meta name="description" content="A React Boilerplate application" />
         </Helmet>
-        <PermanentDrawerLeft
-          routes={
-            <Routes>
-              <Route
-                path="/"
-                element={<SearchRecipesPage title="Search Recipes" />}
-              />
-              <Route
-                path="/recipe/:recipeId"
-                element={<RecipeDetailsPage title="Recipe Details" />}
-              />
-              <Route
-                path="/calendar/:calendarId"
-                element={<CalendarPage title="Calendar" />}
-              />
-            </Routes>
-          }
-        />
+        <Routes>
+          {appRoutes.map(route => (
+            <Route path={route.path} element={route.element} />
+          ))}
+        </Routes>
       </BrowserRouter>
     </LocalizationProvider>
   );
