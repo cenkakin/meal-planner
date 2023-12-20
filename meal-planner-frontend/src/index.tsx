@@ -24,6 +24,8 @@ import './locales/i18n';
 import { CssBaseline, ThemeProvider } from '@mui/material';
 import theme from './styles/theme';
 
+import { AuthProvider } from './app/common/context/AuthProvider';
+
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement,
 );
@@ -33,7 +35,9 @@ root.render(
     <React.StrictMode>
       <ThemeProvider theme={theme}>
         <CssBaseline />
-        <App />
+        <AuthProvider>
+          <App />
+        </AuthProvider>
       </ThemeProvider>
     </React.StrictMode>
   </HelmetProvider>,
