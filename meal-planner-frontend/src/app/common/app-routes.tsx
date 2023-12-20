@@ -3,9 +3,9 @@ import React, { ReactElement } from 'react';
 import { SearchRecipesPage } from '../pages/SearchRecipesPage/Loadable';
 import { RecipeDetailsPage } from '../pages/RecipeDetailsPage/Loadable';
 import { CalendarPage } from '../pages/CalendarPage/Loadable';
-import { IconTypeMap } from '@mui/material';
 import RestaurantIcon from '@mui/icons-material/Restaurant';
 import CalendarIcon from '@mui/icons-material/CalendarToday';
+import { UnauthorizedPage } from '../pages/UnauthorizedPage/Loadable';
 
 export const appRoutes: RouteDetails[] = [
   {
@@ -21,6 +21,7 @@ export const appRoutes: RouteDetails[] = [
     ),
     render: true,
     icon: <RestaurantIcon />,
+    requiresAuth: true,
   },
   {
     path: '/login',
@@ -28,6 +29,15 @@ export const appRoutes: RouteDetails[] = [
     key: 'login',
     element: <LoginPage title="Login" />,
     render: false,
+    requiresAuth: false,
+  },
+  {
+    path: '/unauthorized',
+    title: 'Unauthorized',
+    key: 'unauthorized',
+    element: <UnauthorizedPage title="Unauthorized" />,
+    render: false,
+    requiresAuth: false,
   },
   {
     path: '/recipe/:recipeId',
@@ -41,6 +51,7 @@ export const appRoutes: RouteDetails[] = [
       />
     ),
     render: false,
+    requiresAuth: true,
   },
   {
     path: '/calendar/:calendarId',
@@ -55,6 +66,7 @@ export const appRoutes: RouteDetails[] = [
     ),
     render: true,
     icon: <CalendarIcon />,
+    requiresAuth: true,
   },
 ];
 
@@ -65,4 +77,5 @@ interface RouteDetails {
   element: ReactElement;
   render: boolean;
   icon?: ReactElement;
+  requiresAuth: boolean;
 }
