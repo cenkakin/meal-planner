@@ -3,8 +3,8 @@ import { SyntheticEvent, useEffect, useState } from 'react';
 import { IngredientAutocompleteItem } from './IngredientAutocompleteItem';
 import { InputAdornment, TextField } from '@mui/material';
 import Autocomplete from '@mui/material/Autocomplete';
-import httpClient from '../../../common/http-common';
 import SearchRecipesButton from './SearchRecipesButton';
+import useAxios from '../../../common/hooks/useAxios';
 
 export default function IngredientsAutoComplete({ onBasicRecipesChange }) {
   const [ingredients, setIngredients] = useState<
@@ -16,6 +16,8 @@ export default function IngredientsAutoComplete({ onBasicRecipesChange }) {
   const [open, setOpen] = React.useState(false);
 
   const loading = open && ingredients.length === 0;
+
+  const httpClient = useAxios();
 
   function onIngredientSelection(
     e: SyntheticEvent,

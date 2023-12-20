@@ -1,17 +1,17 @@
 import * as React from 'react';
-import { Helmet } from 'react-helmet-async';
 import Grid2 from '@mui/material/Unstable_Grid2';
 import ImageList from '@mui/material/ImageList';
 import ImageListItem from '@mui/material/ImageListItem';
 import { useEffect, useState } from 'react';
-import httpClient from '../../common/http-common';
 import { useParams } from 'react-router-dom';
 import { Recipe } from './RecipeDetailsView/Recipe';
 import PageWithMenu from '../../common/component/PageWithMenu';
+import useAxios from '../../common/hooks/useAxios';
 
 export function RecipeDetails(props) {
   const [recipe, setRecipe] = useState<Recipe>();
   const { recipeId } = useParams();
+  const httpClient = useAxios();
 
   useEffect(() => {
     const fetchRecipe = async () => {
