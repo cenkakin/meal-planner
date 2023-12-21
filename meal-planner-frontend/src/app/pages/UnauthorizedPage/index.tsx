@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { useNavigate } from 'react-router-dom';
 
-export function Unauthorized() {
+export function Unauthorized(props) {
   const navigate = useNavigate();
 
   const goBack = () => navigate(-1);

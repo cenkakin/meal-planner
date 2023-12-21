@@ -11,8 +11,6 @@ export const RequireAuth = ({ allowedRoles, children }: RequireAuthProps) => {
   const auth = useAuth();
   const location = useLocation();
 
-  console.log(auth)
-
   return !!auth.token && allowedRoles.includes(auth.role) ? (
     children
   ) : !!auth.token ? (
