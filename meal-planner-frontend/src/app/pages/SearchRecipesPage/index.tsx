@@ -24,7 +24,6 @@ export function SearchRecipes(props) {
   const [severity, setSeverity] = useState<AlertColor>('success');
   const [message, setMessage] = useState<String>('');
 
-  const userId = 'd0aaf316-21dd-433c-912e-d8fa32cbb7f9';
   const httpClient = useAxios();
 
   function handleSelect(selectedItem: string) {
@@ -51,7 +50,6 @@ export function SearchRecipes(props) {
         return {
           date: selectedDate.format('YYYY-MM-DD'),
           recipeId: recipeId,
-          userId: userId,
         };
       },
     );

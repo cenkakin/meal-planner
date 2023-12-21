@@ -19,14 +19,13 @@ import useAxios from '../../common/hooks/useAxios';
 
 export function Calendar(props) {
   const [calendar, setCalendar] = useState<CalendarEntry[]>();
-  const userId = 'd0aaf316-21dd-433c-912e-d8fa32cbb7f9';
   const navigate = useNavigate();
   const httpClient = useAxios();
 
   useEffect(() => {
     const fetchCalendar = async () => {
-      const { data: response } = await httpClient.get('/calendar/' + userId);
-      const calendarPlain = response.calendar;
+      const { data: response } = await httpClient.get('/calendar');
+      const calendarPlain = response.entries;
 
       await Promise.all(
         calendarPlain.map(async entry => {
@@ -50,7 +49,7 @@ export function Calendar(props) {
       ).then(response => setCalendar(response as CalendarEntry[]));
     };
     fetchCalendar();
-  }, [userId]);
+  }, []);
 
   function calculateTotalCalories(recipes) {
     return (

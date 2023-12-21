@@ -54,7 +54,7 @@ export const appRoutes: RouteDetails[] = [
     requiresAuth: true,
   },
   {
-    path: '/calendar/:calendarId',
+    path: '/calendar',
     title: 'Calendar',
     key: 'calendar',
     element: (
