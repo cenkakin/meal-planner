@@ -1,5 +1,6 @@
 package com.github.cenkserkan.configuration
 
+import com.github.cenkserkan.auth.UserPort
 import com.github.cenkserkan.domain.calendar.handler.CalendarHandler
 import com.github.cenkserkan.domain.calendar.port.CalendarPort
 import com.github.cenkserkan.domain.recipe.handler.IngredientHandler
@@ -50,8 +51,8 @@ class MealPlannerConfiguration {
     }
 
     @Bean
-    fun calendarHandler(calendarPort: CalendarPort): CalendarHandler {
-        return CalendarHandler(calendarPort)
+    fun calendarHandler(userPort: UserPort, calendarPort: CalendarPort): CalendarHandler {
+        return CalendarHandler(calendarPort = calendarPort, userPort = userPort)
     }
 
     @Bean
