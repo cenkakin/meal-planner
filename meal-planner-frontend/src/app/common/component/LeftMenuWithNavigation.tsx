@@ -11,7 +11,7 @@ import ListItemButton from '@mui/material/ListItemButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
 import { useNavigate } from 'react-router-dom';
-import AccountMenu from "./AccountMenu";
+import AccountMenu from './AccountMenu';
 
 const drawerWidth = 240;
 
@@ -30,7 +30,7 @@ export default function LeftMenuWithNavigation(props) {
             Meal Planner
           </Typography>
           <Box sx={{ flexGrow: 0 }}>
-              <AccountMenu/>
+            <AccountMenu />
           </Box>
         </Toolbar>
       </AppBar>

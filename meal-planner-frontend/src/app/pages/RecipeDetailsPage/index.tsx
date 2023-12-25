@@ -1,8 +1,8 @@
 import * as React from 'react';
+import { useEffect, useState } from 'react';
 import Grid2 from '@mui/material/Unstable_Grid2';
 import ImageList from '@mui/material/ImageList';
 import ImageListItem from '@mui/material/ImageListItem';
-import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { Recipe } from './RecipeDetailsView/Recipe';
 import PageWithMenu from '../../common/component/PageWithMenu';

@@ -86,7 +86,7 @@ export default function IngredientsAutoComplete({ onBasicRecipesChange }) {
                   onBasicRecipesChange={onBasicRecipesChange}
                 />
               </InputAdornment>
-            )
+            ),
           }}
         />
       )}

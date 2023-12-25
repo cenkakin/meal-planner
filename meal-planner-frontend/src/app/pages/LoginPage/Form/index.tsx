@@ -1,8 +1,6 @@
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import Checkbox from '@mui/material/Checkbox';
 import Button from '@mui/material/Button';
 import React from 'react';
 
@@ -49,7 +47,7 @@ export default function Form({
           name="userName"
           autoFocus
         />
-        {formType == FormType.REGISTER && (
+        {formType === FormType.REGISTER && (
           <TextField
             margin="normal"
             required

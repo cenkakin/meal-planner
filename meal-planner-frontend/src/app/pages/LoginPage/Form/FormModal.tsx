@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { Fade, Modal } from '@mui/material';
 import Grid2 from '@mui/material/Unstable_Grid2';
 

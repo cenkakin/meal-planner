@@ -58,7 +58,7 @@ export function SearchRecipes(props) {
       const { status } = await httpClient.post('/calendar', {
         entries: entries,
       });
-      if (status == 200) {
+      if (status === 200) {
         setSeverity('success');
         setMessage('Recipes saved!');
       }
