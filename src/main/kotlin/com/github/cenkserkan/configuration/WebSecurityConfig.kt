@@ -49,8 +49,6 @@ class WebSecurityConfig(
             .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter::class.java)
             .headers().frameOptions().disable()
 
-        http.cors()
-
         return http.build()
     }
 

@@ -4,9 +4,6 @@ spring:
     username: ${props.db.username}
     password: ${props.db.password}
 
-cors:
-  enabled: ${props.cors.enabled}
-
 mealplanner:
   app:
     jwtSecret: ${props.app.jwtSecret}
