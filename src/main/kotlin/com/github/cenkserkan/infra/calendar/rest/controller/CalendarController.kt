@@ -22,7 +22,7 @@ class CalendarController(
 
     @GetMapping
     fun getCalendarEntries(@AuthenticationPrincipal userDetails: UserDetails): ResponseEntity<CalendarEntriesWrapper> {
-        val calendarEntries = getCalendarEntriesUseCase.getCalendarEntries(userDetails)
+        val calendarEntries = getCalendarEntriesUseCase.getCalendarEntries(userDetails.username)
             .map { it.toDto() }
         return ResponseEntity.ok(CalendarEntriesWrapper(calendarEntries))
     }
@@ -33,7 +33,7 @@ class CalendarController(
         @AuthenticationPrincipal userDetails: UserDetails
     ): ResponseEntity<String> {
         try {
-            addCalendarEntryUseCase.saveCalendarEntries(userDetails, request.entries)
+            addCalendarEntryUseCase.saveCalendarEntries(userDetails.username, request.entries)
         } catch (exception: LimitExceededException) {
             return ResponseEntity.internalServerError().body(exception.message)
         }
