@@ -7,9 +7,9 @@ import { BasicRecipeItem } from './BasicRecipeTable/BasicRecipeItem';
 import { DatePicker } from '@mui/x-date-pickers';
 import dayjs, { Dayjs } from 'dayjs';
 import { Alert, AlertColor, Button, Snackbar } from '@mui/material';
-import httpClient from '../../common/http-common';
 import axios from 'axios';
 import PageWithMenu from '../../common/component/PageWithMenu';
+import useAxios from '../../common/hooks/useAxios';
 
 interface SaveCalenderEntryRequest {
   date: string;
@@ -24,7 +24,7 @@ export function SearchRecipes(props) {
   const [severity, setSeverity] = useState<AlertColor>('success');
   const [message, setMessage] = useState<String>('');
 
-  const userId = 'd0aaf316-21dd-433c-912e-d8fa32cbb7f9';
+  const httpClient = useAxios();
 
   function handleSelect(selectedItem: string) {
     if (selectedRecipes.includes(selectedItem)) {
@@ -50,7 +50,6 @@ export function SearchRecipes(props) {
         return {
           date: selectedDate.format('YYYY-MM-DD'),
           recipeId: recipeId,
-          userId: userId,
         };
       },
     );

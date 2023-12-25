@@ -10,11 +10,8 @@ import ListItem from '@mui/material/ListItem';
 import ListItemButton from '@mui/material/ListItemButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
-import RestaurantIcon from '@mui/icons-material/Restaurant';
-import CalendarIcon from '@mui/icons-material/CalendarToday';
 import { useNavigate } from 'react-router-dom';
-import { Avatar, IconButton, Tooltip } from '@mui/material';
-import { CalendarToday } from '@mui/icons-material';
+import AccountMenu from "./AccountMenu";
 
 const drawerWidth = 240;
 
@@ -33,11 +30,7 @@ export default function LeftMenuWithNavigation(props) {
             Meal Planner
           </Typography>
           <Box sx={{ flexGrow: 0 }}>
-            <Tooltip title="Account settings">
-              <IconButton onClick={() => {}} sx={{ p: 0 }}>
-                <Avatar alt="Cenk Serkan" src="" />
-              </IconButton>
-            </Tooltip>
+              <AccountMenu/>
           </Box>
         </Toolbar>
       </AppBar>

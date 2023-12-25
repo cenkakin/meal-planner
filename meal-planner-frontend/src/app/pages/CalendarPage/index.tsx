@@ -1,6 +1,5 @@
 import * as React from 'react';
 import { useEffect, useState } from 'react';
-import httpClient from '../../common/http-common';
 import { CalendarEntry } from './CalendarView/CalendarEntry';
 import {
   List,
@@ -16,16 +15,17 @@ import {
 import Paper from '@mui/material/Paper';
 import { useNavigate } from 'react-router-dom';
 import PageWithMenu from '../../common/component/PageWithMenu';
+import useAxios from '../../common/hooks/useAxios';
 
 export function Calendar(props) {
   const [calendar, setCalendar] = useState<CalendarEntry[]>();
-  const userId = 'd0aaf316-21dd-433c-912e-d8fa32cbb7f9';
   const navigate = useNavigate();
+  const httpClient = useAxios();
 
   useEffect(() => {
     const fetchCalendar = async () => {
-      const { data: response } = await httpClient.get('/calendar/' + userId);
-      const calendarPlain = response.calendar;
+      const { data: response } = await httpClient.get('/calendar');
+      const calendarPlain = response.entries;
 
       await Promise.all(
         calendarPlain.map(async entry => {
@@ -49,7 +49,7 @@ export function Calendar(props) {
       ).then(response => setCalendar(response as CalendarEntry[]));
     };
     fetchCalendar();
-  }, [userId]);
+  }, []);
 
   function calculateTotalCalories(recipes) {
     return (

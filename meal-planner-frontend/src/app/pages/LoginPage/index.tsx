@@ -3,29 +3,31 @@ import CssBaseline from '@mui/material/CssBaseline';
 import Link from '@mui/material/Link';
 import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
-import { Alert, AlertColor, Container, Modal, Snackbar } from '@mui/material';
-import React, { useEffect, useState } from 'react';
+import { Alert, AlertColor, Container, Snackbar } from '@mui/material';
+import React, { useState } from 'react';
 import Grid2 from '@mui/material/Unstable_Grid2';
 import { Helmet } from 'react-helmet-async';
 import Form, { FormType } from './Form';
 import FormModal from './Form/FormModal';
 import { useNavigate } from 'react-router-dom';
 import httpClient from '../../common/http-common';
-import { CalendarEntry } from '../CalendarPage/CalendarView/CalendarEntry';
 import { UserDetails } from './LoginView/UserDetails';
 import axios from 'axios';
+import { Role } from '../../common/context/AuthProvider';
+import useAuth from '../../common/hooks/useAuth';
 
 export function Login(props) {
   const [modalOpen, setModelOpen] = useState(false);
   const [snackBarOpen, setSnackBarOpen] = useState(false);
   const [severity, setSeverity] = useState<AlertColor>('success');
   const [message, setMessage] = useState<String>('');
+  const auth = useAuth();
 
   const navigate = useNavigate();
 
-  async function login(userName, password) {
+  async function login(email, password) {
     const user: UserDetails = {
-      userName: userName,
+      email: email,
       password: password,
     };
 
@@ -33,6 +35,9 @@ export function Login(props) {
       setSnackBarOpen(true);
       const { status, data } = await httpClient.post('/auth/login', user);
       if (status == 200) {
+        auth.email = 'user.email';
+        auth.token = data;
+        auth.role = Role.ROLE_USER;
         navigate(`/`);
       }
     } catch (error) {
@@ -49,12 +54,14 @@ export function Login(props) {
       password: password,
       email: email,
     };
-    console.log(user);
 
     try {
       setSnackBarOpen(true);
-      const { status } = await httpClient.post('/auth/register', user);
+      const { status, data } = await httpClient.post('/auth/register', user);
       if (status == 200) {
+        auth.email = user.email;
+        auth.token = data;
+        auth.role = Role.ROLE_USER;
         setSeverity('success');
         setMessage('User registered');
         setModelOpen(false);
