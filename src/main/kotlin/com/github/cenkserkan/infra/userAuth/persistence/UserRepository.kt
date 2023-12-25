@@ -5,13 +5,13 @@ import com.github.cenkserkan.auth.model.User
 import com.github.cenkserkan.infra.adapters.generated.Tables
 import com.github.cenkserkan.infra.adapters.generated.tables.records.UserRecord
 import org.jooq.DSLContext
-import org.jooq.Record4
+import org.jooq.Record5
 import java.util.UUID
 
 class UserRepository(private val dslContext: DSLContext) {
 
     fun findUserById(id: UUID): User? {
-        return dslContext.select(Tables.USER.USERNAME, Tables.USER.PASSWORD, Tables.USER.EMAIL, Tables.USER.ROLES)
+        return dslContext.select(Tables.USER.USERNAME, Tables.USER.PASSWORD, Tables.USER.EMAIL, Tables.USER.ROLES, Tables.USER.ID)
             .from(Tables.USER)
             .where(Tables.USER.ID.eq(id))
             .fetch()
@@ -20,7 +20,7 @@ class UserRepository(private val dslContext: DSLContext) {
     }
 
     fun findUserByEmail(email: String): User? {
-        return dslContext.select(Tables.USER.USERNAME, Tables.USER.PASSWORD, Tables.USER.EMAIL, Tables.USER.ROLES)
+        return dslContext.select(Tables.USER.USERNAME, Tables.USER.PASSWORD, Tables.USER.EMAIL, Tables.USER.ROLES, Tables.USER.ID)
             .from(Tables.USER)
             .where(Tables.USER.EMAIL.eq(email))
             .fetch()
@@ -38,7 +38,7 @@ class UserRepository(private val dslContext: DSLContext) {
     }
 
     fun findUserByUserName(userName: String): User? {
-        return dslContext.select(Tables.USER.USERNAME, Tables.USER.PASSWORD, Tables.USER.EMAIL, Tables.USER.ROLES)
+        return dslContext.select(Tables.USER.USERNAME, Tables.USER.PASSWORD, Tables.USER.EMAIL, Tables.USER.ROLES, Tables.USER.ID)
             .from(Tables.USER)
             .where(Tables.USER.USERNAME.eq(userName))
             .fetch()
@@ -47,9 +47,10 @@ class UserRepository(private val dslContext: DSLContext) {
     }
 }
 
-private fun Record4<String, String, String, Array<String>>?.toUser(): User? {
+private fun Record5<String, String, String, Array<String>, UUID>?.toUser(): User? {
     return if (this != null) {
         User(
+            id = this.component5(),
             username = this.component1(),
             password = this.component2(),
             email = this.component3(),
@@ -62,6 +63,7 @@ private fun Record4<String, String, String, Array<String>>?.toUser(): User? {
 
 private fun UserRecord.toUser(): User {
     return User(
+        id = this.id,
         username = this.username,
         password = this.password,
         email = this.email,
