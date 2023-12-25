@@ -7,7 +7,7 @@ export type AuthContextType = {
 };
 
 export enum Role {
-  ROLE_USER= 'ROLE_USER',
+  ROLE_USER = 'ROLE_USER',
 }
 
 export const AuthContext = createContext<AuthContextType>(

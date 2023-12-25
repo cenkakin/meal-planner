@@ -119,14 +119,14 @@ export function Calendar(props) {
                   <TableCell width="50%" align="left">
                     {createMealList(
                       calendar
-                        ?.filter(entry => entry.date == date)
+                        ?.filter(entry => entry.date === date)
                         .flatMap(entry => entry.recipe),
                     )}
                   </TableCell>
                   <TableCell width="25%" align="left">
                     {calculateTotalCalories(
                       calendar
-                        ?.filter(entry => entry.date == date)
+                        ?.filter(entry => entry.date === date)
                         .flatMap(entry => entry.recipe),
                     )}
                   </TableCell>

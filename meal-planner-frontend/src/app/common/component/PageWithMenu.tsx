@@ -2,11 +2,6 @@ import { Helmet } from 'react-helmet-async';
 import Grid2 from '@mui/material/Unstable_Grid2';
 import LeftMenuWithNavigation from './LeftMenuWithNavigation';
 import { appRoutes } from '../app-routes';
-import IngredientsAutoComplete from '../../pages/SearchRecipesPage/IngredientsAutoComplete';
-import { DatePicker } from '@mui/x-date-pickers';
-import dayjs from 'dayjs';
-import { Alert, Button, Snackbar } from '@mui/material';
-import BasicRecipeTable from '../../pages/SearchRecipesPage/BasicRecipeTable';
 import * as React from 'react';
 
 interface Props {

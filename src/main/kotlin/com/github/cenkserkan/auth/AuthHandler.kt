@@ -16,7 +16,7 @@ class AuthHandler(
     private val authenticationManager: AuthenticationManager
 ) : AuthUsecase {
     override fun register(user: User): String {
-        check(userPort.findByEmail(email = user.email) == null) {
+        check(userPort.findByEmail(user.email) == null) {
             throw BusinessValidationException("User already exists!")
         }
 
@@ -26,9 +26,7 @@ class AuthHandler(
     }
 
     override fun login(email: String, password: String): String {
-        val user = requireNotNull(userPort.findByEmail(email)) {
-            throw BusinessValidationException("User not found!")
-        }
+        val user = userPort.findByEmailOrThrow(email)
 
         val authenticationRequest =
             UsernamePasswordAuthenticationToken.unauthenticated(

@@ -34,7 +34,7 @@ export function Login(props) {
     try {
       setSnackBarOpen(true);
       const { status, data } = await httpClient.post('/auth/login', user);
-      if (status == 200) {
+      if (status === 200) {
         auth.email = 'user.email';
         auth.token = data;
         auth.role = Role.ROLE_USER;
@@ -58,7 +58,7 @@ export function Login(props) {
     try {
       setSnackBarOpen(true);
       const { status, data } = await httpClient.post('/auth/register', user);
-      if (status == 200) {
+      if (status === 200) {
         auth.email = user.email;
         auth.token = data;
         auth.role = Role.ROLE_USER;

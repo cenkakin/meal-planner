@@ -26,9 +26,15 @@ export function App() {
         <Routes>
           {appRoutes.map(route =>
             route.requiresAuth ? (
-                <Route path={route.path} element={
-                  <RequireAuth allowedRoles={[Role.ROLE_USER]} children={route.element}/>
-                } />
+              <Route
+                path={route.path}
+                element={
+                  <RequireAuth
+                    allowedRoles={[Role.ROLE_USER]}
+                    children={route.element}
+                  />
+                }
+              />
             ) : (
               <Route path={route.path} element={route.element} />
             ),

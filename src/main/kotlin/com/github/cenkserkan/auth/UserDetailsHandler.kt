@@ -7,6 +7,6 @@ class UserDetailsHandler(
     private val userPort: UserPort
 ) : UserDetailsService {
     override fun loadUserByUsername(email: String): User {
-        return checkNotNull(userPort.findByEmail(email = email)) { "User doesn't exist" }
+        return userPort.findByEmailOrThrow(email)
     }
 }
